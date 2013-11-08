@@ -4,11 +4,11 @@ public enum ApplicationConfig implements MyWordsConfigInterface {
     INSTANCE;
 
     public boolean DEBUG() {
-        return true;
+        return false;
     }
 
     public boolean DEBUG_LOG() {
-        return true;
+        return false;
     }
 
     public boolean API_DEV() {
