@@ -135,6 +135,20 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
         if (isTtsInited) {
             tts.speak(String.valueOf(count), TextToSpeech.QUEUE_ADD,
                     null);
+
+            if (count == 5) {
+                tts.speak("Good Work!", TextToSpeech.QUEUE_ADD,
+                        null);
+            } else if (count == 10) {
+                tts.speak("Excellent!", TextToSpeech.QUEUE_ADD,
+                        null);
+            } else if (count == 20) {
+                tts.speak("Extremelly Excellent!", TextToSpeech.QUEUE_ADD,
+                        null);
+            }else if (count == 20) {
+                tts.speak("God bless you!", TextToSpeech.QUEUE_ADD,
+                        null);
+            }
         }
     }
 
