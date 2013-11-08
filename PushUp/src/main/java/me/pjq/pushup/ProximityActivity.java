@@ -71,7 +71,7 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
                     } else {
                         isTtsInited = true;
 
-                        tts.speak("You can start now!Naive!", TextToSpeech.QUEUE_ADD,
+                        tts.speak("You can start now!9 e wu!", TextToSpeech.QUEUE_ADD,
                                 null);
 
                         tts.speak(getString(R.string.warning), TextToSpeech.QUEUE_ADD,
