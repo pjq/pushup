@@ -1,0 +1,62 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.5.+'
+    }
+}
+apply plugin: 'android'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	compile 'com.android.support:appcompat-v7:19.0.0'
+
+    compile files(
+            'libs/square-otto-1.3.2.jar',
+            'libs/android-support-v4.jar',
+            'libs/libGoogleAnalyticsServicesV3.jar',
+    )
+}
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19.0.0"
+
+    defaultConfig {
+        minSdkVersion 7
+        targetSdkVersion 16
+    }
+
+    signingConfigs {
+        releaseConfig {
+            storeFile file("pushup.keystore")
+            storePassword "pjq.me"
+            keyAlias "PushUp"
+            keyPassword "pjq.me"
+        }
+    }
+
+    buildTypes {
+        release {
+            runProguard true
+            proguardFile 'proguard-android-optimize.txt'
+            signingConfig signingConfigs.releaseConfig
+        }
+
+        debug {
+            proguardFile 'proguard-android-optimize.txt'
+            signingConfig signingConfigs.releaseConfig
+        }
+    }
+
+    productFlavors {
+        pushup{
+            packageName "me.pjq.pushup"
+        }
+    }
+}
+
