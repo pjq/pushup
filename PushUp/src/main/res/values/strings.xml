@@ -4,5 +4,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_base">MainActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="warning">Across the Great Wall, we can reach every corner in the world.</string>
 
 </resources>

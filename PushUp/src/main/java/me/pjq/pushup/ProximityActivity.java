@@ -70,6 +70,12 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
                             && result != TextToSpeech.LANG_AVAILABLE) {
                     } else {
                         isTtsInited = true;
+
+                        tts.speak("You can start now!Naive!", TextToSpeech.QUEUE_ADD,
+                                null);
+
+                        tts.speak(getString(R.string.warning), TextToSpeech.QUEUE_ADD,
+                                null);
                     }
                 }
             }
@@ -145,7 +151,7 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
             } else if (count == 20) {
                 tts.speak("Extremelly Excellent!", TextToSpeech.QUEUE_ADD,
                         null);
-            }else if (count == 20) {
+            } else if (count == 30) {
                 tts.speak("God bless you!", TextToSpeech.QUEUE_ADD,
                         null);
             }
