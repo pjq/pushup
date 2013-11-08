@@ -1,9 +1,7 @@
 pushup
 ======
 
-Push Up for Android 
-
-            -by pengjianqing@gmail.com
+Push Up for Android by pengjianqing@gmail.com
 
  - 1.Just for Push Up
 
