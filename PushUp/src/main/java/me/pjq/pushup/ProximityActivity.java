@@ -189,11 +189,11 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
                 break;
 
             case R.id.title:
+                exit();
                 break;
 
             case R.id.icon:
-                finish();
-                Utils.overridePendingTransitionLeft2Right(this);
+                exit();
 
                 break;
 
@@ -202,12 +202,26 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
         }
     }
 
+    private void exit(){
+        finish();
+        Utils.overridePendingTransitionLeft2Right(this);
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (KeyEvent.KEYCODE_BACK == keyCode) {
-            Utils.overridePendingTransitionLeft2Right(this);
+            exit();
+            return true;
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        tts.shutdown();
+        tts = null;
     }
 }
