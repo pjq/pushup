@@ -6,6 +6,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,8 +22,11 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
     private Vibrator vibrator;
     private float lastVal = -1;
     private TextView countTextView;
+    private TextView tipsTextView;
+    private TextView infoTextView;
     private ImageView refreshButton;
     private int count = 0;
+    private long lastTime;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -32,12 +36,16 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
 
         countTextView = (TextView) findViewById(R.id.count_textview);
         refreshButton = (ImageView) findViewById(R.id.refresh_button);
+        tipsTextView = (TextView) findViewById(R.id.tips_textview);
+        infoTextView = (TextView) findViewById(R.id.info_textview);
 
         refreshButton.setOnClickListener(this);
 
         this.mgr = (SensorManager) this.getSystemService(SENSOR_SERVICE);
         this.proximity = this.mgr.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         this.vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
+
+        updateCount();
     }
 
 
@@ -58,22 +66,21 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        EFLogger.d(ProximityActivity.TAG, "onSensorChanged...");
-        // 目前的距离
         float thisVal = event.values[0];
+        EFLogger.d(ProximityActivity.TAG, "onSensorChanged...,thisVal=" + thisVal);
         if (this.lastVal == -1) {
-            // 第一次进来
             this.lastVal = thisVal;
         } else {
             if (thisVal < this.lastVal) {
-                // 接近长振动
-                this.vibrator.vibrate(1000);
-            } else {
-                // 离开短振动
                 this.vibrator.vibrate(100);
-                count++;
-                updateCount();
+                updateTips("Down");
+            } else {
+                if (increateCount()) {
+                    this.vibrator.vibrate(300);
+                    updateCount();
+                }
 
+                updateTips("Up");
             }
             this.lastVal = thisVal;
         }
@@ -81,12 +88,41 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
         EFLogger.d(ProximityActivity.TAG, msg);
     }
 
+    private boolean increateCount() {
+        long interval = System.currentTimeMillis() - lastTime;
+
+        if (interval < 400) {
+            return false;
+        }
+
+        count++;
+        lastTime = System.currentTimeMillis();
+
+        return true;
+    }
+
     private void updateCount() {
         countTextView.setText(String.valueOf(count));
     }
 
+    private void updateTips(String string) {
+        tipsTextView.setText(string);
+    }
+
+    private void updateInfo(String string) {
+        infoTextView.setText(string);
+    }
+
+
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        String name = sensor.getName();
+        float range = sensor.getMaximumRange();
+        EFLogger.d(ProximityActivity.TAG, "onAccuracyChanged...,accuracy=" + accuracy + ",name=" + name + ",range=" + range);
+        if (ApplicationConfig.INSTANCE.DEBUG()) {
+            updateInfo("accuracy=" + accuracy + ",name=" + name + ",range=" + range);
+        }
     }
 
     @Override
@@ -102,5 +138,14 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
             default:
                 break;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (KeyEvent.KEYCODE_BACK == keyCode) {
+            Utils.overridePendingTransitionLeft2Right(this);
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }
