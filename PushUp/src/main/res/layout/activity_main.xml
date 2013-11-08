@@ -2,11 +2,14 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
                 tools:context=".MainActivity">
+
+    <include
+        android:id="@+id/titleIndicatorLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/title_bar"
+        />
 
 
     <View
@@ -20,9 +23,9 @@
         android:id="@+id/start_button"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:src="@drawable/green_circle"
+        android:src="@drawable/ic_launcher_hd"
         android:layout_above="@id/center_line"
-        android:layout_marginBottom="50dip"
+        android:layout_marginBottom="20dip"
         android:layout_centerHorizontal="true"
         ></ImageView>
 

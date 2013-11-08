@@ -6,10 +6,13 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.speech.tts.TextToSpeech;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.Locale;
 
 /**
  * Created by pengjianqing on 11/8/13.
@@ -27,6 +30,11 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
     private ImageView refreshButton;
     private int count = 0;
     private long lastTime;
+    private View titlebarIcon;
+    private View titlebarText;
+
+    private TextToSpeech tts;
+    private boolean isTtsInited = false;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -38,14 +46,34 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
         refreshButton = (ImageView) findViewById(R.id.refresh_button);
         tipsTextView = (TextView) findViewById(R.id.tips_textview);
         infoTextView = (TextView) findViewById(R.id.info_textview);
+        titlebarIcon = (ImageView) findViewById(R.id.icon);
+        titlebarText = (TextView) findViewById(R.id.title);
 
         refreshButton.setOnClickListener(this);
+        titlebarIcon.setOnClickListener(this);
+        titlebarText.setOnClickListener(this);
 
         this.mgr = (SensorManager) this.getSystemService(SENSOR_SERVICE);
         this.proximity = this.mgr.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         this.vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 
         updateCount();
+
+
+        tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    int result = tts.setLanguage(Locale.US);
+                    if (result != TextToSpeech.LANG_COUNTRY_AVAILABLE
+                            && result != TextToSpeech.LANG_AVAILABLE) {
+                    } else {
+                        isTtsInited = true;
+                    }
+                }
+            }
+        });
     }
 
 
@@ -76,7 +104,7 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
                 updateTips("Down");
             } else {
                 if (increateCount()) {
-                    this.vibrator.vibrate(300);
+                    this.vibrator.vibrate(500);
                     updateCount();
                 }
 
@@ -103,6 +131,11 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
 
     private void updateCount() {
         countTextView.setText(String.valueOf(count));
+
+        if (isTtsInited) {
+            tts.speak(String.valueOf(count), TextToSpeech.QUEUE_ADD,
+                    null);
+        }
     }
 
     private void updateTips(String string) {
@@ -133,6 +166,15 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
             case R.id.refresh_button:
                 count = 0;
                 updateCount();
+                break;
+
+            case R.id.title:
+                break;
+
+            case R.id.icon:
+                finish();
+                Utils.overridePendingTransitionLeft2Right(this);
+
                 break;
 
             default:

@@ -34,8 +34,13 @@
         <item name="android:shadowColor">@color/blackColor</item>
     </style>
 
+    <style name="TitleTextStyle">
+        <item name="android:textColor">@color/whiteColor</item>
+        <item name="android:textSize">36sp</item>
+    </style>
+
     <style name="CountTextStyle">
-        <item name="android:textColor">@color/red</item>
+        <item name="android:textColor">#ff6600</item>
         <item name="android:textSize">84sp</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">-3</item>
@@ -44,8 +49,8 @@
     </style>
 
     <style name="InfoTextStyle">
-        <item name="android:textColor">@color/red</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#ff6600</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">-1</item>
         <item name="android:shadowRadius">1</item>
