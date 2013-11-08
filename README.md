@@ -1,11 +1,12 @@
 pushup
 ======
 
-Push Up for Android
+Push Up for Android 
+            -by pengjianqing@gmail.com
 
  - 1.Just for Push Up
 
- - 2.Enable the TextToSpeech engine and audo speak out the count.
+ - 2.Enable the TextToSpeech engine and auto speak out the count.
 
 Use Android Studio and Gradle build, not support Eclipse import.
 
