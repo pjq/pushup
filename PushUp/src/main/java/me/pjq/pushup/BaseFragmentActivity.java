@@ -10,7 +10,7 @@ import com.squareup.otto.Bus;
 public class BaseFragmentActivity extends FragmentActivity {
     private static final String TAG = BaseFragmentActivity.class.getSimpleName();
 
-    protected Bus bus;
+//    protected Bus bus;
     public static int CONTENT_VIEW_ID = 1234;
     FrameLayout frameLayout;
 
@@ -20,8 +20,8 @@ public class BaseFragmentActivity extends FragmentActivity {
 
         //StatUtil.setContext(this);
 
-        bus = ServiceProvider.getBus();
-        bus.register(this);
+//        bus = ServiceProvider.getBus();
+//        bus.register(this);
 
         if (!isLayoutFromSubclass()) {
             frameLayout = new FrameLayout(this);
@@ -192,7 +192,7 @@ public class BaseFragmentActivity extends FragmentActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        bus.unregister(this);
+//        bus.unregister(this);
 
         StatUtil.onStop(this);
     }

@@ -1,20 +1,36 @@
 <resources>
 
     <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
+    Base application theme, dependent on API level. This theme is replaced
+    by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+-->
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
+        <item name="android:windowBackground">@drawable/app_bg_repeat</item>
         -->
+
     </style>
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTitleSize">0.0dip</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowBackground">@color/bg_color_light_grey</item>
+    </style>
+
+    <style name="CountTextStyle">
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textSize">84sp</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">-3</item>
+        <item name="android:shadowRadius">2</item>
+        <item name="android:shadowColor">@color/blackColor</item>
     </style>
 
 </resources>

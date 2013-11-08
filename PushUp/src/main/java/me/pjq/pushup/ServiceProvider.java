@@ -20,7 +20,6 @@ public class ServiceProvider {
     private static ExecutorService zipexecutorService = Executors.newFixedThreadPool(1);
 
     public static void init(Context applicationContext) {
-
         ServiceProvider.context = applicationContext;
     }
 

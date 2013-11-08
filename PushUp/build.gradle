@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-	compile 'com.android.support:appcompat-v7:19.0.0'
+	//compile 'com.android.support:appcompat-v7:19.0.0'
 
     compile files(
             'libs/square-otto-1.3.2.jar',
@@ -49,6 +49,7 @@ android {
         }
 
         debug {
+            runProguard false
             proguardFile 'proguard-android-optimize.txt'
             signingConfig signingConfigs.releaseConfig
         }
