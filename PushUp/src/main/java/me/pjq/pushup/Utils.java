@@ -11,6 +11,8 @@ import java.util.Date;
  * Created by pengjianqing on 11/8/13.
  */
 public class Utils {
+    private static final String TAG = Utils.class.getSimpleName();
+
     public static void overridePendingTransitionRight2Left(Activity activity) {
         activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
@@ -20,6 +22,7 @@ public class Utils {
     }
 
     public static void share(Context context, String subject, String text) {
+        long start = System.currentTimeMillis();
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
@@ -27,6 +30,9 @@ public class Utils {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(Intent.createChooser(intent,
                 context.getString(R.string.app_name)));
+        long usetime = System.currentTimeMillis() - start;
+
+        EFLogger.i(TAG, "use time " + usetime);
     }
 
     private static final SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");

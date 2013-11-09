@@ -28,7 +28,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         resultTextView = (TextView) findViewById(R.id.result_text);
         startImageView.setOnClickListener(this);
 
-        doStartButtonAnimation();
+        handler.sendEmptyMessageDelayed(MSG_START_START_BUTTON_ANIMATION, 100);
     }
 
     @Override
@@ -59,6 +59,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         switch (id) {
             case R.id.start_button:
                 doAnimation();
+                handler.sendEmptyMessageDelayed(MSG_START_PROXIMITY, 300);
                 break;
         }
     }
@@ -70,18 +71,31 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Utils.overridePendingTransitionRight2Left((Activity) this);
     }
 
+    private static final int MSG_START_PROXIMITY = 1;
+    private static final int MSG_START_START_BUTTON_ANIMATION = MSG_START_PROXIMITY + 1;
+
     private Handler handler = new Handler() {
 
         @Override
         public void dispatchMessage(Message msg) {
-            startProximity();
+
+            int what = msg.what;
+
+            switch (what) {
+                case MSG_START_PROXIMITY:
+                    startProximity();
+                    break;
+                case MSG_START_START_BUTTON_ANIMATION:
+                    doStartButtonAnimation();
+                    break;
+            }
         }
     };
 
     private void doStartButtonAnimation() {
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
-        animation.setRepeatCount(10);
-        animation.setRepeatMode(Animation.RESTART);
+        animation.setRepeatCount(10000);
+        animation.setRepeatMode(Animation.REVERSE);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -98,12 +112,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
             }
         });
+
         startImageView.startAnimation(animation);
     }
 
     private void doAnimation() {
         doStartButtonAnimation();
-        handler.sendEmptyMessageDelayed(0, 300);
+
     }
 
     private void doPushupTextAnimation() {

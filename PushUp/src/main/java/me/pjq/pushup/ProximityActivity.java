@@ -9,6 +9,8 @@ import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -83,6 +85,9 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
                 }
             }
         });
+
+        mgr.registerListener(this, proximity,
+                SensorManager.SENSOR_DELAY_NORMAL);
     }
 
 
@@ -90,8 +95,7 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
     protected void onResume() {
         super.onResume();
         EFLogger.d(ProximityActivity.TAG, "registerListener...");
-        mgr.registerListener(this, proximity,
-                SensorManager.SENSOR_DELAY_NORMAL);
+
     }
 
     @Override
@@ -115,6 +119,7 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
                 if (increateCount()) {
                     this.vibrator.vibrate(500);
                     updateCount();
+                    doCountTextViewAnimation();
                 }
 
                 updateTips("Up");
@@ -228,9 +233,33 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
     protected void onDestroy() {
         super.onDestroy();
 
+        EFLogger.d(ProximityActivity.TAG, "unregisterListener...");
+        mgr.unregisterListener(this, proximity);
+
         AppPreference.getInstance(getApplicationContext()).increate(count);
 
         tts.shutdown();
         tts = null;
+    }
+
+    private void doCountTextViewAnimation() {
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                //startProximity();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        countTextView.startAnimation(animation);
     }
 }
