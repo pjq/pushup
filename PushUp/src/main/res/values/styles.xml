@@ -40,8 +40,8 @@
     </style>
 
     <style name="CountTextStyle">
-        <item name="android:textColor">#ff6600</item>
-        <item name="android:textSize">84sp</item>
+        <item name="android:textColor">@color/whiteColor</item>
+        <item name="android:textSize">80sp</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">-5</item>
         <item name="android:shadowRadius">5</item>
