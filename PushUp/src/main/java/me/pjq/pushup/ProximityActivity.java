@@ -232,7 +232,9 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
 
     private void exit() {
         isTtsInited = false;
-        AppPreference.getInstance(getApplicationContext()).increate(count);
+        if (count > 0) {
+            AppPreference.getInstance(getApplicationContext()).increate(count);
+        }
         Utils.sendUpdateMsg();
         finish();
         Utils.overridePendingTransitionLeft2Right(this);

@@ -63,7 +63,7 @@
             style="@style/InfoTextStyle"
             />
     </ScrollView>
-    
+
     <TextView
         android:id="@+id/share_textview"
         android:layout_height="35dip"
