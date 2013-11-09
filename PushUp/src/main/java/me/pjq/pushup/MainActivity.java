@@ -27,8 +27,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         pushupTextView = (TextView) findViewById(R.id.pushup_text);
         resultTextView = (TextView) findViewById(R.id.result_text);
         startImageView.setOnClickListener(this);
-
-        handler.sendEmptyMessageDelayed(MSG_START_START_BUTTON_ANIMATION, 100);
     }
 
     @Override

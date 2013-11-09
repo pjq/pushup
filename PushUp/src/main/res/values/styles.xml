@@ -57,4 +57,13 @@
         <item name="android:shadowColor">@color/blackColor</item>
     </style>
 
+    <style name="ShareTextStyle">
+        <item name="android:textColor">@color/blackColor</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">-1</item>
+        <item name="android:shadowRadius">1</item>
+        <item name="android:shadowColor">@color/blackColor</item>
+    </style>
+
 </resources>

@@ -5,6 +5,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Message;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
 import android.view.KeyEvent;
@@ -15,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Locale;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 /**
  * Created by pengjianqing on 11/8/13.
@@ -62,9 +66,6 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
         this.proximity = this.mgr.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         this.vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 
-        updateCount();
-
-
         tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
 
             @Override
@@ -75,34 +76,38 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
                             && result != TextToSpeech.LANG_AVAILABLE) {
                     } else {
                         isTtsInited = true;
-
-                        tts.speak("You can start now!", TextToSpeech.QUEUE_ADD,
-                                null);
-
-//                        tts.speak(getString(R.string.warning), TextToSpeech.QUEUE_ADD,
-//                                null);
+                        countDownDelay(100);
                     }
                 }
             }
         });
-
-        mgr.registerListener(this, proximity,
-                SensorManager.SENSOR_DELAY_NORMAL);
     }
 
+
+    private boolean alreadyRegistered = false;
+    private boolean alreadyCountDown = false;
 
     @Override
     protected void onResume() {
         super.onResume();
-        EFLogger.d(ProximityActivity.TAG, "registerListener...");
 
+        if (!alreadyRegistered) {
+            EFLogger.d(ProximityActivity.TAG, "registerListener...");
+
+            mgr.registerListener(this, proximity,
+                    SensorManager.SENSOR_DELAY_NORMAL);
+            alreadyRegistered = true;
+        }
+
+        if (!alreadyCountDown) {
+
+            alreadyCountDown = true;
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        EFLogger.d(ProximityActivity.TAG, "unregisterListener...");
-        mgr.unregisterListener(this, proximity);
     }
 
     @Override
@@ -133,7 +138,12 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
     private boolean increateCount() {
         long interval = System.currentTimeMillis() - lastTime;
 
-        if (interval < 400) {
+        //not count down finished yet.
+        if (countDown > 0) {
+            return false;
+        }
+
+        if (interval < 10) {
             return false;
         }
 
@@ -144,29 +154,26 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
     }
 
     private void updateCount() {
-        countTextView.setText(String.valueOf(count));
+        updateCountText(String.valueOf(count));
 
         if (isTtsInited) {
-            tts.speak(String.valueOf(count), TextToSpeech.QUEUE_ADD,
-                    null);
-
             if (count == 5) {
-                tts.speak("Good Work!", TextToSpeech.QUEUE_ADD,
-                        null);
+                speak("Good Work!");
             } else if (count == 10) {
-                tts.speak("Excellent!", TextToSpeech.QUEUE_ADD,
-                        null);
+                speak("Excellent!");
             } else if (count == 20) {
-                tts.speak("Extremelly Excellent!", TextToSpeech.QUEUE_ADD,
-                        null);
+                speak("Extremelly Excellent!");
             } else if (count == 30) {
-                tts.speak("God bless you!", TextToSpeech.QUEUE_ADD,
-                        null);
+                speak("God bless you!");
             }
         }
     }
 
     private void updateTips(String string) {
+        if (countDown > 0) {
+            return;
+        }
+
         tipsTextView.setText(string);
     }
 
@@ -243,7 +250,7 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
     }
 
     private void doCountTextViewAnimation() {
-        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out_short);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -261,5 +268,85 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
             }
         });
         countTextView.startAnimation(animation);
+    }
+
+    private static final int MSG_COUNT_DOWN = 1;
+    private static final int MSG_START_COUNT_DOWN = MSG_COUNT_DOWN + 1;
+    private android.os.Handler handler = new android.os.Handler() {
+        @Override
+        public void dispatchMessage(Message msg) {
+            int what = msg.what;
+
+            switch (what) {
+                case MSG_COUNT_DOWN:
+//                    countDown();
+                    countDown = countDown - 1;
+                    if (0 == countDown) {
+                        updateCountText("GO");
+                    } else {
+                        updateCountText(String.valueOf(countDown));
+                    }
+                    break;
+
+                case MSG_START_COUNT_DOWN:
+                    countDownStart();
+                    break;
+            }
+        }
+    };
+
+
+    int countDown = 3;
+
+    private void countDownDelay(long delay) {
+        handler.sendEmptyMessageDelayed(MSG_START_COUNT_DOWN, delay);
+    }
+
+    private void countDownStart() {
+        updateCountText("" + countDown);
+        handler.sendEmptyMessageDelayed(MSG_COUNT_DOWN, 1000);
+        handler.sendEmptyMessageDelayed(MSG_COUNT_DOWN, 2000);
+        handler.sendEmptyMessageDelayed(MSG_COUNT_DOWN, 3000);
+    }
+
+    private void updateCountText(String text) {
+        countTextView.setText(text);
+        doCountTextViewAnimation();
+        speak(text);
+    }
+
+    private void countDown() {
+        new CountDownTimer(countDown * 1000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                EFLogger.i(TAG, "" + millisUntilFinished);
+                int count = 0;
+                if (3800 <= millisUntilFinished && millisUntilFinished <= 4200) {
+                    count = 4;
+                }
+                if (2800 <= millisUntilFinished && millisUntilFinished <= 3200) {
+                    count = 3;
+                } else if (1800 <= millisUntilFinished && millisUntilFinished <= 2200) {
+                    count = 2;
+                } else if (800 <= millisUntilFinished && millisUntilFinished <= 1200) {
+                    count = 1;
+                } else if (millisUntilFinished <= 200) {
+                    count = 0;
+                }
+                updateCountText("" + (count - 1));
+                doCountTextViewAnimation();
+            }
+
+            public void onFinish() {
+                updateCountText("Start");
+            }
+
+        }.start();
+    }
+
+    private void speak(String text) {
+        if (isTtsInited) {
+            tts.speak(text, TextToSpeech.QUEUE_ADD,
+                    null);
+        }
     }
 }

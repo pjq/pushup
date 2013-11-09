@@ -27,7 +27,7 @@ public class Utils {
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_TEXT, text);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(Intent.createChooser(intent,
                 context.getString(R.string.app_name)));
         long usetime = System.currentTimeMillis() - start;
