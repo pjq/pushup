@@ -17,7 +17,7 @@ public class LocalPathResolver {
     //private static final String PREFIX_DIR = "/ef/mywords";
     private static final String PREFIX_DIR = MyApplication.getContext().getString(R.string.PREFIX_DIR);
 
-    private static final String BASE_DIR = "/efoffline";
+    private static final String BASE_DIR = "/images";
 
     private static final String EFOFFLINE_OFFLINE_PACKAGE_DIR = "/efoffline/offline-package";
 

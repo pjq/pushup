@@ -31,6 +31,7 @@ public class MyApplication extends Application {
 
         context = getApplicationContext();
         EFLogger.init();
+        LocalPathResolver.init(context);
         // Add Exception Handler.
         //Thread.setDefaultUncaughtExceptionHandler(new EFUncaughtExceptionHandler());
         StatUtil.setGoogleAnalyticsExceptionHandler(context);

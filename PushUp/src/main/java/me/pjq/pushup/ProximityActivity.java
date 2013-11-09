@@ -191,7 +191,7 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
         float range = sensor.getMaximumRange();
         EFLogger.d(ProximityActivity.TAG, "onAccuracyChanged...,accuracy=" + accuracy + ",name=" + name + ",range=" + range);
         if (ApplicationConfig.INSTANCE.DEBUG()) {
-            updateInfo("accuracy=" + accuracy + ",name=" + name + ",range=" + range);
+            //updateInfo("accuracy=" + accuracy + ",name=" + name + ",range=" + range);
         }
     }
 
@@ -220,7 +220,9 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
 
             case R.id.share_textview:
                 String text = String.format(getString(R.string.share_text_full), count);
-                Utils.share(this, getString(R.string.app_name), text);
+                String filename = ScreenshotUtils.getshotFilePath();
+                ScreenshotUtils.shotBitmap(this, filename);
+                Utils.share(this, getString(R.string.app_name), text, filename);
                 break;
 
             default:

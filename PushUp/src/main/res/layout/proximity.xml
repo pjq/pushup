@@ -64,12 +64,12 @@
 
     <TextView
         android:id="@+id/share_textview"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_height="35dip"
+        android:layout_width="35dip"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="10dip"
-        android:text="@string/share_text"
+        android:background="@drawable/selector_btn_back"
         style="@style/ShareTextStyle"
         ></TextView>
 
