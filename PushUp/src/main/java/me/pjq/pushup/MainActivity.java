@@ -3,6 +3,7 @@ package me.pjq.pushup;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.view.Menu;
@@ -11,11 +12,18 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
 
 public class MainActivity extends Activity implements View.OnClickListener {
     ImageView startImageView;
     TextView pushupTextView;
     TextView resultTextView;
+    TextView totalTextView;
+
+    Bus bus;
 
 
     @Override
@@ -23,9 +31,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        bus = ServiceProvider.getBus();
+        bus.register(this);
+
         startImageView = (ImageView) findViewById(R.id.start_button);
         pushupTextView = (TextView) findViewById(R.id.pushup_text);
         resultTextView = (TextView) findViewById(R.id.result_text);
+        totalTextView = (TextView) findViewById(R.id.total_text);
         startImageView.setOnClickListener(this);
     }
 
@@ -37,11 +49,38 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private void showRecord() {
+        resultTextView.setText("");
         AppPreference preference = AppPreference.getInstance(getApplicationContext());
         String record = preference.getRecordJson();
-        resultTextView.setText(record);
+        ArrayList<RecordItem> recordItems = preference.getRecordItems();
+        int size = recordItems.size();
+        int total = 0;
+        for (int i = 0; i < size; i++) {
+            RecordItem item = recordItems.get(i);
+            total += item.getCount();
+            resultTextView.append(item.getDate() + ":   " + item.getCount() + '\n');
+        }
+
+//        totalTextView.setText(String.valueOf(total));
+        doTotalCountIncreaseAnimation(total);
     }
 
+    private static final int COUNTDOWN_ANIMATION_DURATION = 2000;
+
+    private void doTotalCountIncreaseAnimation(final int total) {
+        new CountDownTimer(COUNTDOWN_ANIMATION_DURATION, 10) {
+            public void onTick(long millisUntilFinished) {
+                long remain = COUNTDOWN_ANIMATION_DURATION - millisUntilFinished;
+                int remainInt = (int) ((float) remain / (float) COUNTDOWN_ANIMATION_DURATION * total);
+                totalTextView.setText(String.valueOf(remainInt));
+            }
+
+            public void onFinish() {
+                totalTextView.setText(String.valueOf(total));
+            }
+
+        }.start();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -139,4 +178,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
         });
         pushupTextView.startAnimation(animation);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        bus.unregister(this);
+    }
+
+    @Subscribe
+    public void updateCount(UpdateMsg updateMsg) {
+        showRecord();
+    }
+
 }

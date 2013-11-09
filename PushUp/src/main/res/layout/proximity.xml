@@ -49,6 +49,7 @@
         android:src="@drawable/refresh_red"
         android:layout_marginTop="20dip"
         android:layout_centerHorizontal="true"
+        android:visibility="gone"
         />
 
     <TextView

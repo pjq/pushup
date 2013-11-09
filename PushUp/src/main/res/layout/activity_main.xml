@@ -30,6 +30,16 @@
         ></ImageView>
 
     <TextView
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/titleIndicatorLayout"
+        android:id="@+id/total_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        style="@style/JustPushUpTextStyle"
+        />
+
+    <TextView
         android:id="@+id/pushup_text"
         android:layout_below="@id/center_line"
         android:layout_width="wrap_content"
@@ -39,14 +49,18 @@
         style="@style/JustPushUpTextStyle"
         android:text="@string/just_push_up"/>
 
-    <TextView
-        android:id="@+id/result_text"
+    <ScrollView
         android:layout_below="@id/pushup_text"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dip"
-        android:layout_centerHorizontal="true"
-        style="@style/InfoTextStyle"
-        />
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent">
 
+        <TextView
+            android:padding="10dip"
+            android:id="@+id/result_text"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerHorizontal="true"
+            style="@style/InfoTextStyle"
+            />
+    </ScrollView>
 </RelativeLayout>

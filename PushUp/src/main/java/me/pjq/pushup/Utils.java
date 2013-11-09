@@ -3,6 +3,7 @@ package me.pjq.pushup;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import com.squareup.otto.Bus;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -60,5 +61,10 @@ public class Utils {
     public static String getTheDayKey(long time) {
         String dateKey = sDateFormat.format(time);
         return dateKey;
+    }
+
+    public static void sendUpdateMsg() {
+        Bus bus = ServiceProvider.getBus();
+        bus.post(new UpdateMsg());
     }
 }

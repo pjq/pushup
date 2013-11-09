@@ -9,6 +9,7 @@ import android.os.CountDownTimer;
 import android.os.Message;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -61,6 +62,8 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
         titlebarIcon.setOnClickListener(this);
         titlebarText.setOnClickListener(this);
         shareTextView.setOnClickListener(this);
+        countTextView.setOnClickListener(this);
+
 
         this.mgr = (SensorManager) this.getSystemService(SENSOR_SERVICE);
         this.proximity = this.mgr.getDefaultSensor(Sensor.TYPE_PROXIMITY);
@@ -184,7 +187,6 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
         String name = sensor.getName();
         float range = sensor.getMaximumRange();
         EFLogger.d(ProximityActivity.TAG, "onAccuracyChanged...,accuracy=" + accuracy + ",name=" + name + ",range=" + range);
@@ -199,6 +201,11 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
 
         switch (id) {
             case R.id.refresh_button:
+                count = 0;
+                updateCount();
+                break;
+
+            case R.id.count_textview:
                 count = 0;
                 updateCount();
                 break;
@@ -222,6 +229,8 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
     }
 
     private void exit() {
+        AppPreference.getInstance(getApplicationContext()).increate(count);
+        Utils.sendUpdateMsg();
         finish();
         Utils.overridePendingTransitionLeft2Right(this);
     }
@@ -242,8 +251,6 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
 
         EFLogger.d(ProximityActivity.TAG, "unregisterListener...");
         mgr.unregisterListener(this, proximity);
-
-        AppPreference.getInstance(getApplicationContext()).increate(count);
 
         tts.shutdown();
         tts = null;
@@ -343,6 +350,10 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
     }
 
     private void speak(String text) {
+        if (TextUtils.isEmpty(text)) {
+            return;
+        }
+
         if (isTtsInited) {
             tts.speak(text, TextToSpeech.QUEUE_FLUSH,
                     null);
