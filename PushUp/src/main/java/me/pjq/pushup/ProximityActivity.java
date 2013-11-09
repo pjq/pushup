@@ -250,7 +250,7 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
     }
 
     private void doCountTextViewAnimation() {
-        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out_short);
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -259,7 +259,6 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                //startProximity();
             }
 
             @Override
@@ -345,7 +344,7 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
 
     private void speak(String text) {
         if (isTtsInited) {
-            tts.speak(text, TextToSpeech.QUEUE_ADD,
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH,
                     null);
         }
     }

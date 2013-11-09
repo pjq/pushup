@@ -23,7 +23,7 @@
         android:id="@+id/count_textview"
         android:layout_height="180dip"
         android:layout_width="180dip"
-        android:layout_above="@id/center_line"
+        android:layout_centerInParent="true"
         android:layout_marginBottom="0dip"
         android:layout_centerHorizontal="true"
         style="@style/CountTextStyle"
@@ -43,11 +43,11 @@
 
     <ImageView
         android:id="@+id/refresh_button"
-        android:layout_below="@id/center_line"
+        android:layout_below="@id/count_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/refresh_red"
-        android:layout_marginTop="50dip"
+        android:layout_marginTop="20dip"
         android:layout_centerHorizontal="true"
         />
 
