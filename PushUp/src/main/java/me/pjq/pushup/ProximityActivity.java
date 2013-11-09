@@ -27,6 +27,7 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
     private TextView countTextView;
     private TextView tipsTextView;
     private TextView infoTextView;
+    private TextView shareTextView;
     private ImageView refreshButton;
     private int count = 0;
     private long lastTime;
@@ -46,12 +47,14 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
         refreshButton = (ImageView) findViewById(R.id.refresh_button);
         tipsTextView = (TextView) findViewById(R.id.tips_textview);
         infoTextView = (TextView) findViewById(R.id.info_textview);
+        shareTextView = (TextView) findViewById(R.id.share_textview);
         titlebarIcon = (ImageView) findViewById(R.id.icon);
         titlebarText = (TextView) findViewById(R.id.title);
 
         refreshButton.setOnClickListener(this);
         titlebarIcon.setOnClickListener(this);
         titlebarText.setOnClickListener(this);
+        shareTextView.setOnClickListener(this);
 
         this.mgr = (SensorManager) this.getSystemService(SENSOR_SERVICE);
         this.proximity = this.mgr.getDefaultSensor(Sensor.TYPE_PROXIMITY);
@@ -71,11 +74,11 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
                     } else {
                         isTtsInited = true;
 
-                        tts.speak("You can start now!9 e wu!", TextToSpeech.QUEUE_ADD,
+                        tts.speak("You can start now!", TextToSpeech.QUEUE_ADD,
                                 null);
 
-                        tts.speak(getString(R.string.warning), TextToSpeech.QUEUE_ADD,
-                                null);
+//                        tts.speak(getString(R.string.warning), TextToSpeech.QUEUE_ADD,
+//                                null);
                     }
                 }
             }
@@ -194,7 +197,11 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
 
             case R.id.icon:
                 exit();
+                break;
 
+            case R.id.share_textview:
+                String text = String.format(getString(R.string.share_text_full), count);
+                Utils.share(this, getString(R.string.app_name), text);
                 break;
 
             default:
@@ -202,7 +209,7 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
         }
     }
 
-    private void exit(){
+    private void exit() {
         finish();
         Utils.overridePendingTransitionLeft2Right(this);
     }

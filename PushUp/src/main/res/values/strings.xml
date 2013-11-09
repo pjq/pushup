@@ -5,5 +5,7 @@
     <string name="title_activity_base">MainActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="warning">Across the Great Wall, we can reach every corner in the world.</string>
+    <string name="share_text">Share</string>
+    <string name="share_text_full">I have finished %d push up.</string>
 
 </resources>
