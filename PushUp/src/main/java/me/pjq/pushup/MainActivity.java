@@ -22,6 +22,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     TextView pushupTextView;
     TextView resultTextView;
     TextView totalTextView;
+    private TextView shareTextView;
 
     Bus bus;
 
@@ -38,7 +39,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         pushupTextView = (TextView) findViewById(R.id.pushup_text);
         resultTextView = (TextView) findViewById(R.id.result_text);
         totalTextView = (TextView) findViewById(R.id.total_text);
+        shareTextView = (TextView) findViewById(R.id.share_textview);
         startImageView.setOnClickListener(this);
+        shareTextView.setOnClickListener(this);
     }
 
     @Override
@@ -47,6 +50,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         showRecord();
     }
+
+    int totalCount = 0;
 
     private void showRecord() {
         resultTextView.setText("");
@@ -62,6 +67,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
 
 //        totalTextView.setText(String.valueOf(total));
+        totalCount = total;
         doTotalCountIncreaseAnimation(total);
     }
 
@@ -97,6 +103,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.start_button:
                 doAnimation();
                 handler.sendEmptyMessageDelayed(MSG_START_PROXIMITY, 300);
+                break;
+
+            case R.id.share_textview:
+                String text = String.format(getString(R.string.share_text_full), totalCount);
+                String filename = ScreenshotUtils.getshotFilePath();
+                ScreenshotUtils.shotBitmap(this, filename);
+                Utils.share(this, getString(R.string.app_name), text, filename);
                 break;
         }
     }
