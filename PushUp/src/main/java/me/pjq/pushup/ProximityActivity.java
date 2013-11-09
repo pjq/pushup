@@ -229,6 +229,7 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
     }
 
     private void exit() {
+        isTtsInited = false;
         AppPreference.getInstance(getApplicationContext()).increate(count);
         Utils.sendUpdateMsg();
         finish();
@@ -354,7 +355,7 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
             return;
         }
 
-        if (isTtsInited) {
+        if (isTtsInited && null != tts) {
             tts.speak(text, TextToSpeech.QUEUE_FLUSH,
                     null);
         }
