@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Message;
 import android.os.Vibrator;
-import android.speech.tts.TextToSpeech;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -17,9 +15,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.Locale;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 /**
  * Created by pengjianqing on 11/8/13.
@@ -40,15 +35,16 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
     private long lastTime;
     private View titlebarIcon;
     private View titlebarText;
+    private SpeakerUtil speakerUtil;
 
-    private TextToSpeech tts;
-    private boolean isTtsInited = false;
 
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
 
         setContentView(R.layout.proximity);
+
+        speakerUtil = SpeakerUtil.getInstance(getApplicationContext());
 
         countTextView = (TextView) findViewById(R.id.count_textview);
         refreshButton = (ImageView) findViewById(R.id.refresh_button);
@@ -69,26 +65,12 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
         this.proximity = this.mgr.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         this.vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 
-        tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
 
-            @Override
-            public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS) {
-                    int result = tts.setLanguage(Locale.US);
-                    if (result != TextToSpeech.LANG_COUNTRY_AVAILABLE
-                            && result != TextToSpeech.LANG_AVAILABLE) {
-                    } else {
-                        isTtsInited = true;
-                        countDownDelay(100);
-                    }
-                }
-            }
-        });
     }
 
 
     private boolean alreadyRegistered = false;
-    private boolean alreadyCountDown = false;
+    private boolean alreadyStartCountDown = false;
 
     @Override
     protected void onResume() {
@@ -102,9 +84,9 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
             alreadyRegistered = true;
         }
 
-        if (!alreadyCountDown) {
-
-            alreadyCountDown = true;
+        if (!alreadyStartCountDown) {
+            countDownDelay(1500);
+            alreadyStartCountDown = true;
         }
     }
 
@@ -159,7 +141,7 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
     private void updateCount() {
         updateCountText(String.valueOf(count));
 
-        if (isTtsInited) {
+        if (speakerUtil.isTtsInited()) {
             if (count == 5) {
                 speak("Good Work!");
             } else if (count == 10) {
@@ -231,7 +213,6 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
     }
 
     private void exit() {
-        isTtsInited = false;
         if (count > 0) {
             AppPreference.getInstance(getApplicationContext()).increate(count);
         }
@@ -256,9 +237,6 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
 
         EFLogger.d(ProximityActivity.TAG, "unregisterListener...");
         mgr.unregisterListener(this, proximity);
-
-        tts.shutdown();
-        tts = null;
     }
 
     private void doCountTextViewAnimation() {
@@ -355,13 +333,6 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
     }
 
     private void speak(String text) {
-        if (TextUtils.isEmpty(text)) {
-            return;
-        }
-
-        if (isTtsInited && null != tts) {
-            tts.speak(text, TextToSpeech.QUEUE_FLUSH,
-                    null);
-        }
+        speakerUtil.speak(text);
     }
 }

@@ -26,7 +26,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     Bus bus;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +41,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         shareTextView = (TextView) findViewById(R.id.share_textview);
         startImageView.setOnClickListener(this);
         shareTextView.setOnClickListener(this);
+        resultTextView.setOnClickListener(this);
+        pushupTextView.setOnClickListener(this);
     }
 
     @Override
@@ -69,6 +70,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 //        totalTextView.setText(String.valueOf(total));
         totalCount = total;
         doTotalCountIncreaseAnimation(total);
+        //showResultText();
     }
 
     private static final int COUNTDOWN_ANIMATION_DURATION = 2000;
@@ -111,6 +113,58 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 ScreenshotUtils.shotBitmap(this, filename);
                 Utils.share(this, getString(R.string.app_name), text, filename);
                 break;
+
+            case R.id.result_text:
+                showResultText();
+                break;
+
+            case R.id.pushup_text:
+                showResultText();
+                break;
+        }
+    }
+
+    private void showResultText() {
+        if (resultTextView.isShown()) {
+            Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
+            animation.setFillAfter(true);
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    resultTextView.setVisibility(View.INVISIBLE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            resultTextView.startAnimation(animation);
+        } else {
+            Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+            animation.setFillAfter(true);
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    resultTextView.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            resultTextView.startAnimation(animation);
         }
     }
 
@@ -191,6 +245,28 @@ public class MainActivity extends Activity implements View.OnClickListener {
         });
         pushupTextView.startAnimation(animation);
     }
+
+    private void doRecordTextAnimation() {
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                //startProximity();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        resultTextView.startAnimation(animation);
+    }
+
 
     @Override
     protected void onDestroy() {
