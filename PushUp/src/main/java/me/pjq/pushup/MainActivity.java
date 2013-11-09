@@ -15,6 +15,8 @@ import android.widget.TextView;
 public class MainActivity extends Activity implements View.OnClickListener {
     ImageView startImageView;
     TextView pushupTextView;
+    TextView resultTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +25,23 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         startImageView = (ImageView) findViewById(R.id.start_button);
         pushupTextView = (TextView) findViewById(R.id.pushup_text);
+        resultTextView = (TextView) findViewById(R.id.result_text);
         startImageView.setOnClickListener(this);
+
+        doStartButtonAnimation();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        showRecord();
+    }
+
+    private void showRecord() {
+        AppPreference preference = AppPreference.getInstance(getApplicationContext());
+        String record = preference.getRecordJson();
+        resultTextView.setText(record);
     }
 
 
@@ -53,14 +71,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private Handler handler = new Handler() {
+
         @Override
         public void dispatchMessage(Message msg) {
             startProximity();
         }
     };
 
-    private void doAnimation() {
+    private void doStartButtonAnimation() {
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
+        animation.setRepeatCount(10);
+        animation.setRepeatMode(Animation.RESTART);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -78,8 +99,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         });
         startImageView.startAnimation(animation);
+    }
 
-        animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_left);
+    private void doAnimation() {
+        doStartButtonAnimation();
+        handler.sendEmptyMessageDelayed(0, 300);
+    }
+
+    private void doPushupTextAnimation() {
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_left);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -96,8 +124,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
             }
         });
-//        pushupTextView.startAnimation(animation);
-
-        handler.sendEmptyMessageDelayed(0, 300);
+        pushupTextView.startAnimation(animation);
     }
 }

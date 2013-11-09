@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by pengjianqing on 11/8/13.
  */
@@ -24,5 +27,32 @@ public class Utils {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(Intent.createChooser(intent,
                 context.getString(R.string.app_name)));
+    }
+
+    private static final SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+    /**
+     * Check if the same day
+     *
+     * @param lastTime
+     * @param now
+     * @return
+     */
+    public static boolean isSameDay(long lastTime, long now) {
+        Date lastDate = new Date(lastTime);
+        Date nowDate = new Date(now);
+        String lastDateString = sDateFormat.format(lastDate);
+        String nowDateString = sDateFormat.format(nowDate);
+
+        if (lastDateString.equalsIgnoreCase(nowDateString)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static String getTheDayKey(long time) {
+        String dateKey = sDateFormat.format(time);
+        return dateKey;
     }
 }

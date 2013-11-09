@@ -228,6 +228,8 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
     protected void onDestroy() {
         super.onDestroy();
 
+        AppPreference.getInstance(getApplicationContext()).increate(count);
+
         tts.shutdown();
         tts = null;
     }

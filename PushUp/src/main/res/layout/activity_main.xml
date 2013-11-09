@@ -39,4 +39,14 @@
         style="@style/JustPushUpTextStyle"
         android:text="@string/just_push_up"/>
 
+    <TextView
+        android:id="@+id/result_text"
+        android:layout_below="@id/pushup_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dip"
+        android:layout_centerHorizontal="true"
+        style="@style/InfoTextStyle"
+        />
+
 </RelativeLayout>
