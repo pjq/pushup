@@ -11,14 +11,12 @@
         layout="@layout/title_bar"
         />
 
-
     <View
         android:id="@+id/center_line"
         android:layout_height="0dip"
         android:layout_width="fill_parent"
         android:layout_centerVertical="true"
         ></View>
-
 
     <TextView
         android:layout_centerHorizontal="true"
@@ -50,7 +48,7 @@
             android:layout_width="fill_parent"
             style="@style/DetailInfoTextStyle"
             android:gravity="center"
-            android:text="2 Days"/>
+            android:text="1 Days"/>
 
         <TextView
             android:layout_toRightOf="@id/center_detail"
@@ -59,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             style="@style/DetailInfoTextStyle"
-            android:text="00:58"
+            android:text="01:58"
             />
 
 
