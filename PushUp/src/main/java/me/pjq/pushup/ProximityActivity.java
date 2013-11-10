@@ -235,7 +235,7 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
             AppPreference.getInstance(getApplicationContext()).increate(count);
         }
 
-        speakerUtil.stop();
+        handler.removeMessages(MSG_COUNT_DOWN);
 
         Utils.sendUpdateMsg();
         finish();
