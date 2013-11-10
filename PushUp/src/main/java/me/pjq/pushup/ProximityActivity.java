@@ -104,7 +104,7 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
         } else {
             if (thisVal < this.lastVal) {
                 this.vibrator.vibrate(100);
-                updateTips("Down");
+                updateTips(R.drawable.down);
             } else {
                 if (increateCount()) {
                     this.vibrator.vibrate(500);
@@ -112,7 +112,7 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
                     doCountTextViewAnimation();
                 }
 
-                updateTips("Up");
+                updateTips(R.drawable.up);
             }
             this.lastVal = thisVal;
         }
@@ -154,12 +154,12 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
         }
     }
 
-    private void updateTips(String string) {
+    private void updateTips(int resid) {
         if (countDown > 0) {
             return;
         }
 
-        tipsTextView.setText(string);
+        tipsTextView.setBackgroundResource(resid);
     }
 
     private void updateInfo(String string) {
@@ -201,10 +201,28 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
                 break;
 
             case R.id.share_textview:
-                String text = String.format(getString(R.string.share_text_full), count);
-                String filename = ScreenshotUtils.getshotFilePath();
-                ScreenshotUtils.shotBitmap(this, filename);
-                Utils.share(this, getString(R.string.app_name), text, filename);
+                final String text = String.format(getString(R.string.share_text_full), count);
+                final String filename = ScreenshotUtils.getshotFilePath();
+                ScreenshotUtils.shotBitmap(ProximityActivity.this, filename);
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        Utils.share(ProximityActivity.this, ProximityActivity.this.getString(R.string.app_name), text, filename);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                shareTextView.startAnimation(animation);
+
                 break;
 
             default:
@@ -216,6 +234,9 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
         if (count > 0) {
             AppPreference.getInstance(getApplicationContext()).increate(count);
         }
+
+        speakerUtil.stop();
+
         Utils.sendUpdateMsg();
         finish();
         Utils.overridePendingTransitionLeft2Right(this);

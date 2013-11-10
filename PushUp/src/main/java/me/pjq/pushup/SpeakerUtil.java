@@ -61,4 +61,8 @@ public class SpeakerUtil {
         isTtsInited = false;
         instance = null;
     }
+
+    public void stop() {
+        tts.stop();
+    }
 }

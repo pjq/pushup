@@ -18,11 +18,13 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity implements View.OnClickListener {
-    ImageView startImageView;
+    TextView startImageView;
     TextView pushupTextView;
     TextView resultTextView;
     TextView totalTextView;
     private TextView shareTextView;
+    private View titlebarIcon;
+    private View titlebarText;
 
     Bus bus;
 
@@ -34,15 +36,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
         bus = ServiceProvider.getBus();
         bus.register(this);
 
-        startImageView = (ImageView) findViewById(R.id.start_button);
+        startImageView = (TextView) findViewById(R.id.start_button);
         pushupTextView = (TextView) findViewById(R.id.pushup_text);
         resultTextView = (TextView) findViewById(R.id.result_text);
         totalTextView = (TextView) findViewById(R.id.total_text);
         shareTextView = (TextView) findViewById(R.id.share_textview);
+        titlebarIcon = (ImageView) findViewById(R.id.icon);
+        titlebarText = (TextView) findViewById(R.id.title);
+
         startImageView.setOnClickListener(this);
         shareTextView.setOnClickListener(this);
         resultTextView.setOnClickListener(this);
         pushupTextView.setOnClickListener(this);
+        titlebarIcon.setOnClickListener(this);
+        titlebarText.setOnClickListener(this);
     }
 
     @Override
@@ -108,10 +115,27 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.share_textview:
-                String text = String.format(getString(R.string.share_text_full), totalCount);
-                String filename = ScreenshotUtils.getshotFilePath();
-                ScreenshotUtils.shotBitmap(this, filename);
-                Utils.share(this, getString(R.string.app_name), text, filename);
+                final String text = String.format(getString(R.string.share_text_full), totalCount);
+                final String filename = ScreenshotUtils.getshotFilePath();
+                ScreenshotUtils.shotBitmap(MainActivity.this, filename);
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        Utils.share(MainActivity.this, MainActivity.this.getString(R.string.app_name), text, filename);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                shareTextView.startAnimation(animation);
                 break;
 
             case R.id.result_text:
@@ -120,6 +144,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
             case R.id.pushup_text:
                 showResultText();
+                break;
+
+            case R.id.title:
+                doAnimation();
+                handler.sendEmptyMessageDelayed(MSG_START_PROXIMITY, 300);
+                break;
+
+            case R.id.icon:
+                doAnimation();
+                handler.sendEmptyMessageDelayed(MSG_START_PROXIMITY, 300);
                 break;
         }
     }
