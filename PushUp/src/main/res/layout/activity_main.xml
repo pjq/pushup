@@ -25,7 +25,7 @@
         android:id="@+id/total_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
+        android:layout_marginTop="15dip"
         style="@style/JustPushUpTextStyle"
         android:layout_below="@id/titleIndicatorLayout"
         android:textColor="@color/blue"
