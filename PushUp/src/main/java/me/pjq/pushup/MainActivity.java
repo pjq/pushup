@@ -22,11 +22,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
     TextView pushupTextView;
     TextView resultTextView;
     TextView totalTextView;
+    TextView daysTextView;
+    TextView durationTextView;
+    TextView levelTextView;
     private TextView shareTextView;
     private View titlebarIcon;
     private View titlebarText;
 
     Bus bus;
+
+    AppPreference appPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +41,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         bus = ServiceProvider.getBus();
         bus.register(this);
 
+        appPreference = AppPreference.getInstance(getApplicationContext());
+
         startImageView = (TextView) findViewById(R.id.start_button);
         pushupTextView = (TextView) findViewById(R.id.pushup_text);
         resultTextView = (TextView) findViewById(R.id.result_text);
@@ -43,6 +50,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         shareTextView = (TextView) findViewById(R.id.share_textview);
         titlebarIcon = (ImageView) findViewById(R.id.icon);
         titlebarText = (TextView) findViewById(R.id.title);
+        daysTextView = (TextView) findViewById(R.id.days);
+        durationTextView = (TextView) findViewById(R.id.duration_time);
+        levelTextView = (TextView) findViewById(R.id.level);
 
         startImageView.setOnClickListener(this);
         shareTextView.setOnClickListener(this);
@@ -78,6 +88,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         totalCount = total;
         doTotalCountIncreaseAnimation(total);
         //showResultText();
+
+        daysTextView.setText(String.format(getString(R.string.how_many_days), appPreference.getHowManyDays()));
     }
 
     private static final int COUNTDOWN_ANIMATION_DURATION = 2000;

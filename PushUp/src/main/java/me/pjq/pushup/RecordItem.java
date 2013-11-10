@@ -8,6 +8,7 @@ import org.json.JSONObject;
  */
 public class RecordItem {
     private String date;
+    private String millionsecond;
 
     private int count;
 
@@ -18,9 +19,11 @@ public class RecordItem {
 
         date = jsonObject.optString("date");
         count = jsonObject.optInt("count");
+        millionsecond = jsonObject.optString("millionsecond");
     }
 
-    public RecordItem(String date, int count) {
+    public RecordItem(String millionsecond, String date, int count) {
+        this.millionsecond = millionsecond;
         this.date = date;
         this.count = count;
     }
@@ -41,15 +44,30 @@ public class RecordItem {
         this.count = count;
     }
 
+    public String getMillionsecond() {
+        return millionsecond;
+    }
+
+    public void setMillionsecond(String millionsecond) {
+        this.millionsecond = millionsecond;
+    }
+
     public JSONObject toJSONObject() {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("date", date);
             jsonObject.put("count", count);
+            jsonObject.put("millionsecond", millionsecond);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         return jsonObject;
+    }
+
+    public RecordItem add(RecordItem item) {
+        this.count = item.getCount() + this.count;
+
+        return this;
     }
 }

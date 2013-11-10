@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Preference manager
@@ -220,6 +221,25 @@ public class AppPreference {
         return recordItems;
     }
 
+    public int getHowManyDays() {
+        ArrayList<RecordItem> recordItems = getRecordItems();
+
+        HashMap<String, RecordItem> hashMap = new HashMap<String, RecordItem>();
+
+        int size = recordItems.size();
+        for (int i = 0; i < size; i++) {
+            RecordItem item = recordItems.get(i);
+
+            if (hashMap.containsKey(item.getDate())) {
+                hashMap.put(item.getDate(), item.add(hashMap.get(item.getDate())));
+            } else {
+                hashMap.put(item.getDate(), item);
+            }
+        }
+
+        return hashMap.size();
+    }
+
 
     public void increate(int count) {
         ArrayList<RecordItem> recordItems = getRecordItems();
@@ -243,7 +263,8 @@ public class AppPreference {
         }
 
         if (!alreadyExist) {
-            RecordItem item = new RecordItem(Utils.getTheDayKey(System.currentTimeMillis()), count);
+            long time = System.currentTimeMillis();
+            RecordItem item = new RecordItem(String.valueOf(time), Utils.getTheDayKey(time), count);
             recordItems.add(item);
         }
 

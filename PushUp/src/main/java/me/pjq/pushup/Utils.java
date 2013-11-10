@@ -65,8 +65,24 @@ public class Utils {
         }
     }
 
+
     public static String getTheDayKey(long time) {
+        boolean usemillions = true;
+
+        if (usemillions) {
+            return String.valueOf(time);
+        }
+
         String dateKey = sDateFormat.format(time);
+        return dateKey;
+    }
+
+    private static final SimpleDateFormat sDateKeyFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    public static String time2DateKey(String millionsecond) {
+        Date date = new Date(Long.valueOf(millionsecond));
+        String dateKey = sDateKeyFormat.format(date);
+
         return dateKey;
     }
 

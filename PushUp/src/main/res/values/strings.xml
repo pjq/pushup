@@ -9,5 +9,7 @@
     <string name="share_text_full">I have finished %d push up.</string>
     <string name="share_text_full_total">I have totally finished %d push up.</string>
     <string name="start">START</string>
+    <string name="how_many_days">%d days</string>
+    <string name="pushups">pushups</string>
 
 </resources>
