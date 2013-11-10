@@ -201,7 +201,7 @@ public class AppPreference {
         ArrayList<RecordItem> recordItems = new ArrayList<RecordItem>();
         try {
             jsonArray = new JSONArray(record);
-            String dateKey = Utils.getTheDayKey(System.currentTimeMillis());
+            String dateKey = Utils.time2DateKey(String.valueOf(System.currentTimeMillis()));
 
             if (null != jsonArray && jsonArray.length() > 0) {
                 int total = jsonArray.length();
@@ -250,7 +250,7 @@ public class AppPreference {
 
             for (int i = 0; i < size; i++) {
                 RecordItem item = recordItems.get(i);
-                String key = Utils.getTheDayKey(System.currentTimeMillis());
+                String key = Utils.time2DateKey(String.valueOf(System.currentTimeMillis()));
 
                 //find the value
                 if (key.equalsIgnoreCase(item.getDate())) {
@@ -264,7 +264,7 @@ public class AppPreference {
 
         if (!alreadyExist) {
             long time = System.currentTimeMillis();
-            RecordItem item = new RecordItem(String.valueOf(time), Utils.getTheDayKey(time), count);
+            RecordItem item = new RecordItem(String.valueOf(time), Utils.time2DateKey(String.valueOf(time)), count);
             recordItems.add(item);
         }
 

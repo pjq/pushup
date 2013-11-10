@@ -32,8 +32,20 @@
             android:layout_height="wrap_content"
             style="@style/JustPushUpTextStyle"
             android:textColor="@color/blue"
+            android:text="0"
             android:layout_alignParentBottom="true"
             />
+
+        <TextView
+            android:id="@+id/days"
+            android:layout_toLeftOf="@id/total_text"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            style="@style/DetailInfoTextStyle"
+            android:gravity="right"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="20dip"
+            android:text="@string/how_many_days"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -59,15 +71,6 @@
             android:layout_centerHorizontal="true"
             android:layout_height="fill_parent"
             android:layout_width="1dip"></View>
-
-        <TextView
-            android:id="@+id/days"
-            android:layout_toLeftOf="@id/center_detail"
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            style="@style/DetailInfoTextStyle"
-            android:gravity="center"
-            android:text="@string/how_many_days"/>
 
 
         <TextView
