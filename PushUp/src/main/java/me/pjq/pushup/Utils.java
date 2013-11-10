@@ -35,7 +35,7 @@ public class Utils {
         File file = new File(filePath);
         Uri uri = Uri.fromFile(file);
         intent.putExtra(Intent.EXTRA_STREAM, uri);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(Intent.createChooser(intent,
                 context.getString(R.string.app_name)));
         long usetime = System.currentTimeMillis() - start;

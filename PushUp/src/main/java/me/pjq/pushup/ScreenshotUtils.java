@@ -30,7 +30,7 @@ public class ScreenshotUtils {
         Rect frame = new Rect();
         view.getWindowVisibleDisplayFrame(frame);
         int stautsHeight = frame.top;
-        stautsHeight = 0;
+        //stautsHeight = 0;
 
         int width = pActivity.getWindowManager().getDefaultDisplay().getWidth();
         int height = pActivity.getWindowManager().getDefaultDisplay().getHeight();

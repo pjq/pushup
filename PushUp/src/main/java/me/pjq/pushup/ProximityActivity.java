@@ -142,14 +142,18 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
         updateCountText(String.valueOf(count));
 
         if (speakerUtil.isTtsInited()) {
-            if (count == 5) {
+            if (count == 10) {
                 speak("Good Work!");
-            } else if (count == 10) {
-                speak("Excellent!");
             } else if (count == 20) {
-                speak("Extremelly Excellent!");
+                speak("Excellent!");
             } else if (count == 30) {
+                speak("Extremelly Excellent!");
+            } else if (count == 40) {
                 speak("God bless you!");
+            } else if (count == 50) {
+                speak("You are the God!");
+            } else if (count == 80) {
+                speak("You create the God!");
             }
         }
     }

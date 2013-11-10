@@ -115,7 +115,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.share_textview:
-                final String text = String.format(getString(R.string.share_text_full), totalCount);
+                final String text = String.format(getString(R.string.share_text_full_total), totalCount);
                 final String filename = ScreenshotUtils.getshotFilePath();
                 ScreenshotUtils.shotBitmap(MainActivity.this, filename);
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
