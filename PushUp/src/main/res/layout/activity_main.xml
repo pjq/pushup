@@ -19,8 +19,72 @@
         android:layout_centerVertical="true"
         ></View>
 
+
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:id="@+id/total_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        style="@style/JustPushUpTextStyle"
+        android:layout_below="@id/titleIndicatorLayout"
+        android:textColor="@color/blue"
+        />
+
+    <RelativeLayout
+        android:id="@+id/detail_info_layout"
+        android:layout_height="80dip"
+        android:layout_below="@id/total_text"
+        android:layout_width="fill_parent">
+
+        <View
+            android:id="@+id/center_detail"
+            android:layout_centerHorizontal="true"
+            android:layout_height="fill_parent"
+            android:layout_width="1dip"></View>
+
+        <TextView
+            android:id="@+id/days"
+            android:layout_toLeftOf="@id/center_detail"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            style="@style/DetailInfoTextStyle"
+            android:gravity="center"
+            android:text="2 Days"/>
+
+        <TextView
+            android:layout_toRightOf="@id/center_detail"
+            android:layout_marginLeft="50dip"
+            android:id="@+id/duration_time"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            style="@style/DetailInfoTextStyle"
+            android:text="00:58"
+            />
+
+
+        <TextView
+            android:id="@+id/level"
+            android:layout_toLeftOf="@id/center_detail"
+            android:layout_below="@id/days"
+            android:layout_marginTop="10dip"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            style="@style/DetailInfoTextStyle"
+            android:text="Level Master"
+            />
+
+        <TextView
+            android:id="@+id/days"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/start_button"
+        android:layout_below="@id/detail_info_layout"
         android:layout_centerInParent="true"
         android:layout_marginBottom="5dip"
         android:layout_centerHorizontal="true"
@@ -32,16 +96,6 @@
         android:background="@drawable/blue_circle"
         ></TextView>
 
-    <TextView
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/titleIndicatorLayout"
-        android:id="@+id/total_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="40dip"
-        style="@style/JustPushUpTextStyle"
-        android:textColor="@color/blue"
-        />
 
     <TextView
         android:id="@+id/pushup_text"
