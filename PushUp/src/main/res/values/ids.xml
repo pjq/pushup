@@ -12,4 +12,5 @@ Save this file as res/values/games-ids.xml in your project.
     <string name="achievement_50_pushup_one_time">CgkI5uO_5csSEAIQBg</string>
     <string name="achievement_master_level500">CgkI5uO_5csSEAIQBw</string>
     <string name="leaderboard_total_pushups">CgkI5uO_5csSEAIQAw</string>
+    <string name="leaderboard_total_days">CgkI5uO_5csSEAIQCQ</string>
 </resources>

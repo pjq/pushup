@@ -414,6 +414,7 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         }
 
         int totalDay = AppPreference.getInstance(getApplicationContext()).getHowManyDays();
+        getGamesClient().submitScore(getString(R.string.leaderboard_total_days), totalDay);
 
         if (totalDay >= 2) {
             getGamesClient().unlockAchievement(
