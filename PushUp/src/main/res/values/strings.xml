@@ -21,5 +21,9 @@
     <string name="click_me">Click me!</string>
     <string name="victory">Victory</string>
     <string name="you_won">OK! You won!</string>
+    <string name="achievements_not_available">Please sign in to view achievements.</string>
+    <string name="leaderboards_not_available">Please sign in to view leaderboards.</string>
+    <string name="Archievement">Archievement</string>
+    <string name="LeaderBoard">LeaderBoard</string>
 
 </resources>

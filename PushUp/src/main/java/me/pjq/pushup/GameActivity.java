@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -42,6 +43,8 @@ public class GameActivity extends BaseGameActivity implements View.OnClickListen
     private static final String TAG = "TrivialQuest";
     private TextView userInfo;
     private ImageView userIcon;
+    private Button archievementButton;
+    private Button leaderboardButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,11 @@ public class GameActivity extends BaseGameActivity implements View.OnClickListen
 
         userIcon = (ImageView) findViewById(R.id.user_icon);
         userInfo = (TextView) findViewById(R.id.user_info);
+        archievementButton = (Button) findViewById(R.id.button_archievement);
+        leaderboardButton = (Button) findViewById(R.id.button_leaderboard);
+
+        archievementButton.setOnClickListener(this);
+        leaderboardButton.setOnClickListener(this);
 
         getGamesClient().registerConnectionCallbacks(new GooglePlayServicesClient.ConnectionCallbacks() {
             @Override
@@ -132,6 +140,15 @@ public class GameActivity extends BaseGameActivity implements View.OnClickListen
                 signOut();
                 showSignInBar();
                 break;
+
+            case R.id.button_archievement:
+                onShowAchievementsRequested();
+                break;
+
+            case R.id.button_leaderboard:
+                onShowLeaderboardsRequested();
+                break;
+
             case R.id.button_win:
                 // win!
                 showAlert(getString(R.string.victory), getString(R.string.you_won));
@@ -189,8 +206,27 @@ public class GameActivity extends BaseGameActivity implements View.OnClickListen
         userIcon.setImageURI(uri);
     }
 
-    private void playerList(){
+    private void playerList() {
         Game game = getGamesClient().getCurrentGame();
-        
+
+    }
+
+    // request codes we use when invoking an external activity
+    final int RC_RESOLVE = 5000, RC_UNUSED = 5001;
+
+    public void onShowAchievementsRequested() {
+        if (isSignedIn()) {
+            startActivityForResult(getGamesClient().getAchievementsIntent(), RC_UNUSED);
+        } else {
+            showAlert(getString(R.string.achievements_not_available));
+        }
+    }
+
+    public void onShowLeaderboardsRequested() {
+        if (isSignedIn()) {
+            startActivityForResult(getGamesClient().getAllLeaderboardsIntent(), RC_UNUSED);
+        } else {
+            showAlert(getString(R.string.leaderboards_not_available));
+        }
     }
 }
