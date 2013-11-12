@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.example.games.basegameutils.BaseGameActivity;
 
 /**
@@ -43,6 +44,23 @@ public class GameActivity extends BaseGameActivity implements View.OnClickListen
         findViewById(R.id.button_sign_in).setOnClickListener(this);
         findViewById(R.id.button_sign_out).setOnClickListener(this);
         findViewById(R.id.button_win).setOnClickListener(this);
+
+        getGamesClient().registerConnectionCallbacks(new GooglePlayServicesClient.ConnectionCallbacks() {
+            @Override
+            public void onConnected(Bundle bundle) {
+                showAlert("Connect", "Connected!");
+                getGamesClient().unlockAchievement(
+                        getString(R.string.achievement_activate));
+                getGamesClient().submitScore(getString(R.string.leaderboard_pushup_number), AppPreference.getInstance(getApplicationContext()).getTotalNumber());
+            }
+
+            @Override
+            public void onDisconnected() {
+                showAlert("Connect", "Disconnected!");
+            }
+        });
+
+        getGamesClient().connect();
     }
 
     // Shows the "sign in" bar (explanation and button).
@@ -106,9 +124,10 @@ public class GameActivity extends BaseGameActivity implements View.OnClickListen
                 showAlert(getString(R.string.victory), getString(R.string.you_won));
                 if (getGamesClient().isConnected()) {
                     // unlock the "Trivial Victory" achievement.
-                    getGamesClient().unlockAchievement(
-                            getString(R.string.achievement_really_bored));
                 }
+
+
+
                 break;
         }
     }
@@ -132,7 +151,7 @@ public class GameActivity extends BaseGameActivity implements View.OnClickListen
 
         // Did the developer forget to replace a placeholder ID?
         int res_ids[] = new int[] {
-                R.string.app_id, R.string.achievement_prime
+                R.string.app_id, R.string.achievement_activate
         };
 
         for (int i : res_ids) {

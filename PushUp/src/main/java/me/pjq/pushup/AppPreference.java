@@ -241,6 +241,19 @@ public class AppPreference {
     }
 
 
+    public int getTotalNumber() {
+        ArrayList<RecordItem> recordItems = getRecordItems();
+        int size = recordItems.size();
+        int total = 0;
+        for (int i = 0; i < size; i++) {
+            RecordItem item = recordItems.get(i);
+            total += item.getCount();
+        }
+
+        return total;
+    }
+
+
     public void increate(int count) {
         ArrayList<RecordItem> recordItems = getRecordItems();
 
