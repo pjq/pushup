@@ -70,7 +70,7 @@ public class GameActivity extends BaseGameActivity implements View.OnClickListen
                 showAlert("Connect", "Connected!");
                 getGamesClient().unlockAchievement(
                         getString(R.string.achievement_activate));
-                getGamesClient().submitScore(getString(R.string.leaderboard_pushup_number), AppPreference.getInstance(getApplicationContext()).getTotalNumber());
+                getGamesClient().submitScore(getString(R.string.leaderboard_total_pushups), AppPreference.getInstance(getApplicationContext()).getTotalNumber());
             }
 
             @Override

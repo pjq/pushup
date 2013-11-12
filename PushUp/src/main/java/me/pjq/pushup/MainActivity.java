@@ -330,7 +330,11 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     protected void onDestroy() {
         super.onDestroy();
 
-        bus.unregister(this);
+        try {
+            bus.unregister(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Subscribe
