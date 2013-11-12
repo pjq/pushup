@@ -14,10 +14,13 @@ repositories {
 
 dependencies {
 	//compile 'com.android.support:appcompat-v7:19.0.0'
+    compile 'com.google.android.gms:play-services:4.0.30'
+    compile project(':libraries:BaseGameUtils')
+
 
     compile files(
             'libs/square-otto-1.3.2.jar',
-            'libs/android-support-v4.jar',
+            //'libs/android-support-v4.jar',
             'libs/libGoogleAnalyticsServicesV3.jar',
     )
 }
@@ -27,7 +30,7 @@ android {
     buildToolsVersion "19.0.0"
 
     defaultConfig {
-        minSdkVersion 7
+        minSdkVersion 8
         targetSdkVersion 16
         packageName "me.pjq.pushup"
     }

@@ -12,4 +12,13 @@
     <string name="how_many_days">%d days</string>
     <string name="pushups">pushups</string>
 
+    <string name="signing_in">Signing in with Google</string>
+    <string name="signing_out">Signing out</string>
+    <string name="sign_in_explanation">Sign with Google to upload your achievements and share with friends.</string>
+    <string name="you_are_signed_in">You are signed in with Google.</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="click_me">Click me!</string>
+    <string name="victory">Victory</string>
+    <string name="you_won">OK! You won!</string>
+
 </resources>

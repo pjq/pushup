@@ -14,10 +14,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+import com.google.example.games.basegameutils.*;
 
 import java.util.ArrayList;
 
-public class MainActivity extends Activity implements View.OnClickListener {
+public class MainActivity extends BaseFragmentActivity implements View.OnClickListener {
     TextView startImageView;
     TextView pushupTextView;
     TextView resultTextView;
@@ -60,6 +61,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         pushupTextView.setOnClickListener(this);
         titlebarIcon.setOnClickListener(this);
         titlebarText.setOnClickListener(this);
+
+        if (ApplicationConfig.INSTANCE.DEBUG()) {
+            totalTextView.setOnClickListener(this);
+        }
     }
 
     @Override
@@ -166,6 +171,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.icon:
                 doAnimation();
                 handler.sendEmptyMessageDelayed(MSG_START_PROXIMITY, 300);
+                break;
+
+            case R.id.total_text:
+                Intent intent = new Intent();
+                intent.setClass(this, GameActivity.class);
+                startActivity(intent);
+
                 break;
         }
     }

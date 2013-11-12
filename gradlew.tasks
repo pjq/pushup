@@ -44,10 +44,12 @@ Install tasks
 installPushupDebug - Installs the Debug build for flavor Pushup
 installPushupRelease - Installs the Release build for flavor Pushup
 installPushupTest - Installs the Test build for the PushupDebug build
+installTest - Installs the Test build for the Debug build
 uninstallAll - Uninstall all applications.
 uninstallPushupDebug - Uninstalls the Debug build for flavor Pushup
 uninstallPushupRelease - Uninstalls the Release build for flavor Pushup
 uninstallPushupTest - Uninstalls the Test build for the PushupDebug build
+uninstallTest - Uninstalls the Test build for the Debug build
 
 Verification tasks
 ------------------
@@ -63,4 +65,4 @@ To see all tasks and more detail, run with --all.
 
 BUILD SUCCESSFUL
 
-Total time: 5.308 secs
+Total time: 7.248 secs
