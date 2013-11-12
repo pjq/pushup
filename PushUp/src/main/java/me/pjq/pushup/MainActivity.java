@@ -1,11 +1,13 @@
 package me.pjq.pushup;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.animation.Animation;
@@ -16,9 +18,18 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.google.example.games.basegameutils.*;
 
+import com.google.android.gms.common.GooglePlayServicesClient;
+import com.google.android.gms.games.Game;
+import com.google.android.gms.games.Player;
+import com.google.android.gms.internal.di;
+import com.google.android.gms.internal.ga;
+import com.google.example.games.basegameutils.BaseGameActivity;
+
 import java.util.ArrayList;
 
-public class MainActivity extends BaseFragmentActivity implements View.OnClickListener {
+public class MainActivity extends BaseGameActivity implements View.OnClickListener {
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     TextView startImageView;
     TextView pushupTextView;
     TextView resultTextView;
@@ -29,6 +40,9 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     private TextView shareTextView;
     private View titlebarIcon;
     private View titlebarText;
+
+    private TextView userInfo;
+    private ImageView userIcon;
 
     Bus bus;
 
@@ -55,16 +69,35 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         durationTextView = (TextView) findViewById(R.id.duration_time);
         levelTextView = (TextView) findViewById(R.id.level);
 
+        userIcon = (ImageView) findViewById(R.id.user_icon);
+        userInfo = (TextView) findViewById(R.id.user_info);
+
         startImageView.setOnClickListener(this);
         shareTextView.setOnClickListener(this);
         resultTextView.setOnClickListener(this);
         pushupTextView.setOnClickListener(this);
         titlebarIcon.setOnClickListener(this);
         titlebarText.setOnClickListener(this);
+        userInfo.setOnClickListener(this);
 
         if (ApplicationConfig.INSTANCE.DEBUG()) {
             totalTextView.setOnClickListener(this);
         }
+
+        getGamesClient().registerConnectionCallbacks(new GooglePlayServicesClient.ConnectionCallbacks() {
+            @Override
+            public void onConnected(Bundle bundle) {
+                //showAlert("Connect", "Connected!");
+                submitScore();
+            }
+
+            @Override
+            public void onDisconnected() {
+                showAlert("Connect", "Disconnected!");
+            }
+        });
+
+        getGamesClient().connect();
     }
 
     @Override
@@ -72,6 +105,8 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         super.onResume();
 
         showRecord();
+
+        submitScore();
     }
 
     int totalCount = 0;
@@ -126,12 +161,13 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         int id = v.getId();
 
         switch (id) {
-            case R.id.start_button:
+            case R.id.start_button: {
                 doAnimation();
                 handler.sendEmptyMessageDelayed(MSG_START_PROXIMITY, 300);
                 break;
+            }
 
-            case R.id.share_textview:
+            case R.id.share_textview: {
                 final String text = String.format(getString(R.string.share_text_full_total), totalCount);
                 final String filename = ScreenshotUtils.getshotFilePath();
                 ScreenshotUtils.shotBitmap(MainActivity.this, filename);
@@ -154,31 +190,45 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 });
                 shareTextView.startAnimation(animation);
                 break;
+            }
 
-            case R.id.result_text:
+            case R.id.result_text: {
                 showResultText();
                 break;
+            }
 
-            case R.id.pushup_text:
+            case R.id.pushup_text: {
                 showResultText();
                 break;
+            }
 
-            case R.id.title:
+            case R.id.title: {
                 doAnimation();
                 handler.sendEmptyMessageDelayed(MSG_START_PROXIMITY, 300);
                 break;
+            }
 
-            case R.id.icon:
+            case R.id.icon: {
                 doAnimation();
                 handler.sendEmptyMessageDelayed(MSG_START_PROXIMITY, 300);
                 break;
+            }
 
-            case R.id.total_text:
+            case R.id.total_text: {
                 Intent intent = new Intent();
                 intent.setClass(this, GameActivity.class);
                 startActivity(intent);
 
                 break;
+            }
+
+            case R.id.user_info: {
+                Intent intent = new Intent();
+                intent.setClass(this, GameActivity.class);
+                startActivity(intent);
+                Utils.overridePendingTransitionRight2Left((Activity) this);
+                break;
+            }
         }
     }
 
@@ -342,4 +392,93 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         showRecord();
     }
 
+    private void submitScore() {
+        if (!getGamesClient().isConnected()) {
+            return;
+        }
+
+        getGamesClient().unlockAchievement(
+                getString(R.string.achievement_activate));
+
+        int total = AppPreference.getInstance(getApplicationContext()).getTotalNumber();
+        getGamesClient().submitScore(getString(R.string.leaderboard_total_pushups), total);
+
+        if (total >= 100) {
+            getGamesClient().unlockAchievement(
+                    getString(R.string.achievement_100_pushup));
+        }
+
+        if (total >= 500) {
+            getGamesClient().unlockAchievement(
+                    getString(R.string.achievement_master_level500));
+        }
+
+        int totalDay = AppPreference.getInstance(getApplicationContext()).getHowManyDays();
+
+        if (totalDay >= 2) {
+            getGamesClient().unlockAchievement(
+                    getString(R.string.achievement_2days));
+        }
+
+        if (totalDay >= 10) {
+            getGamesClient().unlockAchievement(
+                    getString(R.string.achievement_10days));
+        }
+
+    }
+
+    // Shows the "sign in" bar (explanation and button).
+    private void showSignInBar() {
+        findViewById(R.id.sign_in_bar).setVisibility(View.VISIBLE);
+        findViewById(R.id.sign_out_bar).setVisibility(View.GONE);
+    }
+
+    // Shows the "sign out" bar (explanation and button).
+    private void showSignOutBar() {
+        findViewById(R.id.sign_in_bar).setVisibility(View.GONE);
+        findViewById(R.id.sign_out_bar).setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Called to notify us that sign in failed. Notice that a failure in sign in is not
+     * necessarily due to an error; it might be that the user never signed in, so our
+     * attempt to automatically sign in fails because the user has not gone through
+     * the authorization flow. So our reaction to sign in failure is to show the sign in
+     * button. When the user clicks that button, the sign in process will start/resume.
+     */
+    @Override
+    public void onSignInFailed() {
+        // Sign-in has failed. So show the user the sign-in button
+        // so they can click the "Sign-in" button.
+        showSignInBar();
+    }
+
+    /**
+     * Called to notify us that sign in succeeded. We react by loading the loot from the
+     * cloud and updating the UI to show a sign-out button.
+     */
+    @Override
+    public void onSignInSucceeded() {
+        // Sign-in worked!
+        showSignOutBar();
+
+        playerInfo();
+    }
+
+    private void playerInfo() {
+        Player player = getGamesClient().getCurrentPlayer();
+        String name = player.getDisplayName();
+        Uri uri = player.getIconImageUri();
+
+        String displayName;
+        if (player == null) {
+            Log.w(TAG, "mGamesClient.getCurrentPlayer() is NULL!");
+            displayName = "???";
+        } else {
+            displayName = player.getDisplayName();
+        }
+
+        userInfo.setText(String.format(getString(R.string.you_are_signed_in_as), displayName));
+        userIcon.setImageURI(uri);
+    }
 }

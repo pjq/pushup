@@ -6,6 +6,7 @@ Save this file as res/values/games-ids.xml in your project.
 <resources>
     <string name="app_id">638820807142</string>
     <string name="achievement_activate">CgkI5uO_5csSEAIQAg</string>
+    <string name="achievement_2days">CgkI5uO_5csSEAIQCA</string>
     <string name="achievement_100_pushup">CgkI5uO_5csSEAIQBA</string>
     <string name="achievement_10days">CgkI5uO_5csSEAIQBQ</string>
     <string name="achievement_50_pushup_one_time">CgkI5uO_5csSEAIQBg</string>

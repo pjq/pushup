@@ -20,20 +20,28 @@
               style="@style/MainLayout"
               tools:context=".MainActivity">
 
-    <!-- MAIN DISPLAY -->
-    <LinearLayout style="@style/MainDisplay">
+    <include
+        android:id="@+id/titleIndicatorLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/title_bar"
+        />
 
-        <Button
-            android:id="@+id/button_win"
-            android:text="@string/click_me"
-            style="@style/Button"/>
+    <!-- MAIN DISPLAY -->
+    <LinearLayout style="@style/MainDisplay"
+        android:layout_marginTop="30dip">
+
         <Button
             android:id="@+id/button_archievement"
             android:text="@string/Archievement"
+            android:layout_width="fill_parent"
             style="@style/Button"/>
+
         <Button
             android:id="@+id/button_leaderboard"
             android:text="@string/LeaderBoard"
+            android:layout_width="fill_parent"
+            android:layout_marginTop="30dip"
             style="@style/Button"/>
     </LinearLayout>
 

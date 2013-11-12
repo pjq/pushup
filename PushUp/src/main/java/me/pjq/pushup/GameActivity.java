@@ -18,6 +18,7 @@ package me.pjq.pushup;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 
 import android.widget.Button;
@@ -40,11 +41,14 @@ import com.google.example.games.basegameutils.BaseGameActivity;
  */
 public class GameActivity extends BaseGameActivity implements View.OnClickListener {
     private static boolean DEBUG_ENABLED = true;
-    private static final String TAG = "TrivialQuest";
+    private static final String TAG = "GameActivity";
     private TextView userInfo;
     private ImageView userIcon;
     private Button archievementButton;
     private Button leaderboardButton;
+
+    private View titlebarIcon;
+    private View titlebarText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,23 +58,24 @@ public class GameActivity extends BaseGameActivity implements View.OnClickListen
         setContentView(R.layout.game_activity_main);
         findViewById(R.id.button_sign_in).setOnClickListener(this);
         findViewById(R.id.button_sign_out).setOnClickListener(this);
-        findViewById(R.id.button_win).setOnClickListener(this);
 
         userIcon = (ImageView) findViewById(R.id.user_icon);
         userInfo = (TextView) findViewById(R.id.user_info);
         archievementButton = (Button) findViewById(R.id.button_archievement);
         leaderboardButton = (Button) findViewById(R.id.button_leaderboard);
+        titlebarIcon = (ImageView) findViewById(R.id.icon);
+        titlebarText = (TextView) findViewById(R.id.title);
 
         archievementButton.setOnClickListener(this);
         leaderboardButton.setOnClickListener(this);
+        titlebarIcon.setOnClickListener(this);
+        titlebarText.setOnClickListener(this);
 
         getGamesClient().registerConnectionCallbacks(new GooglePlayServicesClient.ConnectionCallbacks() {
             @Override
             public void onConnected(Bundle bundle) {
-                showAlert("Connect", "Connected!");
-                getGamesClient().unlockAchievement(
-                        getString(R.string.achievement_activate));
-                getGamesClient().submitScore(getString(R.string.leaderboard_total_pushups), AppPreference.getInstance(getApplicationContext()).getTotalNumber());
+                //showAlert("Connect", "Connected!");
+                submitScore();
             }
 
             @Override
@@ -80,6 +85,37 @@ public class GameActivity extends BaseGameActivity implements View.OnClickListen
         });
 
         getGamesClient().connect();
+    }
+
+    private void submitScore() {
+        getGamesClient().unlockAchievement(
+                getString(R.string.achievement_activate));
+
+        int total = AppPreference.getInstance(getApplicationContext()).getTotalNumber();
+        getGamesClient().submitScore(getString(R.string.leaderboard_total_pushups), total);
+
+        if (total >= 100) {
+            getGamesClient().unlockAchievement(
+                    getString(R.string.achievement_100_pushup));
+        }
+
+        if (total >= 500) {
+            getGamesClient().unlockAchievement(
+                    getString(R.string.achievement_master_level500));
+        }
+
+        int totalDay = AppPreference.getInstance(getApplicationContext()).getHowManyDays();
+
+        if (totalDay >= 2) {
+            getGamesClient().unlockAchievement(
+                    getString(R.string.achievement_2days));
+        }
+
+        if (totalDay >= 10) {
+            getGamesClient().unlockAchievement(
+                    getString(R.string.achievement_10days));
+        }
+
     }
 
     // Shows the "sign in" bar (explanation and button).
@@ -149,14 +185,12 @@ public class GameActivity extends BaseGameActivity implements View.OnClickListen
                 onShowLeaderboardsRequested();
                 break;
 
-            case R.id.button_win:
-                // win!
-                showAlert(getString(R.string.victory), getString(R.string.you_won));
-                if (getGamesClient().isConnected()) {
-                    // unlock the "Trivial Victory" achievement.
-                }
+            case R.id.title:
+                exit();
+                break;
 
-
+            case R.id.icon:
+                exit();
                 break;
         }
     }
@@ -228,5 +262,20 @@ public class GameActivity extends BaseGameActivity implements View.OnClickListen
         } else {
             showAlert(getString(R.string.leaderboards_not_available));
         }
+    }
+
+    private void exit() {
+        finish();
+        Utils.overridePendingTransitionLeft2Right(this);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (KeyEvent.KEYCODE_BACK == keyCode) {
+            exit();
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }
