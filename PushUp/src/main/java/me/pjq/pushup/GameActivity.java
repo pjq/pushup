@@ -15,11 +15,18 @@
 
 package me.pjq.pushup;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import android.widget.ImageView;
+import android.widget.TextView;
 import com.google.android.gms.common.GooglePlayServicesClient;
+import com.google.android.gms.games.Game;
+import com.google.android.gms.games.Player;
+import com.google.android.gms.internal.di;
+import com.google.android.gms.internal.ga;
 import com.google.example.games.basegameutils.BaseGameActivity;
 
 /**
@@ -29,11 +36,12 @@ import com.google.example.games.basegameutils.BaseGameActivity;
  * illustrate the simplest possible game that uses the API.
  *
  * @author Bruno Oliveira (Google)
- *
  */
 public class GameActivity extends BaseGameActivity implements View.OnClickListener {
     private static boolean DEBUG_ENABLED = true;
     private static final String TAG = "TrivialQuest";
+    private TextView userInfo;
+    private ImageView userIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +52,9 @@ public class GameActivity extends BaseGameActivity implements View.OnClickListen
         findViewById(R.id.button_sign_in).setOnClickListener(this);
         findViewById(R.id.button_sign_out).setOnClickListener(this);
         findViewById(R.id.button_win).setOnClickListener(this);
+
+        userIcon = (ImageView) findViewById(R.id.user_icon);
+        userInfo = (TextView) findViewById(R.id.user_info);
 
         getGamesClient().registerConnectionCallbacks(new GooglePlayServicesClient.ConnectionCallbacks() {
             @Override
@@ -97,6 +108,8 @@ public class GameActivity extends BaseGameActivity implements View.OnClickListen
     public void onSignInSucceeded() {
         // Sign-in worked!
         showSignOutBar();
+
+        playerInfo();
     }
 
     @Override
@@ -127,20 +140,19 @@ public class GameActivity extends BaseGameActivity implements View.OnClickListen
                 }
 
 
-
                 break;
         }
     }
 
     /**
      * Checks that the developer (that's you!) read the instructions.
-     *
+     * <p/>
      * IMPORTANT: a method like this SHOULD NOT EXIST in your production app!
      * It merely exists here to check that anyone running THIS PARTICULAR SAMPLE
      * did what they were supposed to in order for the sample to work.
      */
     boolean verifyPlaceholderIdsReplaced() {
-        if (true){
+        if (true) {
             return true;
         }
 
@@ -150,7 +162,7 @@ public class GameActivity extends BaseGameActivity implements View.OnClickListen
         if (CHECK_PKGNAME && getPackageName().startsWith("com.google.example.")) return false;
 
         // Did the developer forget to replace a placeholder ID?
-        int res_ids[] = new int[] {
+        int res_ids[] = new int[]{
                 R.string.app_id, R.string.achievement_activate
         };
 
@@ -158,5 +170,27 @@ public class GameActivity extends BaseGameActivity implements View.OnClickListen
             if (getString(i).equalsIgnoreCase("ReplaceMe")) return false;
         }
         return true;
+    }
+
+    private void playerInfo() {
+        Player player = getGamesClient().getCurrentPlayer();
+        String name = player.getDisplayName();
+        Uri uri = player.getIconImageUri();
+
+        String displayName;
+        if (player == null) {
+            Log.w(TAG, "mGamesClient.getCurrentPlayer() is NULL!");
+            displayName = "???";
+        } else {
+            displayName = player.getDisplayName();
+        }
+
+        userInfo.setText(String.format(getString(R.string.you_are_signed_in_as), displayName));
+        userIcon.setImageURI(uri);
+    }
+
+    private void playerList(){
+        Game game = getGamesClient().getCurrentGame();
+        
     }
 }

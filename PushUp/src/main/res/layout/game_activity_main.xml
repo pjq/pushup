@@ -16,32 +16,53 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" style="@style/MainLayout"
-    tools:context=".MainActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              style="@style/MainLayout"
+              tools:context=".MainActivity">
 
     <!-- MAIN DISPLAY -->
     <FrameLayout style="@style/MainDisplay">
-        <Button android:id="@+id/button_win" android:text="@string/click_me"
-            style="@style/Button" />
+
+        <Button
+            android:id="@+id/button_win"
+            android:text="@string/click_me"
+            style="@style/Button"/>
     </FrameLayout>
 
     <!-- SIGN-IN BAR -->
-    <LinearLayout android:id="@+id/sign_in_bar" style="@style/SignInOutBar">
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/button_sign_in" style="@style/SignInButton" />
+    <LinearLayout
+        android:id="@+id/sign_in_bar"
+        style="@style/SignInOutBar">
 
-        <TextView style="@style/SignInOutBarBlurb" android:text="@string/sign_in_explanation" />
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/button_sign_in"
+            style="@style/SignInButton"/>
+
+        <TextView
+            style="@style/SignInOutBarBlurb"
+            android:text="@string/sign_in_explanation"/>
     </LinearLayout>
 
     <!-- SIGN-OUT BAR -->
-    <LinearLayout android:id="@+id/sign_out_bar" style="@style/SignInOutBar"
+    <LinearLayout
+        android:id="@+id/sign_out_bar"
+        style="@style/SignInOutBar"
         android:visibility="gone">
 
-        <TextView style="@style/SignInOutBarBlurb"
-            android:text="@string/you_are_signed_in" />
+        <ImageView
+            android:id="@+id/user_icon"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            ></ImageView>
 
-         <Button style="@style/SignOutButton" android:id="@+id/button_sign_out"
-             android:text="@string/sign_out" />
+        <TextView
+            android:id="@+id/user_info"
+            style="@style/SignInOutBarBlurb"
+            android:text="@string/you_are_signed_in"/>
 
+        <Button
+            style="@style/SignOutButton"
+            android:id="@+id/button_sign_out"
+            android:text="@string/sign_out"/>
     </LinearLayout>
 </LinearLayout>

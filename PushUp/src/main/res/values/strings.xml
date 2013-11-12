@@ -16,6 +16,7 @@
     <string name="signing_out">Signing out</string>
     <string name="sign_in_explanation">Sign with Google to upload your achievements and share with friends.</string>
     <string name="you_are_signed_in">You are signed in with Google.</string>
+    <string name="you_are_signed_in_as">You are signed in as %s with Google.</string>
     <string name="sign_out">Sign Out</string>
     <string name="click_me">Click me!</string>
     <string name="victory">Victory</string>
