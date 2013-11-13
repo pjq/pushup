@@ -53,6 +53,8 @@ public class ProximityFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     protected void ensureUi() {
+        onMyResume();
+
         countTextView = (TextView) view.findViewById(R.id.count_textview);
         refreshButton = (ImageView) view.findViewById(R.id.refresh_button);
         tipsTextView = (TextView) view.findViewById(R.id.tips_textview);
@@ -97,15 +99,14 @@ public class ProximityFragment extends BaseFragment implements View.OnClickListe
         this.mgr = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         this.proximity = this.mgr.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         this.vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+
     }
 
 
     private boolean alreadyRegistered = false;
     private boolean alreadyStartCountDown = false;
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    public void onMyResume() {
         isShow = true;
         if (!alreadyRegistered) {
             EFLogger.d(TAG, "registerListener...");
@@ -384,7 +385,7 @@ public class ProximityFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void changeToFragment(String tag) {
         if (tag.equalsIgnoreCase(TAG)) {
-            onResume();
+            onMyResume();
             isShow = true;
         } else {
             isShow = false;
