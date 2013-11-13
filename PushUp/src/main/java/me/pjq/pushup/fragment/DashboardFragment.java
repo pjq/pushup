@@ -10,13 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.android.gms.games.GamesClient;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import me.pjq.pushup.*;
-import me.pjq.pushup.activity.DashboardActivity;
+import me.pjq.pushup.utils.TitlebarHelper;
 import me.pjq.pushup.utils.Utils;
 
 import java.util.ArrayList;
@@ -37,12 +36,11 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     TextView durationTextView;
     TextView levelTextView;
 
-    private View titlebarIcon;
-    private View titlebarText;
     Bus bus;
 
     AppPreference appPreference;
-    DashboardActivity dashboardActivity;
+    FragmentController fragmentController;
+    private TitlebarHelper titlebarHelper;
 
     public static DashboardFragment newInstance(Bundle bundle) {
         DashboardFragment fragment = new DashboardFragment();
@@ -70,15 +68,22 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         daysTextView = (TextView) view.findViewById(R.id.days);
         durationTextView = (TextView) view.findViewById(R.id.duration_time);
         levelTextView = (TextView) view.findViewById(R.id.level);
-        titlebarIcon = (ImageView) view.findViewById(R.id.icon);
-        titlebarText = (TextView) view.findViewById(R.id.title);
 
         startImageView.setOnClickListener(this);
         resultTextView.setOnClickListener(this);
         pushupTextView.setOnClickListener(this);
 
-        titlebarIcon.setOnClickListener(this);
-        titlebarText.setOnClickListener(this);
+        titlebarHelper = new TitlebarHelper(view, new TitlebarHelper.OnTitlebarClickListener() {
+            @Override
+            public void onClickIcon() {
+                fragmentController.showFragment(ProximityFragment.TAG);
+            }
+
+            @Override
+            public void onClickTitle() {
+                fragmentController.showFragment(ProximityFragment.TAG);
+            }
+        });
 
         if (ApplicationConfig.INSTANCE.DEBUG()) {
             totalTextView.setOnClickListener(this);
@@ -95,11 +100,11 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
         appPreference = AppPreference.getInstance(getApplicationContext());
 
-        dashboardActivity = (DashboardActivity) getActivity();
+        fragmentController = (FragmentController) getActivity();
     }
 
     private GamesClient getGamesClient() {
-        return dashboardActivity.getGamesClientPublic();
+        return fragmentController.getGamesClientPublic();
     }
 
     @Override
@@ -155,7 +160,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
         switch (id) {
             case R.id.start_button: {
-                dashboardActivity.showProximityFragment();
+                fragmentController.showFragment(ProximityFragment.TAG);
 
                 break;
             }
@@ -170,35 +175,20 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
                 break;
             }
 
-            case R.id.total_text: {
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), GameActivity.class);
-                startActivity(intent);
-
-                break;
-            }
+//            case R.id.total_text: {
+//                Intent intent = new Intent();
+//                intent.setClass(getActivity(), GameActivity.class);
+//                startActivity(intent);
+//
+//                break;
+//            }
 
             case R.id.user_info: {
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), GameActivity.class);
-                startActivity(intent);
-                Utils.overridePendingTransitionRight2Left(getActivity());
-                break;
-            }
-
-            case R.id.title: {
-//                doAnimation();
-//                handler.sendEmptyMessageDelayed(MSG_START_PROXIMITY, 300);
-//                handler.sendEmptyMessageDelayed(MSG_START_PROXIMITY, 300);
-                dashboardActivity.showProximityFragment();
-                break;
-            }
-
-            case R.id.icon: {
-//                doAnimation();
-//                handler.sendEmptyMessageDelayed(MSG_START_PROXIMITY, 300);
-                dashboardActivity.showProximityFragment();
-
+//                Intent intent = new Intent();
+//                intent.setClass(getActivity(), GameActivity.class);
+//                startActivity(intent);
+//                Utils.overridePendingTransitionRight2Left(getActivity());
+                fragmentController.showFragment(GameBoardFragment.TAG);
                 break;
             }
         }
@@ -363,5 +353,14 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     @Subscribe
     public void updateCount(UpdateMsg updateMsg) {
         showRecord();
+    }
+
+    @Override
+    public void changeToFragment(String tag) {
+        if (tag.equalsIgnoreCase(TAG)) {
+            onResume();
+        } else {
+
+        }
     }
 }

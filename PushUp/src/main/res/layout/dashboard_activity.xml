@@ -38,6 +38,7 @@
             android:id="@+id/user_icon"
             android:layout_width="50dip"
             android:layout_height="50dip"
+            android:background="@drawable/ic_game"
             ></ImageView>
 
         <TextView
@@ -51,6 +52,15 @@
             android:text="@string/sign_out"/>
     </LinearLayout>
 
+
+    <FrameLayout
+        android:layout_below="@id/titleIndicatorLayout"
+        android:layout_above="@id/sign_in_bar"
+        android:id="@+id/mainFrameLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        />
+
     <TextView
         android:id="@+id/share_textview"
         android:layout_height="60dip"
@@ -63,13 +73,4 @@
         android:gravity="center"
         style="@style/ShareTextStyle"
         ></TextView>
-
-    <FrameLayout
-        android:layout_below="@id/titleIndicatorLayout"
-        android:layout_above="@id/sign_in_bar"
-        android:id="@+id/mainFrameLayout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        />
-
 </RelativeLayout>

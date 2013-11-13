@@ -13,6 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.*;
 import me.pjq.pushup.*;
 import me.pjq.pushup.activity.DashboardActivity;
+import me.pjq.pushup.utils.TitlebarHelper;
 import me.pjq.pushup.utils.Utils;
 
 /**
@@ -30,8 +31,6 @@ public class ProximityFragment extends BaseFragment implements View.OnClickListe
     private TextView infoTextView;
     private TextView shareTextView;
     private ImageView refreshButton;
-    private View titlebarIcon;
-    private View titlebarText;
 
     private int count = 0;
     private long lastTime;
@@ -39,7 +38,8 @@ public class ProximityFragment extends BaseFragment implements View.OnClickListe
 
     private View view;
 
-    private DashboardActivity dashboardActivity;
+    private FragmentController fragmentController;
+    private TitlebarHelper titlebarHelper;
 
     public static ProximityFragment newInstance(Bundle bundle) {
         ProximityFragment fragment = new ProximityFragment();
@@ -58,15 +58,23 @@ public class ProximityFragment extends BaseFragment implements View.OnClickListe
         tipsTextView = (TextView) view.findViewById(R.id.tips_textview);
         infoTextView = (TextView) view.findViewById(R.id.info_textview);
         shareTextView = (TextView) view.findViewById(R.id.share_textview);
-        titlebarIcon = (ImageView) view.findViewById(R.id.icon);
-        titlebarText = (TextView) view.findViewById(R.id.title);
 
 
         refreshButton.setOnClickListener(this);
         shareTextView.setOnClickListener(this);
         countTextView.setOnClickListener(this);
-        titlebarIcon.setOnClickListener(this);
-        titlebarText.setOnClickListener(this);
+
+        titlebarHelper = new TitlebarHelper(view, new TitlebarHelper.OnTitlebarClickListener() {
+            @Override
+            public void onClickIcon() {
+                fragmentController.showFragment(DashboardFragment.TAG);
+            }
+
+            @Override
+            public void onClickTitle() {
+                fragmentController.showFragment(DashboardFragment.TAG);
+            }
+        });
 
         shareTextView.setVisibility(View.GONE);
     }
@@ -83,7 +91,7 @@ public class ProximityFragment extends BaseFragment implements View.OnClickListe
         super.onCreate(arg0);
 
         speakerUtil = SpeakerUtil.getInstance(getApplicationContext());
-        dashboardActivity = (DashboardActivity) getActivity();
+        fragmentController = (FragmentController) getActivity();
 
 
         this.mgr = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
@@ -98,7 +106,7 @@ public class ProximityFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void onResume() {
         super.onResume();
-
+        isShow = true;
         if (!alreadyRegistered) {
             EFLogger.d(TAG, "registerListener...");
 
@@ -120,6 +128,10 @@ public class ProximityFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+        if (!isShow) {
+            return;
+        }
+
         float thisVal = event.values[0];
         EFLogger.d(TAG, "onSensorChanged...,thisVal=" + thisVal);
         if (this.lastVal == -1) {
@@ -244,22 +256,6 @@ public class ProximityFragment extends BaseFragment implements View.OnClickListe
 
                 break;
 
-            case R.id.title: {
-//                doAnimation();
-//                handler.sendEmptyMessageDelayed(MSG_START_PROXIMITY, 300);
-//                handler.sendEmptyMessageDelayed(MSG_START_PROXIMITY, 300);
-                dashboardActivity.showDashboardFragment();
-                break;
-            }
-
-            case R.id.icon: {
-//                doAnimation();
-//                handler.sendEmptyMessageDelayed(MSG_START_PROXIMITY, 300);
-                dashboardActivity.showDashboardFragment();
-
-                break;
-            }
-
             default:
                 break;
         }
@@ -276,16 +272,6 @@ public class ProximityFragment extends BaseFragment implements View.OnClickListe
         getActivity().finish();
         Utils.overridePendingTransitionLeft2Right(getActivity());
     }
-
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (KeyEvent.KEYCODE_BACK == keyCode) {
-//            exit();
-//            return true;
-//        }
-//
-//        return super.onKeyDown(keyCode, event);
-//    }
 
     @Override
     public void onDestroy() {
@@ -390,5 +376,31 @@ public class ProximityFragment extends BaseFragment implements View.OnClickListe
 
     private void speak(String text) {
         speakerUtil.speak(text);
+    }
+
+
+    private boolean isShow;
+
+    @Override
+    public void changeToFragment(String tag) {
+        if (tag.equalsIgnoreCase(TAG)) {
+            onResume();
+            isShow = true;
+        } else {
+            isShow = false;
+            onPause();
+            alreadyRegistered = false;
+            alreadyStartCountDown = false;
+            countDown = 3;
+            if (count > 0) {
+                AppPreference.getInstance(getApplicationContext()).increate(count);
+            }
+
+            handler.removeMessages(MSG_COUNT_DOWN);
+
+            Utils.sendUpdateMsg();
+
+            count = 0;
+        }
     }
 }

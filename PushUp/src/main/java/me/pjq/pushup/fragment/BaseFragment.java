@@ -15,7 +15,7 @@ import me.pjq.pushup.utils.Utils;
 /**
  * Created by pengjianqing on 5/24/13.
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements FragmentBridge{
     private String TAG;
 
     private View mFragmentView;

@@ -1,7 +1,5 @@
 package me.pjq.pushup.activity;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +7,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -17,54 +17,38 @@ import com.google.android.gms.games.Player;
 import com.google.example.games.basegameutils.BaseGameActivity;
 import com.squareup.otto.Bus;
 import me.pjq.pushup.*;
-import me.pjq.pushup.fragment.DashboardFragment;
-import me.pjq.pushup.fragment.ProximityFragment;
+import me.pjq.pushup.fragment.*;
+import me.pjq.pushup.utils.TitlebarHelper;
 import me.pjq.pushup.utils.Utils;
 
 /**
  * Created by pengjianqing on 11/13/13.
  */
-public class DashboardActivity extends BaseGameActivity implements View.OnClickListener {
+public class DashboardActivity extends BaseGameActivity implements View.OnClickListener, FragmentController {
     private static final String TAG = DashboardActivity.class.getSimpleName();
-
-    private View titlebarIcon;
-    private View titlebarText;
-
     private TextView userInfo;
     private ImageView userIcon;
+    private TextView share;
 
     Bus bus;
-
     AppPreference appPreference;
 
     int CONTENT_VIEW_ID;
-
     DashboardFragment dashboardFragment;
     ProximityFragment proximityFragment;
+
+    private String currentFragmentTag;
+    private TitlebarHelper titlebarHelper;
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
 
         switch (id) {
-            case R.id.title: {
-//                doAnimation();
-//                handler.sendEmptyMessageDelayed(MSG_START_PROXIMITY, 300);
-                break;
-            }
-
-            case R.id.icon: {
-//                doAnimation();
-//                handler.sendEmptyMessageDelayed(MSG_START_PROXIMITY, 300);
-
-                break;
-            }
-
+            case R.id.user_icon:
             case R.id.user_info: {
-                Intent intent = new Intent();
-                intent.setClass(this, GameActivity.class);
-                startActivity(intent);
-                Utils.overridePendingTransitionRight2Left((Activity) this);
+                showGameFragment();
+
                 break;
             }
 
@@ -78,6 +62,31 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
                 signOut();
                 showSignInBar();
                 break;
+
+            case R.id.share_textview: {
+                final String text = String.format(getString(R.string.share_text_full_total), appPreference.getTotalNumber());
+                final String filename = ScreenshotUtils.getshotFilePath();
+                ScreenshotUtils.shotBitmap(DashboardActivity.this, filename);
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        Utils.share(DashboardActivity.this, DashboardActivity.this.getString(R.string.app_name), text, filename);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                share.startAnimation(animation);
+                break;
+            }
         }
     }
 
@@ -91,23 +100,29 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
         bus.register(this);
 
         appPreference = AppPreference.getInstance(getApplicationContext());
+        titlebarHelper = new TitlebarHelper(DashboardActivity.this, new TitlebarHelper.OnTitlebarClickListener() {
+            @Override
+            public void onClickIcon() {
+            }
 
-        titlebarIcon = (ImageView) findViewById(R.id.icon);
-        titlebarText = (TextView) findViewById(R.id.title);
+            @Override
+            public void onClickTitle() {
+            }
+        });
 
         userIcon = (ImageView) findViewById(R.id.user_icon);
         userInfo = (TextView) findViewById(R.id.user_info);
+        share = (TextView) findViewById(R.id.share_textview);
 
-        titlebarIcon.setOnClickListener(this);
-        titlebarText.setOnClickListener(this);
         userInfo.setOnClickListener(this);
+        userIcon.setOnClickListener(this);
+        share.setOnClickListener(this);
         findViewById(R.id.button_sign_in).setOnClickListener(this);
         findViewById(R.id.button_sign_out).setOnClickListener(this);
 
         getGamesClient().registerConnectionCallbacks(new GooglePlayServicesClient.ConnectionCallbacks() {
             @Override
             public void onConnected(Bundle bundle) {
-                //showAlert("Connect", "Connected!");
                 submitScore();
             }
 
@@ -122,11 +137,9 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
         showDashboardFragment();
     }
 
-    public GamesClient getGamesClientPublic() {
-        return getGamesClient();
-    }
 
     public void showProximityFragment() {
+        currentFragmentTag = ProximityFragment.TAG;
         Fragment fragment = findFragmentByTag(ProximityFragment.TAG);
         hideTheOtherFragment();
 
@@ -138,9 +151,29 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
         } else {
             showFragment(fragment, ProximityFragment.TAG, fromLeft2Right());
         }
+
+        notifyFragmentChangeAll(ProximityFragment.TAG);
+    }
+
+    public void showGameFragment() {
+        currentFragmentTag = GameBoardFragment.TAG;
+        Fragment fragment = findFragmentByTag(GameBoardFragment.TAG);
+        hideTheOtherFragment();
+
+        if (null == fragment) {
+            fragment = GameBoardFragment.newInstance(new Bundle());
+//            replaceChildFragment(fragment, GameBoardFragment.TAG, fromLeft2Right());
+            addChildFragment(fragment, GameBoardFragment.TAG, fromLeft2Right());
+
+        } else {
+            showFragment(fragment, GameBoardFragment.TAG, fromLeft2Right());
+        }
+
+        notifyFragmentChangeAll(GameBoardFragment.TAG);
     }
 
     public void showDashboardFragment() {
+        currentFragmentTag = DashboardFragment.TAG;
         Fragment fragment = findFragmentByTag(DashboardFragment.TAG);
         hideTheOtherFragment();
 
@@ -152,6 +185,21 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
         } else {
             showFragment(fragment, DashboardFragment.TAG, fromLeft2Right());
         }
+
+        notifyFragmentChangeAll(DashboardFragment.TAG);
+    }
+
+    private void notifyFragmentChange(String fragmentTag, String tag) {
+        Fragment fragment = findFragmentByTag(fragmentTag);
+        if (null != fragment) {
+            ((FragmentBridge) fragment).changeToFragment(tag);
+        }
+    }
+
+    private void notifyFragmentChangeAll(String tag) {
+        notifyFragmentChange(ProximityFragment.TAG, tag);
+        notifyFragmentChange(DashboardFragment.TAG, tag);
+        notifyFragmentChange(GameBoardFragment.TAG, tag);
     }
 
 
@@ -174,6 +222,9 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
         hideFragment(fragment, fromLeft2Right());
 
         fragment = findFragmentByTag(DashboardFragment.TAG);
+        hideFragment(fragment, fromLeft2Right());
+
+        fragment = findFragmentByTag(GameBoardFragment.TAG);
         hideFragment(fragment, fromLeft2Right());
     }
 
@@ -399,13 +450,41 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
         fragmentTransaction.commitAllowingStateLoss();
     }
 
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (KeyEvent.KEYCODE_BACK == keyCode) {
-//            exit();
-//            return true;
-//        }
-//
-//        return super.onKeyDown(keyCode, event);
-//    }
+    @Override
+    public void showFragment(String tag) {
+        if (tag.equalsIgnoreCase(DashboardFragment.TAG)) {
+            showDashboardFragment();
+        } else if (tag.equalsIgnoreCase(ProximityFragment.TAG)) {
+            showProximityFragment();
+        } else if (tag.equalsIgnoreCase(GameBoardFragment.TAG)) {
+            showGameFragment();
+        }
+    }
+
+    @Override
+    public GamesClient getGamesClientPublic() {
+        return getGamesClient();
+    }
+
+    @Override
+    public boolean isSignedInPublic() {
+        return isSignedIn();
+    }
+
+    @Override
+    public void showAlertPublic(String message) {
+        showAlert(message);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (KeyEvent.KEYCODE_BACK == keyCode) {
+            if (!currentFragmentTag.equalsIgnoreCase(DashboardFragment.TAG)) {
+                showDashboardFragment();
+                return true;
+            }
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
 }
