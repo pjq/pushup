@@ -3,6 +3,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:context=".MainActivity">
+
+    <include
+        android:id="@+id/titleIndicatorLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/title_bar"
+        />
+
+
     <View
         android:id="@+id/center_line"
         android:layout_height="0dip"

@@ -3,7 +3,7 @@ package me.pjq.pushup;
 /**
  * Created by pengjianqing on 11/5/13.
  */
-public interface MyWordsConfigInterface {
+public interface MyApplicationConfigInterface {
 
     public boolean DEBUG();
 

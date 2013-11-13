@@ -1,6 +1,6 @@
 package me.pjq.pushup;
 
-public enum ApplicationConfig implements MyWordsConfigInterface {
+public enum ApplicationConfig implements MyApplicationConfigInterface {
     INSTANCE;
 
     public boolean DEBUG() {

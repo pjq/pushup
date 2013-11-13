@@ -1,4 +1,4 @@
-package me.pjq.pushup;
+package me.pjq.pushup.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,6 +6,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.FrameLayout;
 import com.squareup.otto.Bus;
+import me.pjq.pushup.EFLogger;
+import me.pjq.pushup.R;
+import me.pjq.pushup.ServiceProvider;
+import me.pjq.pushup.StatUtil;
 
 public class BaseFragmentActivity extends FragmentActivity {
     private static final String TAG = BaseFragmentActivity.class.getSimpleName();

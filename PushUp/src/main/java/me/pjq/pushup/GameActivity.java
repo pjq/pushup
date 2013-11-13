@@ -27,9 +27,8 @@ import android.widget.TextView;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.games.Game;
 import com.google.android.gms.games.Player;
-import com.google.android.gms.internal.di;
-import com.google.android.gms.internal.ga;
 import com.google.example.games.basegameutils.BaseGameActivity;
+import me.pjq.pushup.utils.Utils;
 
 /**
  * Trivial quest. A sample game that sets up the Google Play game services

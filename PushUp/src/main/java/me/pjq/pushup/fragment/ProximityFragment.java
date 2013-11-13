@@ -1,28 +1,25 @@
-package me.pjq.pushup;
+package me.pjq.pushup.fragment;
 
+import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.Message;
-import android.os.Vibrator;
-import android.view.KeyEvent;
+import android.os.*;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.TextView;
-import me.pjq.pushup.activity.BaseFragmentActivity;
+import android.widget.*;
+import me.pjq.pushup.*;
+import me.pjq.pushup.activity.DashboardActivity;
 import me.pjq.pushup.utils.Utils;
 
-
 /**
- * Created by pengjianqing on 11/8/13.
+ * Created by pjq on 5/26/13.
  */
-public class ProximityActivity extends BaseFragmentActivity implements SensorEventListener, View.OnClickListener {
-    private static final String TAG = ProximityActivity.class.getSimpleName();
+public class ProximityFragment extends BaseFragment implements View.OnClickListener, SensorEventListener {
+    public static final String TAG = ProximityActivity.class.getSimpleName();
 
     private SensorManager mgr;
     private Sensor proximity;
@@ -33,41 +30,65 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
     private TextView infoTextView;
     private TextView shareTextView;
     private ImageView refreshButton;
-    private int count = 0;
-    private long lastTime;
     private View titlebarIcon;
     private View titlebarText;
+
+    private int count = 0;
+    private long lastTime;
     private SpeakerUtil speakerUtil;
 
+    private View view;
+
+    private DashboardActivity dashboardActivity;
+
+    public static ProximityFragment newInstance(Bundle bundle) {
+        ProximityFragment fragment = new ProximityFragment();
+
+        if (null != bundle) {
+            fragment.setArguments(bundle);
+        }
+
+        return fragment;
+    }
 
     @Override
-    protected void onCreate(Bundle arg0) {
-        super.onCreate(arg0);
+    protected void ensureUi() {
+        countTextView = (TextView) view.findViewById(R.id.count_textview);
+        refreshButton = (ImageView) view.findViewById(R.id.refresh_button);
+        tipsTextView = (TextView) view.findViewById(R.id.tips_textview);
+        infoTextView = (TextView) view.findViewById(R.id.info_textview);
+        shareTextView = (TextView) view.findViewById(R.id.share_textview);
+        titlebarIcon = (ImageView) view.findViewById(R.id.icon);
+        titlebarText = (TextView) view.findViewById(R.id.title);
 
-        setContentView(R.layout.proximity);
-
-        speakerUtil = SpeakerUtil.getInstance(getApplicationContext());
-
-        countTextView = (TextView) findViewById(R.id.count_textview);
-        refreshButton = (ImageView) findViewById(R.id.refresh_button);
-        tipsTextView = (TextView) findViewById(R.id.tips_textview);
-        infoTextView = (TextView) findViewById(R.id.info_textview);
-        shareTextView = (TextView) findViewById(R.id.share_textview);
-        titlebarIcon = (ImageView) findViewById(R.id.icon);
-        titlebarText = (TextView) findViewById(R.id.title);
 
         refreshButton.setOnClickListener(this);
-        titlebarIcon.setOnClickListener(this);
-        titlebarText.setOnClickListener(this);
         shareTextView.setOnClickListener(this);
         countTextView.setOnClickListener(this);
+        titlebarIcon.setOnClickListener(this);
+        titlebarText.setOnClickListener(this);
+
+        shareTextView.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected View onGetFragmentView(LayoutInflater inflater) {
+        view = inflater.inflate(R.layout.proximity_fragment, null);
+
+        return view;
+    }
+
+    @Override
+    public void onCreate(Bundle arg0) {
+        super.onCreate(arg0);
+
+        speakerUtil = SpeakerUtil.getInstance(getApplicationContext());
+        dashboardActivity = (DashboardActivity) getActivity();
 
 
-        this.mgr = (SensorManager) this.getSystemService(SENSOR_SERVICE);
+        this.mgr = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         this.proximity = this.mgr.getDefaultSensor(Sensor.TYPE_PROXIMITY);
-        this.vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
-
-
+        this.vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
     }
 
 
@@ -75,11 +96,11 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
     private boolean alreadyStartCountDown = false;
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
 
         if (!alreadyRegistered) {
-            EFLogger.d(ProximityActivity.TAG, "registerListener...");
+            EFLogger.d(TAG, "registerListener...");
 
             mgr.registerListener(this, proximity,
                     SensorManager.SENSOR_DELAY_NORMAL);
@@ -93,14 +114,14 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
         float thisVal = event.values[0];
-        EFLogger.d(ProximityActivity.TAG, "onSensorChanged...,thisVal=" + thisVal);
+        EFLogger.d(TAG, "onSensorChanged...,thisVal=" + thisVal);
         if (this.lastVal == -1) {
             this.lastVal = thisVal;
         } else {
@@ -119,7 +140,7 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
             this.lastVal = thisVal;
         }
         String msg = "Current val: " + this.lastVal;
-        EFLogger.d(ProximityActivity.TAG, msg);
+        EFLogger.d(TAG, msg);
     }
 
     private boolean increateCount() {
@@ -177,7 +198,7 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         String name = sensor.getName();
         float range = sensor.getMaximumRange();
-        EFLogger.d(ProximityActivity.TAG, "onAccuracyChanged...,accuracy=" + accuracy + ",name=" + name + ",range=" + range);
+        EFLogger.d(TAG, "onAccuracyChanged...,accuracy=" + accuracy + ",name=" + name + ",range=" + range);
         if (ApplicationConfig.INSTANCE.DEBUG()) {
             //updateInfo("accuracy=" + accuracy + ",name=" + name + ",range=" + range);
         }
@@ -198,18 +219,10 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
                 updateCount();
                 break;
 
-            case R.id.title:
-                exit();
-                break;
-
-            case R.id.icon:
-                exit();
-                break;
-
             case R.id.share_textview:
                 final String text = String.format(getString(R.string.share_text_full), count);
                 final String filename = ScreenshotUtils.getshotFilePath();
-                ScreenshotUtils.shotBitmap(ProximityActivity.this, filename);
+                ScreenshotUtils.shotBitmap(getActivity(), filename);
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
                 animation.setAnimationListener(new Animation.AnimationListener() {
                     @Override
@@ -219,7 +232,7 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        Utils.share(ProximityActivity.this, ProximityActivity.this.getString(R.string.app_name), text, filename);
+                        Utils.share(getActivity(), getString(R.string.app_name), text, filename);
                     }
 
                     @Override
@@ -230,6 +243,22 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
                 shareTextView.startAnimation(animation);
 
                 break;
+
+            case R.id.title: {
+//                doAnimation();
+//                handler.sendEmptyMessageDelayed(MSG_START_PROXIMITY, 300);
+//                handler.sendEmptyMessageDelayed(MSG_START_PROXIMITY, 300);
+                dashboardActivity.showDashboardFragment();
+                break;
+            }
+
+            case R.id.icon: {
+//                doAnimation();
+//                handler.sendEmptyMessageDelayed(MSG_START_PROXIMITY, 300);
+                dashboardActivity.showDashboardFragment();
+
+                break;
+            }
 
             default:
                 break;
@@ -244,25 +273,25 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
         handler.removeMessages(MSG_COUNT_DOWN);
 
         Utils.sendUpdateMsg();
-        finish();
-        Utils.overridePendingTransitionLeft2Right(this);
+        getActivity().finish();
+        Utils.overridePendingTransitionLeft2Right(getActivity());
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (KeyEvent.KEYCODE_BACK == keyCode) {
-            exit();
-            return true;
-        }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (KeyEvent.KEYCODE_BACK == keyCode) {
+//            exit();
+//            return true;
+//        }
+//
+//        return super.onKeyDown(keyCode, event);
+//    }
 
-        return super.onKeyDown(keyCode, event);
-    }
-
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
 
-        EFLogger.d(ProximityActivity.TAG, "unregisterListener...");
+        EFLogger.d(TAG, "unregisterListener...");
         mgr.unregisterListener(this, proximity);
     }
 
