@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <application
         android:name="me.pjq.pushup.MyApplication"
@@ -35,6 +36,7 @@
             android:screenOrientation="portrait">
 
         </activity>
+
         <activity
             android:name="me.pjq.pushup.ProximityActivity"
             android:configChanges="orientation|keyboardHidden"

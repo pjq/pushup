@@ -108,6 +108,11 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         submitScore();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
     int totalCount = 0;
 
     private void showRecord() {
@@ -384,7 +389,6 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         });
         resultTextView.startAnimation(animation);
     }
-
 
     @Override
     protected void onDestroy() {
