@@ -47,7 +47,7 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
         switch (id) {
             case R.id.user_icon:
             case R.id.user_info: {
-                showGameFragment();
+                showGameBoardFragment();
 
                 break;
             }
@@ -155,7 +155,7 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
         notifyFragmentChangeAll(ProximityFragment.TAG);
     }
 
-    public void showGameFragment() {
+    public void showGameBoardFragment() {
         currentFragmentTag = GameBoardFragment.TAG;
         Fragment fragment = findFragmentByTag(GameBoardFragment.TAG);
         hideTheOtherFragment();
@@ -189,6 +189,23 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
         notifyFragmentChangeAll(DashboardFragment.TAG);
     }
 
+    public void showLanGameFragment() {
+        currentFragmentTag = LanGameFragment.TAG;
+        Fragment fragment = findFragmentByTag(LanGameFragment.TAG);
+        hideTheOtherFragment();
+
+        if (null == fragment) {
+            fragment = LanGameFragment.newInstance(new Bundle());
+//            replaceChildFragment(fragment, LanGameFragment.TAG, fromLeft2Right());
+            addChildFragment(fragment, LanGameFragment.TAG, fromLeft2Right());
+
+        } else {
+            showFragment(fragment, LanGameFragment.TAG, fromLeft2Right());
+        }
+
+        notifyFragmentChangeAll(LanGameFragment.TAG);
+    }
+
     private void notifyFragmentChange(String fragmentTag, String tag) {
         Fragment fragment = findFragmentByTag(fragmentTag);
         if (null != fragment) {
@@ -200,6 +217,7 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
         notifyFragmentChange(ProximityFragment.TAG, tag);
         notifyFragmentChange(DashboardFragment.TAG, tag);
         notifyFragmentChange(GameBoardFragment.TAG, tag);
+        notifyFragmentChange(LanGameFragment.TAG, tag);
     }
 
 
@@ -225,6 +243,9 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
         hideFragment(fragment, fromLeft2Right());
 
         fragment = findFragmentByTag(GameBoardFragment.TAG);
+        hideFragment(fragment, fromLeft2Right());
+
+        fragment = findFragmentByTag(LanGameFragment.TAG);
         hideFragment(fragment, fromLeft2Right());
     }
 
@@ -457,7 +478,9 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
         } else if (tag.equalsIgnoreCase(ProximityFragment.TAG)) {
             showProximityFragment();
         } else if (tag.equalsIgnoreCase(GameBoardFragment.TAG)) {
-            showGameFragment();
+            showGameBoardFragment();
+        } else if (tag.equalsIgnoreCase(LanGameFragment.TAG)) {
+            showLanGameFragment();
         }
     }
 

@@ -127,9 +127,17 @@
     <style name="Button">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center</item>
         <item name="android:textColor">@color/whiteColor</item>
+        <item name="android:gravity">center</item>
         <item name="android:background">@color/blue</item>
+    </style>
+
+    <style name="PlayerItemStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">#808080</item>
+        <item name="android:gravity">center</item>
     </style>
 
 </resources>

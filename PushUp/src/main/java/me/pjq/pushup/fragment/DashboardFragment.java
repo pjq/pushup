@@ -160,7 +160,8 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
         switch (id) {
             case R.id.start_button: {
-                fragmentController.showFragment(ProximityFragment.TAG);
+//                fragmentController.showFragment(ProximityFragment.TAG);
+                fragmentController.showFragment(LanGameFragment.TAG);
 
                 break;
             }
