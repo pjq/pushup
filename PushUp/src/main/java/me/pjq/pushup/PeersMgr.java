@@ -37,6 +37,7 @@ public class PeersMgr {
     private static final String TAG = "PeersMgr";
 
     private static final String CHAT_CLUSTER = "WeUp";
+    private static final int DELAY_TIME = 1000 * 60;
 
     JChannel channel;
     String userName;
@@ -138,7 +139,7 @@ public class PeersMgr {
                 sendMessage("NTP:" + data.getTime());
 
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(DELAY_TIME);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
