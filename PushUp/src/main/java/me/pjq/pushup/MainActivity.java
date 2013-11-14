@@ -69,6 +69,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
         showRecord();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        bus.unregister(this);
+    }
+
     int totalCount = 0;
 
     private void showRecord() {
@@ -311,14 +323,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         });
         resultTextView.startAnimation(animation);
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        bus.unregister(this);
     }
 
     @Subscribe

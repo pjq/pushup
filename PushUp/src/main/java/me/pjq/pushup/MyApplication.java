@@ -25,6 +25,19 @@ public class MyApplication extends Application {
 
     private MediaCardStateBroadcastReceiver mediaCardStateBroadcastReceiver;
 
+
+    WifiNetworkHelper networkHelper;
+
+    public static PeersMgr getPeersMgr() {
+        return peersMgr;
+    }
+
+    public static void setPeersMgr(PeersMgr peersMgr) {
+        MyApplication.peersMgr = peersMgr;
+    }
+
+    static PeersMgr peersMgr;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -41,6 +54,11 @@ public class MyApplication extends Application {
         MediaCardStateBroadcastReceiver.register(context, mediaCardStateBroadcastReceiver);
 
         getSystemParasmeter();
+
+
+        networkHelper = new WifiNetworkHelper(getBaseContext());
+        peersMgr = new PeersMgr(networkHelper);
+        peersMgr.start();
     }
 
 
@@ -60,6 +78,8 @@ public class MyApplication extends Application {
         if (null != mediaCardStateBroadcastReceiver) {
             MediaCardStateBroadcastReceiver.unRegister(context, mediaCardStateBroadcastReceiver);
         }
+
+        peersMgr.stop();
     }
 
     public static void getSystemParasmeter() {

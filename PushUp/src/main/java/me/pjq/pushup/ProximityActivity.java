@@ -141,6 +141,8 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
     private void updateCount() {
         updateCountText(String.valueOf(count));
 
+        String msg = "[Count:" + count + "]";
+        MyApplication.getPeersMgr().sendMessage(msg);
         if (speakerUtil.isTtsInited()) {
             if (count == 10) {
                 speak("Good Work!");
@@ -156,6 +158,8 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
                 speak("You create the God!");
             }
         }
+
+
     }
 
     private void updateTips(int resid) {
