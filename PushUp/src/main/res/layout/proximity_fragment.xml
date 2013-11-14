@@ -35,8 +35,8 @@
 
     <TextView
         android:id="@+id/count_textview"
-        android:layout_height="160dip"
-        android:layout_width="160dip"
+        android:layout_height="150dip"
+        android:layout_width="150dip"
         android:layout_below="@id/tips_textview"
         android:layout_marginBottom="0dip"
         android:layout_marginTop="30dip"
