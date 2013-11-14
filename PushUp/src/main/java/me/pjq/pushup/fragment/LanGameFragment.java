@@ -1,6 +1,9 @@
 package me.pjq.pushup.fragment;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -99,6 +102,18 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
         });
 
         shareTextView.setVisibility(View.GONE);
+
+        updatePlayerInfoUI();
+    }
+
+    private void updatePlayerInfoUI() {
+        ArrayList<Integer> colors = Utils.randomColor();
+
+        Resources resource = (Resources) getApplicationContext().getResources();
+        player1TextView.setTextColor(resource.getColorStateList(colors.get(0)));
+        player2TextView.setTextColor(resource.getColorStateList(colors.get(1)));
+        player3TextView.setTextColor(resource.getColorStateList(colors.get(2)));
+        player4TextView.setTextColor(resource.getColorStateList(colors.get(3)));
     }
 
     private void updatePlayerInfo() {

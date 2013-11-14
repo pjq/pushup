@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package me.pjq.pushup;
+package me.pjq.pushup.backup;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,6 +28,8 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.games.Game;
 import com.google.android.gms.games.Player;
 import com.google.example.games.basegameutils.BaseGameActivity;
+import me.pjq.pushup.AppPreference;
+import me.pjq.pushup.R;
 import me.pjq.pushup.utils.Utils;
 
 /**

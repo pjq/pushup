@@ -1,4 +1,4 @@
-package me.pjq.pushup;
+package me.pjq.pushup.backup;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -20,6 +20,7 @@ import com.squareup.otto.Subscribe;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.games.Player;
 import com.google.example.games.basegameutils.BaseGameActivity;
+import me.pjq.pushup.*;
 import me.pjq.pushup.utils.Utils;
 
 import java.util.ArrayList;

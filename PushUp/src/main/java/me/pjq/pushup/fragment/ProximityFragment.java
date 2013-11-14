@@ -12,7 +12,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
 import me.pjq.pushup.*;
-import me.pjq.pushup.activity.DashboardActivity;
+import me.pjq.pushup.backup.ProximityActivity;
 import me.pjq.pushup.utils.TitlebarHelper;
 import me.pjq.pushup.utils.Utils;
 

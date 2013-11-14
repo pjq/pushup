@@ -15,6 +15,7 @@ import com.google.android.gms.games.GamesClient;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import me.pjq.pushup.*;
+import me.pjq.pushup.backup.ProximityActivity;
 import me.pjq.pushup.utils.TitlebarHelper;
 import me.pjq.pushup.utils.Utils;
 

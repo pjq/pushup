@@ -822,4 +822,48 @@ public class Utils {
             }
         }
     }
+
+    public static ArrayList<Integer> randomColor() {
+        ArrayList<Integer> colors = new ArrayList<Integer>();
+        colors.add(android.R.color.holo_blue_dark);
+        colors.add(android.R.color.holo_red_dark);
+        colors.add(android.R.color.holo_green_dark);
+        colors.add(android.R.color.holo_orange_dark);
+
+        return randomColor(colors);
+
+    }
+
+    public static ArrayList<Integer> randomColor(ArrayList<Integer> arrayList) {
+
+        ArrayList<Integer> arrayList2 = new ArrayList<Integer>();
+        ArrayList<Integer> arrayListCopy = new ArrayList<Integer>(arrayList);
+        Random random = new Random();
+        int size = arrayListCopy.size();
+
+        while (size > 0) {
+            int randomNum = random.nextInt(arrayListCopy.size());
+            arrayList2.add(arrayListCopy.get(randomNum));
+            arrayListCopy.remove(randomNum);
+            size = arrayListCopy.size();
+        }
+
+        return arrayList2;
+    }
+
+    public static ArrayList<Object> randomSort(ArrayList<Object> arrayList) {
+        ArrayList<Object> arrayList2 = new ArrayList<Object>();
+        ArrayList<Object> arrayListCopy = new ArrayList<Object>(arrayList);
+        Random random = new Random();
+        int size = arrayListCopy.size();
+
+        while (size > 0) {
+            int randomNum = random.nextInt(arrayListCopy.size());
+            arrayList2.add(arrayListCopy.get(randomNum));
+            arrayListCopy.remove(randomNum);
+            size = arrayListCopy.size();
+        }
+
+        return arrayList2;
+    }
 }

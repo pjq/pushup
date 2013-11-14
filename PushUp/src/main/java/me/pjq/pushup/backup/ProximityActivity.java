@@ -1,4 +1,4 @@
-package me.pjq.pushup;
+package me.pjq.pushup.backup;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -14,6 +14,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import me.pjq.pushup.*;
 import me.pjq.pushup.activity.BaseFragmentActivity;
 import me.pjq.pushup.utils.Utils;
 
