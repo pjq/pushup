@@ -25,7 +25,7 @@
         android:layout_width="fill_parent"
         android:layout_marginLeft="25dip"
         android:layout_marginRight="25dip"
-        android:layout_marginTop="50dip"
+        android:layout_marginTop="40dip"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/titleIndicatorLayout"
         android:background="@drawable/up"
