@@ -367,7 +367,12 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
 
         EFLogger.d(TAG, "unregisterListener...");
         mgr.unregisterListener(this, proximity);
-        bus.unregister(this);
+
+        try {
+            bus.unregister(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void doCountTextViewAnimation() {

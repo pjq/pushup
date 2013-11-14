@@ -20,7 +20,6 @@ public abstract class BaseFragment extends Fragment implements FragmentBridge{
 
     private View mFragmentView;
     //protected UserData userData;
-    private Bus bus;
     private boolean reuseFragmentView = false;
     ViewGroup container;
 
@@ -30,9 +29,6 @@ public abstract class BaseFragment extends Fragment implements FragmentBridge{
         EFLogger.i(TAG, "onCreate");
 
         TAG = this.getClass().getSimpleName();
-
-        bus = ServiceProvider.getBus();
-        bus.register(this);
     }
 
     @Override
@@ -111,12 +107,6 @@ public abstract class BaseFragment extends Fragment implements FragmentBridge{
         super.onDestroyView();
 
         EFLogger.i(TAG, "onDestroyView");
-
-        try {
-            bus.unregister(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         Utils.unBindDrawables(mFragmentView);
     }
