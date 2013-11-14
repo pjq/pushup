@@ -10,4 +10,5 @@ public class LanUtils {
         MsgUpdatePlayer msgUpdatePlayer = new MsgUpdatePlayer();
         ServiceProvider.getBus().post(msgUpdatePlayer);
     }
+
 }

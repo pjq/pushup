@@ -1,24 +1,33 @@
 package me.pjq.pushup.fragment;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.*;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Vibrator;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.google.android.gms.internal.fo;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-import me.pjq.pushup.*;
+import me.pjq.pushup.AppPreference;
+import me.pjq.pushup.ApplicationConfig;
+import me.pjq.pushup.EFLogger;
+import me.pjq.pushup.MyApplication;
+import me.pjq.pushup.R;
+import me.pjq.pushup.ScreenshotUtils;
+import me.pjq.pushup.ServiceProvider;
+import me.pjq.pushup.SpeakerUtil;
 import me.pjq.pushup.lan.LanPlayer;
 import me.pjq.pushup.lan.LanPlayerHelper;
 import me.pjq.pushup.lan.MsgUpdatePlayer;
@@ -125,6 +134,8 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
     private void updatePlayerInfo() {
         ArrayList<LanPlayer> players = LanPlayerHelper.getLanPlayers();
 
+        if (players == null) return;
+
         int size = players.size();
 
         for (int i = 0; i < size; i++) {
@@ -143,12 +154,13 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
     }
 
     private void updatePlayer(TextView playerTextView, LanPlayer player) {
-        playerTextView.setVisibility(View.INVISIBLE);
+        playerTextView.setVisibility(View.VISIBLE);
         String text = player.getUsername();
         if (!player.getScore().equalsIgnoreCase("0")) {
             text += ": " + player.getScore();
         }
 
+        Log.i(TAG, "updatePlayer:" + text);
         playerTextView.setText(text);
     }
 
@@ -250,8 +262,7 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
     private void updateCount() {
         updateCountText(String.valueOf(count));
 
-        String msg = "[Count:" + count + "]";
-        MyApplication.getPeersMgr().sendMessage(msg);
+        MyApplication.getPeersMgr().sendCount(count);
 
         if (speakerUtil.isTtsInited()) {
             if (count == 10) {

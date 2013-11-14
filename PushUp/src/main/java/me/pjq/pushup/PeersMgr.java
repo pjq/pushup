@@ -1,6 +1,8 @@
 package me.pjq.pushup;
 
 import android.util.Log;
+import me.pjq.pushup.lan.LanPlayer;
+import me.pjq.pushup.lan.LanUtils;
 import org.jgroups.Address;
 import org.jgroups.JChannel;
 import org.jgroups.Message;
@@ -25,7 +27,11 @@ import org.jgroups.stack.ProtocolStack;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -37,11 +43,20 @@ public class PeersMgr {
     private static final String TAG = "PeersMgr";
 
     private static final String CHAT_CLUSTER = "WeUp";
-    private static final int DELAY_TIME = 1000 * 60;
+    private static final int DELAY_TIME = 1000 * 5;
 
     JChannel channel;
     String userName;
     boolean inLoop = false;
+    String localIpAddress;
+
+    List<Address> peersIpAddress = new ArrayList<Address>();
+
+    public Map<String, LanPlayer> getPeers() {
+        return peers;
+    }
+
+    Map<String, LanPlayer> peers = new HashMap<String, LanPlayer>();
 
     WifiNetworkHelper networkHelper;
 
@@ -123,11 +138,11 @@ public class PeersMgr {
 
     private String initUsername() {
         WifiNetworkHelper.WifiNetworkInfo wifiInfo = networkHelper.getWifiInfo();
-        String address = wifiInfo.getWifiIpAddress();
+        localIpAddress = wifiInfo.getWifiIpAddress();
 
-        Log.i(TAG, "Bind Address:" + address);
-        userName = userName + address;
-        return address;
+        Log.i(TAG, "Bind Address:" + localIpAddress);
+        userName = userName + localIpAddress;
+        return localIpAddress;
     }
 
     private void loop() {
@@ -136,7 +151,7 @@ public class PeersMgr {
             if (channel.isConnected()) {
                 Date data = new Date();
 
-                sendMessage("NTP:" + data.getTime());
+                sendNtp(data.getTime());
 
                 try {
                     Thread.sleep(DELAY_TIME);
@@ -148,7 +163,7 @@ public class PeersMgr {
         }
     }
 
-    public void sendMessage(final String message) {
+    protected void sendMessage(final String message) {
         senderExecutorService.execute(new Runnable() {
             @Override
             public void run() {
@@ -163,7 +178,16 @@ public class PeersMgr {
                 }
             }
         });
+    }
 
+    public void sendCount(final int count) {
+        String line = "COUNT:" + count;
+        sendMessage(line);
+    }
+
+    public void sendNtp(final long time) {
+        String line = "NTP:" + time;
+        sendMessage(line);
     }
 
     public void stop() {
@@ -208,13 +232,69 @@ public class PeersMgr {
         @Override
         public void viewAccepted(View new_view) {
             Log.i(TAG, "** view: " + new_view);
+
+            int peersNumber = new_view.size();
+            if (peersNumber > 1) {
+                List<Address> members = new_view.getMembers();
+                peersIpAddress.clear();
+                peers.clear();
+
+                for (Address a : members) {
+                    String addr = ((Object) a).toString();
+                    Log.i(TAG, "members:" + addr);
+
+                    if (!addr.equalsIgnoreCase(localIpAddress)) {
+                        peersIpAddress.add(a);
+                        LanPlayer lanPlayer = new LanPlayer();
+                        lanPlayer.setIp(addr);
+                        lanPlayer.setUsername(channel.getName(a));
+                        lanPlayer.setId(channel.getName(a));
+                        peers.put(addr, lanPlayer);
+                    }
+                }
+
+                LanUtils.sendUpdatePlayerInfoMsg();
+            }
+
         }
 
         @Override
         public void receive(Message msg) {
-            Log.i(TAG, "Recv: -> " + msg.getObject());
-        }
 
+            String srcAddr = ((Object) msg.getSrc()).toString();
+            if (srcAddr.equalsIgnoreCase(localIpAddress)) {
+                return;
+            }
+
+            Log.v(TAG, "Recv: -> " + msg.getObject());
+
+            String line = msg.getObject().toString();
+            if (line.contains("COUNT")) {
+                String messages[] = line.split(":");
+                int count = Integer.valueOf(messages[1]);
+                Log.i(TAG, "COUNT: -> " + count);
+
+
+                LanPlayer lanPlayer = peers.get(srcAddr);
+                lanPlayer.setScore(messages[1]);
+
+                LanUtils.sendUpdatePlayerInfoMsg();
+            } else if (line.contains("NTP")) {
+                String messages[] = line.split(":");
+                long time = Long.valueOf(messages[1]);
+                Log.i(TAG, "NTP: -> " + time);
+
+                LanPlayer lanPlayer = peers.get(srcAddr);
+                String score = lanPlayer.getScore();
+                if (score == null || score.length() == 0) score = "0";
+                int fake = Integer.valueOf(score) + 1;
+                lanPlayer.setScore(Integer.valueOf(fake).toString());
+
+                Log.i(TAG, "fake: -> " + srcAddr + ":" + fake);
+
+                //LanUtils.sendUpdatePlayerInfoMsg();
+            }
+        }
     }
 
 }

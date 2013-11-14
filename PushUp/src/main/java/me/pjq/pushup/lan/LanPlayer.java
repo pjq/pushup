@@ -35,6 +35,8 @@ public class LanPlayer {
     }
 
     public String getScore() {
+        if (score == null) return "0";
+
         return score;
     }
 
