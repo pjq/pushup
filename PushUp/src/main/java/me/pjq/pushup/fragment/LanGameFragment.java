@@ -109,11 +109,17 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
     private void updatePlayerInfoUI() {
         ArrayList<Integer> colors = Utils.randomColor();
 
+        updatePlayerUI(player1TextView, colors.get(0));
+        updatePlayerUI(player2TextView, colors.get(1));
+        updatePlayerUI(player3TextView, colors.get(2));
+        updatePlayerUI(player4TextView, colors.get(3));
+    }
+
+    private void updatePlayerUI(TextView playerTextView, Integer color) {
         Resources resource = (Resources) getApplicationContext().getResources();
-        player1TextView.setTextColor(resource.getColorStateList(colors.get(0)));
-        player2TextView.setTextColor(resource.getColorStateList(colors.get(1)));
-        player3TextView.setTextColor(resource.getColorStateList(colors.get(2)));
-        player4TextView.setTextColor(resource.getColorStateList(colors.get(3)));
+//        playerTextView.setTextColor(resource.getColorStateList(color));
+
+        playerTextView.setBackgroundResource(color);
     }
 
     private void updatePlayerInfo() {
@@ -138,7 +144,10 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
 
     private void updatePlayer(TextView playerTextView, LanPlayer player) {
         playerTextView.setVisibility(View.INVISIBLE);
-        String text = player.getUsername() + ": " + player.getScore();
+        String text = player.getUsername();
+        if (!player.getScore().equalsIgnoreCase("0")) {
+            text += ": " + player.getScore();
+        }
 
         playerTextView.setText(text);
     }

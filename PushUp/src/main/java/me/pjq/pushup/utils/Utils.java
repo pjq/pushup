@@ -825,10 +825,10 @@ public class Utils {
 
     public static ArrayList<Integer> randomColor() {
         ArrayList<Integer> colors = new ArrayList<Integer>();
-        colors.add(android.R.color.holo_blue_dark);
-        colors.add(android.R.color.holo_red_dark);
-        colors.add(android.R.color.holo_green_dark);
-        colors.add(android.R.color.holo_orange_dark);
+        colors.add(android.R.color.holo_blue_light);
+        colors.add(android.R.color.holo_red_light);
+        colors.add(android.R.color.holo_green_light);
+        colors.add(android.R.color.holo_orange_light);
 
         return randomColor(colors);
 
