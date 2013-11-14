@@ -177,6 +177,9 @@ public class ProximityFragment extends BaseFragment implements View.OnClickListe
     private void updateCount() {
         updateCountText(String.valueOf(count));
 
+        String msg = "[Count:" + count + "]";
+        MyApplication.getPeersMgr().sendMessage(msg);
+
         if (speakerUtil.isTtsInited()) {
             if (count == 10) {
                 speak("Good Work!");
