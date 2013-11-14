@@ -141,14 +141,53 @@
             />
     </ScrollView>
 
+    <!-- SIGN-IN BAR -->
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:id="@+id/sign_in_bar"
+        style="@style/SignInOutBar">
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/button_sign_in"
+            style="@style/SignInButton"/>
+
+        <TextView
+            style="@style/SignInOutBarBlurb"
+            android:text="@string/sign_in_explanation"/>
+    </LinearLayout>
+
+    <!-- SIGN-OUT BAR -->
+    <LinearLayout
+        android:id="@+id/sign_out_bar"
+        style="@style/SignInOutBar"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/user_icon"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            ></ImageView>
+
+        <TextView
+            android:id="@+id/user_info"
+            style="@style/SignInOutBarBlurb"
+            android:text="@string/you_are_signed_in"/>
+
+        <Button
+            style="@style/SignOutButton"
+            android:id="@+id/button_sign_out"
+            android:text="@string/sign_out"/>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/share_textview"
         android:layout_height="60dip"
         android:layout_width="60dip"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="10dip"
         android:padding="5dip"
+        android:layout_above="@id/sign_out_bar"
         android:background="@drawable/blue_circle"
         android:text="@string/share_text"
         android:gravity="center"

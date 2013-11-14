@@ -8,6 +8,6 @@ public enum ProductConfig implements ProductConfigInterface{
 
     @Override
     public String getProductFlavorName() {
-        return "pushup";
+        return "Pooshup";
     }
 }

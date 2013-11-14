@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import me.pjq.pushup.utils.Utils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -238,6 +239,19 @@ public class AppPreference {
         }
 
         return hashMap.size();
+    }
+
+
+    public int getTotalNumber() {
+        ArrayList<RecordItem> recordItems = getRecordItems();
+        int size = recordItems.size();
+        int total = 0;
+        for (int i = 0; i < size; i++) {
+            RecordItem item = recordItems.get(i);
+            total += item.getCount();
+        }
+
+        return total;
     }
 
 

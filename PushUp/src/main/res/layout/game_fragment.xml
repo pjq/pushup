@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Copyright (C) 2013 Google Inc.
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              style="@style/MainLayout"
+              tools:context=".MainActivity">
+
+    <include
+        android:id="@+id/titleIndicatorLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/title_bar"
+        />
+
+    <!-- MAIN DISPLAY -->
+    <LinearLayout style="@style/MainDisplay"
+        android:layout_marginTop="30dip">
+
+        <Button
+            android:id="@+id/button_archievement"
+            android:text="@string/Archievement"
+            android:layout_width="fill_parent"
+            style="@style/Button"/>
+
+        <Button
+            android:id="@+id/button_leaderboard"
+            android:text="@string/LeaderBoard"
+            android:layout_width="fill_parent"
+            android:layout_marginTop="30dip"
+            style="@style/Button"/>
+    </LinearLayout>
+</LinearLayout>
