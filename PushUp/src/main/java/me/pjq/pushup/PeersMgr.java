@@ -1,8 +1,11 @@
 package me.pjq.pushup;
 
+import android.text.TextUtils;
 import android.util.Log;
+import com.google.android.gms.internal.el;
 import me.pjq.pushup.lan.LanPlayer;
 import me.pjq.pushup.lan.LanUtils;
+import me.pjq.pushup.utils.Utils;
 import org.jgroups.Address;
 import org.jgroups.JChannel;
 import org.jgroups.Message;
@@ -109,6 +112,9 @@ public class PeersMgr {
     }
 
     private void initChannel() throws Exception {
+        WifiNetworkHelper.WifiNetworkInfo wifiInfo = networkHelper.getWifiInfo();
+        localIpAddress = wifiInfo.getWifiIpAddress();
+
         String address = initUsername();
 
         channel = new JChannel(false);
@@ -117,7 +123,7 @@ public class PeersMgr {
         ProtocolStack stack = new ProtocolStack();
         channel.setProtocolStack(stack);
 
-        stack.addProtocol(new UDP().setValue("bind_addr", InetAddress.getByName(address)))
+        stack.addProtocol(new UDP().setValue("bind_addr", InetAddress.getByName(localIpAddress)))
                 .addProtocol(new PING())
                 .addProtocol(new MERGE2())
                 .addProtocol(new FD_SOCK())
@@ -137,12 +143,15 @@ public class PeersMgr {
     }
 
     private String initUsername() {
-        WifiNetworkHelper.WifiNetworkInfo wifiInfo = networkHelper.getWifiInfo();
-        localIpAddress = wifiInfo.getWifiIpAddress();
+        String name = AppPreference.getInstance(MyApplication.getContext()).getLoginName();
 
-        Log.i(TAG, "Bind Address:" + localIpAddress);
-        userName = userName + localIpAddress;
-        return localIpAddress;
+        if (!TextUtils.isEmpty(name)) {
+            userName = name;
+        } else {
+            userName = Utils.getDeviceModel();
+        }
+
+        return userName;
     }
 
     private void loop() {
@@ -292,7 +301,7 @@ public class PeersMgr {
 
                 Log.i(TAG, "fake: -> " + srcAddr + ":" + fake);
 
-                //LanUtils.sendUpdatePlayerInfoMsg();
+                LanUtils.sendUpdatePlayerInfoMsg();
             }
         }
     }

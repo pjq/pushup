@@ -94,6 +94,11 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
         player3TextView = (TextView) view.findViewById(R.id.player3);
         player4TextView = (TextView) view.findViewById(R.id.player4);
 
+        player1TextView.setVisibility(View.INVISIBLE);
+        player2TextView.setVisibility(View.INVISIBLE);
+        player3TextView.setVisibility(View.INVISIBLE);
+        player4TextView.setVisibility(View.INVISIBLE);
+
         refreshButton.setOnClickListener(this);
         shareTextView.setOnClickListener(this);
         countTextView.setOnClickListener(this);
@@ -113,6 +118,7 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
         shareTextView.setVisibility(View.GONE);
 
         updatePlayerInfoUI();
+        updatePlayerInfo();
     }
 
     private void updatePlayerInfoUI() {

@@ -1,7 +1,8 @@
 package me.pjq.pushup.activity;
 
 import android.net.Uri;
-import android.os.Bundle;
+import android.os.*;
+import android.os.Process;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -334,7 +335,9 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
             displayName = "???";
         } else {
             displayName = player.getDisplayName();
+            appPreference.setLoginName(displayName);
         }
+
 
         userInfo.setText(String.format(getString(R.string.you_are_signed_in_as), displayName));
         userIcon.setImageURI(uri);
@@ -509,5 +512,13 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        MyApplication.getPeersMgr().stop();
+        android.os.Process.killProcess(Process.myPid());
     }
 }
