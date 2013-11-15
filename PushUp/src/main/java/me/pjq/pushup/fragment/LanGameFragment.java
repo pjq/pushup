@@ -94,14 +94,15 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
         player3TextView = (TextView) view.findViewById(R.id.player3);
         player4TextView = (TextView) view.findViewById(R.id.player4);
 
-        player1TextView.setVisibility(View.INVISIBLE);
-        player2TextView.setVisibility(View.INVISIBLE);
-        player3TextView.setVisibility(View.INVISIBLE);
-        player4TextView.setVisibility(View.INVISIBLE);
+        player1TextView.setVisibility(View.GONE);
+        player2TextView.setVisibility(View.GONE);
+        player3TextView.setVisibility(View.GONE);
+        player4TextView.setVisibility(View.GONE);
 
         refreshButton.setOnClickListener(this);
         shareTextView.setOnClickListener(this);
         countTextView.setOnClickListener(this);
+        tipsTextView.setOnClickListener(this);
 
         titlebarHelper = new TitlebarHelper(view, new TitlebarHelper.OnTitlebarClickListener() {
             @Override
@@ -140,7 +141,14 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
     private void updatePlayerInfo() {
         ArrayList<LanPlayer> players = LanPlayerHelper.getLanPlayers();
 
-        if (players == null) return;
+        if (players == null || players.size() == 0) {
+            player1TextView.setVisibility(View.GONE);
+            player2TextView.setVisibility(View.GONE);
+            player3TextView.setVisibility(View.GONE);
+            player4TextView.setVisibility(View.GONE);
+
+            return;
+        }
 
         int size = players.size();
 
@@ -163,11 +171,24 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
         playerTextView.setVisibility(View.VISIBLE);
         String text = player.getUsername();
         if (!player.getScore().equalsIgnoreCase("0")) {
-            text += ": " + player.getScore();
+            text += "\n" + player.getScore();
+        }
+
+        String prevtext = playerTextView.getText().toString();
+        if (!text.equalsIgnoreCase(prevtext)) {
+            doAnimation(playerTextView, null);
         }
 
         Log.i(TAG, "updatePlayer:" + text);
         playerTextView.setText(text);
+    }
+
+    private void doAnimation(View view, Animation.AnimationListener listener) {
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.top_in);
+        if (null != listener) {
+            animation.setAnimationListener(listener);
+        }
+        view.startAnimation(animation);
     }
 
     @Override
@@ -349,6 +370,13 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
                 shareTextView.startAnimation(animation);
 
                 break;
+
+            case R.id.tips_textview: {
+                count++;
+                updateCount();
+
+                break;
+            }
 
             default:
                 break;

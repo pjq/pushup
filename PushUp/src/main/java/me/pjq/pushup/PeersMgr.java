@@ -261,9 +261,8 @@ public class PeersMgr {
                         peers.put(addr, lanPlayer);
                     }
                 }
-
-                LanUtils.sendUpdatePlayerInfoMsg();
             }
+            LanUtils.sendUpdatePlayerInfoMsg();
 
         }
 
@@ -296,7 +295,7 @@ public class PeersMgr {
                 LanPlayer lanPlayer = peers.get(srcAddr);
                 String score = lanPlayer.getScore();
                 if (score == null || score.length() == 0) score = "0";
-                int fake = Integer.valueOf(score) + 1;
+                int fake = Integer.valueOf(score);
                 lanPlayer.setScore(Integer.valueOf(fake).toString());
 
                 Log.i(TAG, "fake: -> " + srcAddr + ":" + fake);

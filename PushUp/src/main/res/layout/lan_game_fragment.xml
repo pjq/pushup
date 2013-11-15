@@ -11,6 +11,37 @@
         layout="@layout/title_bar"
         />
 
+    <LinearLayout
+        android:id="@+id/playerLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:layout_below="@id/titleIndicatorLayout"
+        >
+
+        <TextView
+            android:id="@+id/player1"
+            style="@style/PlayerItemStyle"
+            android:text="Player1"
+            ></TextView>
+
+        <TextView
+            android:id="@+id/player2"
+            style="@style/PlayerItemStyle"
+            android:text="Player2"
+            ></TextView>
+
+        <TextView
+            android:id="@+id/player3"
+            style="@style/PlayerItemStyle"
+            android:text="Player3"
+            ></TextView>
+
+        <TextView
+            android:id="@+id/player4"
+            style="@style/PlayerItemStyle"
+            android:text="Player4"
+            ></TextView>
+    </LinearLayout>
 
     <View
         android:id="@+id/center_line"
@@ -21,13 +52,12 @@
 
     <TextView
         android:id="@+id/tips_textview"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
+        android:layout_height="96dip"
+        android:layout_width="228dip"
         android:layout_marginLeft="25dip"
         android:layout_marginRight="25dip"
-        android:layout_marginTop="40dip"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/titleIndicatorLayout"
+        android:layout_below="@id/playerLayout"
         android:background="@drawable/up"
         style="@style/CountTextStyle"
         android:visibility="visible"
@@ -82,36 +112,5 @@
         style="@style/ShareTextStyle"
         ></TextView>
 
-    <LinearLayout
-        android:id="@+id/playerLayout"
-        android:layout_width="fill_parent"
-        android:layout_height="40dip"
-        android:layout_below="@id/titleIndicatorLayout"
-        >
-
-        <TextView
-            android:id="@+id/player1"
-            style="@style/PlayerItemStyle"
-            android:text="Player1"
-            ></TextView>
-
-        <TextView
-            android:id="@+id/player2"
-            style="@style/PlayerItemStyle"
-            android:text="Player2"
-            ></TextView>
-
-        <TextView
-            android:id="@+id/player3"
-            style="@style/PlayerItemStyle"
-            android:text="Player3"
-            ></TextView>
-
-        <TextView
-            android:id="@+id/player4"
-            style="@style/PlayerItemStyle"
-            android:text="Player4"
-            ></TextView>
-    </LinearLayout>
 </RelativeLayout>
 
