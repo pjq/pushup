@@ -5,7 +5,7 @@
           android:versionName="1.0.0">
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="14"
         android:targetSdkVersion="16"/>
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -64,6 +64,12 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity
+            android:name="me.pjq.pushup.navigation.MainActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            >
         </activity>
     </application>
 

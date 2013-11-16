@@ -14,9 +14,10 @@
   limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_websearch"
-          android:icon="@drawable/action_search"
-          android:title="@string/action_websearch"
-          android:showAsAction="ifRoom|withText" />
-</menu>
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/image"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:gravity="center"
+    android:padding="32dp" />

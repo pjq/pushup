@@ -18,6 +18,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.google.android.gms.internal.fa;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import me.pjq.pushup.AppPreference;
@@ -122,6 +123,125 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
         updatePlayerInfo();
     }
 
+
+    private void registerSensorListener() {
+        SensorManager sensorMgr = (SensorManager) getApplicationContext().getSystemService(Context.SENSOR_SERVICE);
+        Sensor sensor = sensorMgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorMgr.registerListener(mSensorEventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    private void unRegisterSensorListener() {
+        SensorManager sensorMgr = (SensorManager) getApplicationContext().getSystemService(Context.SENSOR_SERVICE);
+
+        if (null != mSensorEventListener) {
+            sensorMgr.unregisterListener(mSensorEventListener);
+            mSensorEventListener = null;
+        }
+    }
+
+    private SensorEventListener mSensorEventListener = new SensorEventListener() {
+        private RotateSession session = new RotateSession();
+
+        public void onSensorChanged(SensorEvent e) {
+            if (!isShow) {
+                return;
+            }
+
+            float x = e.values[0];
+            float y = e.values[1];
+            float z = e.values[2];
+
+            EFLogger.i(TAG, "onSensorChanged,x=" + x + ",y=" + y + ",z=" + z);
+
+            boolean isStop = false;
+            int zMinValue = -8;
+
+            session = session.value(z);
+
+            if (session.isSessionFinished()) {
+                increaseCountEvent();
+                session.reset();
+            }
+
+
+//            if (x < 1 && x > -1 && y < 1 && y > -1) {
+//                if (z <= zMinValue) {
+//                    isStop = true;
+//                    increaseCountEvent();
+//                }
+//            } else {
+//                if (z <= zMinValue) {
+//                    isStop = true;
+//                    increaseCountEvent();
+//                }
+//            }
+        }
+
+        public void onAccuracyChanged(Sensor s, int accuracy) {
+
+        }
+    };
+
+    private class RotateSession {
+        private boolean value7_8 = false;
+        private boolean value4_5 = false;
+        private boolean value0_1 = false;
+        private boolean value_1_0 = false;
+        private boolean value_5_4 = false;
+        private boolean value_8_7 = false;
+
+        public RotateSession value(float val) {
+            if (5 <= val && val <= 8) {
+                value7_8 = true;
+            }
+
+            if (2 <= val && val <= 5) {
+                value4_5 = true;
+            }
+
+            if (0 <= val && val <= 3) {
+                value0_1 = true;
+            }
+
+            if (value7_8) {
+                if (-4 <= val && val <= 4) {
+                    value_1_0 = true;
+                }
+            }
+
+            if (-3 <= val && val <= -1) {
+                value_5_4 = true;
+            }
+
+            if (value_1_0) {
+                if (-8 <= val && val <= -4) {
+                    value_8_7 = true;
+                }
+            }
+
+            return this;
+        }
+
+        public boolean isSessionFinished() {
+            if (value7_8 && value4_5 && value0_1 && value_1_0 && value_5_4 && value_8_7) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public RotateSession reset() {
+            value7_8 = false;
+            value0_1 = false;
+            value_1_0 = false;
+            value_5_4 = false;
+            value_8_7 = false;
+
+            return this;
+        }
+
+    }
+
     private void updatePlayerInfoUI() {
         ArrayList<Integer> colors = Utils.randomColor();
 
@@ -212,6 +332,8 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
         this.mgr = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         this.proximity = this.mgr.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         this.vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+
+        registerSensorListener();
     }
 
 
@@ -255,9 +377,7 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
                 updateTips(R.drawable.down);
             } else {
                 if (increateCount()) {
-                    this.vibrator.vibrate(500);
-                    updateCount();
-                    doCountTextViewAnimation();
+                    increaseCountEvent();
                 }
 
                 updateTips(R.drawable.up);
@@ -266,6 +386,13 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
         }
         String msg = "Current val: " + this.lastVal;
         EFLogger.d(TAG, msg);
+    }
+
+    private void increaseCountEvent() {
+        count++;
+        this.vibrator.vibrate(500);
+        updateCount();
+        doCountTextViewAnimation();
     }
 
     private boolean increateCount() {
@@ -280,10 +407,17 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
             return false;
         }
 
-        count++;
         lastTime = System.currentTimeMillis();
 
         return true;
+    }
+
+    private boolean canStart() {
+        if (countDown > 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private void updateCount() {
@@ -401,6 +535,8 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
 
         EFLogger.d(TAG, "unregisterListener...");
         mgr.unregisterListener(this, proximity);
+
+        unRegisterSensorListener();
 
         try {
             bus.unregister(this);

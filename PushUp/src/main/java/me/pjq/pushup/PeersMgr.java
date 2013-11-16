@@ -293,14 +293,17 @@ public class PeersMgr {
                 Log.i(TAG, "NTP: -> " + time);
 
                 LanPlayer lanPlayer = peers.get(srcAddr);
-                String score = lanPlayer.getScore();
-                if (score == null || score.length() == 0) score = "0";
-                int fake = Integer.valueOf(score);
-                lanPlayer.setScore(Integer.valueOf(fake).toString());
+                if (null != lanPlayer) {
+                    String score = lanPlayer.getScore();
+                    if (score == null || score.length() == 0) score = "0";
+                    int fake = Integer.valueOf(score);
+                    lanPlayer.setScore(Integer.valueOf(fake).toString());
 
-                Log.i(TAG, "fake: -> " + srcAddr + ":" + fake);
+                    Log.i(TAG, "fake: -> " + srcAddr + ":" + fake);
+                }
 
                 LanUtils.sendUpdatePlayerInfoMsg();
+
             }
         }
     }
