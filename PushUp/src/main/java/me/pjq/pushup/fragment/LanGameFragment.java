@@ -191,25 +191,27 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
         private boolean value_8_7 = false;
 
         public RotateSession value(float val) {
-            if (5 <= val && val <= 8) {
+            if (4 <= val && val <= 8) {
                 value7_8 = true;
             }
 
-            if (2 <= val && val <= 5) {
-                value4_5 = true;
+            if (value7_8) {
+                if (2 <= val && val <= 4) {
+                    value4_5 = true;
+                }
             }
 
-            if (0 <= val && val <= 3) {
+            if (0 <= val && val <= 2) {
                 value0_1 = true;
             }
 
             if (value7_8) {
-                if (-4 <= val && val <= 4) {
+                if (-2 <= val && val <= 0) {
                     value_1_0 = true;
                 }
             }
 
-            if (-3 <= val && val <= -1) {
+            if (-4 <= val && val <= -2) {
                 value_5_4 = true;
             }
 
