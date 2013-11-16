@@ -32,7 +32,7 @@ android {
     buildToolsVersion "19.0.0"
 
     defaultConfig {
-        minSdkVersion 8
+        minSdkVersion 14
         targetSdkVersion 16
         packageName "me.pjq.pushup"
     }
