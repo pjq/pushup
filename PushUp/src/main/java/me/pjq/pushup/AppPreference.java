@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import com.google.android.gms.internal.el;
 import me.pjq.pushup.utils.Utils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -193,6 +194,16 @@ public class AppPreference {
     public String getRecordJson() {
         String record = userPreference.getString(KEY_PUSH_UP_RECORD, new JSONObject().toString());
         return record;
+    }
+
+    public int getNumberOfTimes() {
+        ArrayList<RecordItem> recordItems = getRecordItems();
+
+        if (null != recordItems) {
+            return recordItems.size();
+        } else {
+            return 0;
+        }
     }
 
     public ArrayList<RecordItem> getRecordItems() {

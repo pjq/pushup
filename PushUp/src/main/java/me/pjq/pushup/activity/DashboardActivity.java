@@ -284,6 +284,8 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
                     getString(R.string.achievement_10days));
         }
 
+        int numberOfTimes= AppPreference.getInstance(getApplicationContext()).getNumberOfTimes();
+        getGamesClient().submitScore(getString(R.string.leaderboard_number_of_times), numberOfTimes);
     }
 
     // Shows the "sign in" bar (explanation and button).
