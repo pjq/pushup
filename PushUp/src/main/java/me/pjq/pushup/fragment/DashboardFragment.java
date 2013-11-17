@@ -31,6 +31,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
     TextView startImageView;
     TextView twistImageView;
+    TextView otherImageView;
     TextView pushupTextView;
     TextView resultTextView;
     TextView totalTextView;
@@ -65,6 +66,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     protected void ensureUi() {
         startImageView = (TextView) view.findViewById(R.id.start_button);
         twistImageView = (TextView) view.findViewById(R.id.wrist_button);
+        otherImageView = (TextView) view.findViewById(R.id.other_button);
         pushupTextView = (TextView) view.findViewById(R.id.pushup_text);
         resultTextView = (TextView) view.findViewById(R.id.result_text);
         totalTextView = (TextView) view.findViewById(R.id.total_text);
@@ -74,6 +76,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
         startImageView.setOnClickListener(this);
         twistImageView.setOnClickListener(this);
+        otherImageView.setOnClickListener(this);
         resultTextView.setOnClickListener(this);
         pushupTextView.setOnClickListener(this);
 
@@ -197,6 +200,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
                 break;
 
             }
+            case R.id.other_button:
             case R.id.wrist_button:
                 fragmentController.showFragment(WristGameFragment.TAG);
                 break;
