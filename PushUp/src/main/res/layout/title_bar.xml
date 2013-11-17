@@ -26,6 +26,7 @@
         android:layout_width="130dip"
         android:layout_height="60dip"
         style="@style/TitleTextStyle"
+        android:gravity="center"
         android:layout_centerHorizontal="true"
         android:background="@drawable/pushup_logo"
         />

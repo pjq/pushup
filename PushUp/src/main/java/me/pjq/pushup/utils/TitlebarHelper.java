@@ -13,7 +13,7 @@ import me.pjq.pushup.R;
 public class TitlebarHelper {
 
     private View titlebarIcon;
-    private View titlebarText;
+    private TextView titlebarText;
     private OnTitlebarClickListener listener;
 
     public TitlebarHelper(Context activity, final OnTitlebarClickListener listener) {
@@ -22,6 +22,13 @@ public class TitlebarHelper {
         this.listener = listener;
 
         init();
+    }
+
+    public void setTitlebarText(String text) {
+        if (null!=titlebarText){
+            titlebarText.setText(text);
+            titlebarText.setBackground(null);
+        }
     }
 
     private void init() {

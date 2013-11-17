@@ -35,7 +35,7 @@
     </style>
 
     <style name="TitleTextStyle">
-        <item name="android:textColor">@color/whiteColor</item>
+        <item name="android:textColor">@color/blackColor</item>
         <item name="android:textSize">36sp</item>
     </style>
 
@@ -51,6 +51,15 @@
     <style name="StartTextStyle">
         <item name="android:textColor">@color/whiteColor</item>
         <item name="android:textSize">40sp</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">-5</item>
+        <item name="android:shadowRadius">5</item>
+        <item name="android:shadowColor">@color/blackColor</item>
+    </style>
+
+    <style name="TwistTextStyle">
+        <item name="android:textColor">@color/whiteColor</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">-5</item>
         <item name="android:shadowRadius">5</item>

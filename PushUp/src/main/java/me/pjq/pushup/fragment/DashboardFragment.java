@@ -30,6 +30,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     public static final String TAG = DashboardFragment.class.getSimpleName();
 
     TextView startImageView;
+    TextView twistImageView;
     TextView pushupTextView;
     TextView resultTextView;
     TextView totalTextView;
@@ -63,6 +64,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     @Override
     protected void ensureUi() {
         startImageView = (TextView) view.findViewById(R.id.start_button);
+        twistImageView = (TextView) view.findViewById(R.id.wrist_button);
         pushupTextView = (TextView) view.findViewById(R.id.pushup_text);
         resultTextView = (TextView) view.findViewById(R.id.result_text);
         totalTextView = (TextView) view.findViewById(R.id.total_text);
@@ -71,6 +73,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         levelTextView = (TextView) view.findViewById(R.id.level);
 
         startImageView.setOnClickListener(this);
+        twistImageView.setOnClickListener(this);
         resultTextView.setOnClickListener(this);
         pushupTextView.setOnClickListener(this);
 
@@ -192,7 +195,11 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 //                Utils.overridePendingTransitionRight2Left(getActivity());
                 fragmentController.showFragment(GameBoardFragment.TAG);
                 break;
+
             }
+            case R.id.wrist_button:
+                fragmentController.showFragment(WristGameFragment.TAG);
+                break;
         }
 
     }

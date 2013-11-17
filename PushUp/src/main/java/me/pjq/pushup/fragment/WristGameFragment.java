@@ -2,15 +2,12 @@ package me.pjq.pushup.fragment;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.AnimationDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Message;
-import android.os.Vibrator;
+import android.os.*;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,17 +15,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.google.android.gms.internal.fa;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-import me.pjq.pushup.AppPreference;
-import me.pjq.pushup.ApplicationConfig;
-import me.pjq.pushup.EFLogger;
-import me.pjq.pushup.MyApplication;
-import me.pjq.pushup.R;
-import me.pjq.pushup.ScreenshotUtils;
-import me.pjq.pushup.ServiceProvider;
-import me.pjq.pushup.SpeakerUtil;
+import me.pjq.pushup.*;
 import me.pjq.pushup.lan.LanPlayer;
 import me.pjq.pushup.lan.LanPlayerHelper;
 import me.pjq.pushup.lan.MsgUpdatePlayer;
@@ -40,8 +29,8 @@ import java.util.ArrayList;
 /**
  * Created by pjq on 5/26/13.
  */
-public class LanGameFragment extends BaseFragment implements View.OnClickListener, SensorEventListener {
-    public static final String TAG = LanGameFragment.class.getSimpleName();
+public class WristGameFragment extends BaseFragment implements View.OnClickListener, SensorEventListener {
+    public static final String TAG = WristGameFragment.class.getSimpleName();
 
     private SensorManager mgr;
     private Sensor proximity;
@@ -70,8 +59,8 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
 
     private Bus bus;
 
-    public static LanGameFragment newInstance(Bundle bundle) {
-        LanGameFragment fragment = new LanGameFragment();
+    public static WristGameFragment newInstance(Bundle bundle) {
+        WristGameFragment fragment = new WristGameFragment();
 
         if (null != bundle) {
             fragment.setArguments(bundle);
@@ -117,30 +106,24 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
             }
         });
 
+        titlebarHelper.setTitlebarText(getString(R.string.wrist));
+
         shareTextView.setVisibility(View.GONE);
 
         updatePlayerInfoUI();
         updatePlayerInfo();
+
+        doFrameAnimation();
     }
 
 
-    boolean enableAccel = false;
-
     private void registerSensorListener() {
-        if (!enableAccel){
-            return;
-        }
-
         SensorManager sensorMgr = (SensorManager) getApplicationContext().getSystemService(Context.SENSOR_SERVICE);
         Sensor sensor = sensorMgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorMgr.registerListener(mSensorEventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     private void unRegisterSensorListener() {
-        if (!enableAccel){
-            return;
-        }
-
         SensorManager sensorMgr = (SensorManager) getApplicationContext().getSystemService(Context.SENSOR_SERVICE);
 
         if (null != mSensorEventListener) {
@@ -315,6 +298,17 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
         playerTextView.setText(text);
     }
 
+    private void doFrameAnimation() {
+        tipsTextView.setBackgroundResource(R.anim.wrist_animation);
+        final AnimationDrawable mFrameAnimation = (AnimationDrawable) tipsTextView.getBackground();
+        tipsTextView.post(new Runnable(){
+            public void run(){
+                mFrameAnimation.start();
+            }
+        });
+
+    }
+
     private void doAnimation(View view, Animation.AnimationListener listener) {
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.top_in);
         if (null != listener) {
@@ -325,7 +319,7 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     protected View onGetFragmentView(LayoutInflater inflater) {
-        view = inflater.inflate(R.layout.lan_game_fragment, null);
+        view = inflater.inflate(R.layout.wrist_game_fragment, null);
 
         return view;
     }
@@ -357,8 +351,8 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
         if (!alreadyRegistered) {
             EFLogger.d(TAG, "registerListener...");
 
-            mgr.registerListener(this, proximity,
-                    SensorManager.SENSOR_DELAY_NORMAL);
+//            mgr.registerListener(this, proximity,
+//                    SensorManager.SENSOR_DELAY_NORMAL);
             alreadyRegistered = true;
         }
 
@@ -546,7 +540,7 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
         super.onDestroy();
 
         EFLogger.d(TAG, "unregisterListener...");
-        mgr.unregisterListener(this, proximity);
+//        mgr.unregisterListener(this, proximity);
 
         unRegisterSensorListener();
 

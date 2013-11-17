@@ -207,6 +207,23 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
         notifyFragmentChangeAll(LanGameFragment.TAG);
     }
 
+    public void showTwistGameFragment() {
+        currentFragmentTag = WristGameFragment.TAG;
+        Fragment fragment = findFragmentByTag(WristGameFragment.TAG);
+        hideTheOtherFragment();
+
+        if (null == fragment) {
+            fragment = WristGameFragment.newInstance(new Bundle());
+//            replaceChildFragment(fragment, LanGameFragment.TAG, fromLeft2Right());
+            addChildFragment(fragment, WristGameFragment.TAG, fromLeft2Right());
+
+        } else {
+            showFragment(fragment, WristGameFragment.TAG, fromLeft2Right());
+        }
+
+        notifyFragmentChangeAll(WristGameFragment.TAG);
+    }
+
     private void notifyFragmentChange(String fragmentTag, String tag) {
         Fragment fragment = findFragmentByTag(fragmentTag);
         if (null != fragment) {
@@ -219,6 +236,7 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
         notifyFragmentChange(DashboardFragment.TAG, tag);
         notifyFragmentChange(GameBoardFragment.TAG, tag);
         notifyFragmentChange(LanGameFragment.TAG, tag);
+        notifyFragmentChange(WristGameFragment.TAG, tag);
     }
 
 
@@ -247,6 +265,9 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
         hideFragment(fragment, fromLeft2Right());
 
         fragment = findFragmentByTag(LanGameFragment.TAG);
+        hideFragment(fragment, fromLeft2Right());
+
+        fragment = findFragmentByTag(WristGameFragment.TAG);
         hideFragment(fragment, fromLeft2Right());
     }
 
@@ -486,6 +507,8 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
             showGameBoardFragment();
         } else if (tag.equalsIgnoreCase(LanGameFragment.TAG)) {
             showLanGameFragment();
+        } else if (tag.equalsIgnoreCase(WristGameFragment.TAG)) {
+            showTwistGameFragment();
         }
     }
 

@@ -113,6 +113,43 @@
         android:background="@drawable/blue_circle"
         ></TextView>
 
+    <LinearLayout
+        android:layout_below="@id/start_button"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip">
+
+        <TextView
+            android:layout_weight="1.0"
+            android:id="@+id/wrist_button"
+            android:layout_below="@id/detail_info_layout"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="5dip"
+            android:layout_centerHorizontal="true"
+            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:text="@string/wrist"
+            style="@style/TwistTextStyle"
+            android:gravity="center"
+            android:background="@android:color/holo_green_dark"
+            ></TextView>
+
+        <TextView
+            android:layout_weight="1.0"
+            android:id="@+id/other_button"
+            android:layout_below="@id/detail_info_layout"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="5dip"
+            android:layout_centerHorizontal="true"
+            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:text="@string/wrist"
+            style="@style/TwistTextStyle"
+            android:gravity="center"
+            android:background="@android:color/holo_orange_dark"
+            ></TextView>
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/pushup_text"
         android:layout_below="@id/center_line"
@@ -122,7 +159,7 @@
         android:layout_centerHorizontal="true"
         style="@style/JustPushUpTextStyle"
         android:background="@drawable/pushup_logo"
-        android:visibility="invisible"
+        android:visibility="gone"
         />
 
     <ScrollView
@@ -131,7 +168,6 @@
         android:layout_width="fill_parent"
         android:visibility="gone"
         >
-
 
         <TextView
             android:padding="10dip"
