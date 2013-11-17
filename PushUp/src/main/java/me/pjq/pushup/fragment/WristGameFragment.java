@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import me.pjq.pushup.*;
+import me.pjq.pushup.audio.PlayerUtils;
 import me.pjq.pushup.lan.LanPlayer;
 import me.pjq.pushup.lan.LanPlayerHelper;
 import me.pjq.pushup.lan.MsgUpdatePlayer;
@@ -399,6 +400,7 @@ public class WristGameFragment extends BaseFragment implements View.OnClickListe
         this.vibrator.vibrate(500);
         updateCount();
         doCountTextViewAnimation();
+        PlayerUtils.playRawSound();
     }
 
     private boolean increateCount() {
