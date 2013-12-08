@@ -86,12 +86,12 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         titlebarHelper = new TitlebarHelper(view, new TitlebarHelper.OnTitlebarClickListener() {
             @Override
             public void onClickIcon() {
-                fragmentController.showFragment(ProximityFragment.TAG);
+                fragmentController.showFragment(PushupsFragment.TAG);
             }
 
             @Override
             public void onClickTitle() {
-                fragmentController.showFragment(ProximityFragment.TAG);
+                fragmentController.showFragment(PushupsFragment.TAG);
             }
         });
 
@@ -173,8 +173,8 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
         switch (id) {
             case R.id.start_button: {
-//                fragmentController.showFragment(ProximityFragment.TAG);
-                fragmentController.showFragment(MultiPlayerFragment.TAG);
+                fragmentController.showFragment(PushupsFragment.TAG);
+//                fragmentController.showFragment(MultiPlayerFragment.TAG);
 
                 break;
             }

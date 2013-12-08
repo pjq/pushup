@@ -36,7 +36,7 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
 
     int CONTENT_VIEW_ID;
     DashboardFragment dashboardFragment;
-    ProximityFragment proximityFragment;
+    PushupsFragment proximityFragment;
 
     private String currentFragmentTag;
     private TitlebarHelper titlebarHelper;
@@ -140,20 +140,20 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
 
 
     public void showProximityFragment() {
-        currentFragmentTag = ProximityFragment.TAG;
-        Fragment fragment = findFragmentByTag(ProximityFragment.TAG);
+        currentFragmentTag = PushupsFragment.TAG;
+        Fragment fragment = findFragmentByTag(PushupsFragment.TAG);
         hideTheOtherFragment();
 
         if (null == fragment) {
-            fragment = ProximityFragment.newInstance(new Bundle());
-//            replaceChildFragment(fragment, ProximityFragment.TAG, fromLeft2Right());
-            addChildFragment(fragment, ProximityFragment.TAG, fromLeft2Right());
+            fragment = PushupsFragment.newInstance(new Bundle());
+//            replaceChildFragment(fragment, PushupsFragment.TAG, fromLeft2Right());
+            addChildFragment(fragment, PushupsFragment.TAG, fromLeft2Right());
 
         } else {
-            showFragment(fragment, ProximityFragment.TAG, fromLeft2Right());
+            showFragment(fragment, PushupsFragment.TAG, fromLeft2Right());
         }
 
-        notifyFragmentChangeAll(ProximityFragment.TAG);
+        notifyFragmentChangeAll(PushupsFragment.TAG);
     }
 
     public void showGameBoardFragment() {
@@ -232,7 +232,7 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
     }
 
     private void notifyFragmentChangeAll(String tag) {
-        notifyFragmentChange(ProximityFragment.TAG, tag);
+        notifyFragmentChange(PushupsFragment.TAG, tag);
         notifyFragmentChange(DashboardFragment.TAG, tag);
         notifyFragmentChange(GameBoardFragment.TAG, tag);
         notifyFragmentChange(MultiPlayerFragment.TAG, tag);
@@ -255,7 +255,7 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
     }
 
     private void hideTheOtherFragment() {
-        Fragment fragment = findFragmentByTag(ProximityFragment.TAG);
+        Fragment fragment = findFragmentByTag(PushupsFragment.TAG);
         hideFragment(fragment, fromLeft2Right());
 
         fragment = findFragmentByTag(DashboardFragment.TAG);
@@ -501,7 +501,7 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
     public void showFragment(String tag) {
         if (tag.equalsIgnoreCase(DashboardFragment.TAG)) {
             showDashboardFragment();
-        } else if (tag.equalsIgnoreCase(ProximityFragment.TAG)) {
+        } else if (tag.equalsIgnoreCase(PushupsFragment.TAG)) {
             showProximityFragment();
         } else if (tag.equalsIgnoreCase(GameBoardFragment.TAG)) {
             showGameBoardFragment();

@@ -19,7 +19,7 @@ import me.pjq.pushup.utils.Utils;
 /**
  * Created by pjq on 5/26/13.
  */
-public class ProximityFragment extends BaseFragment implements View.OnClickListener, SensorEventListener {
+public class PushupsFragment extends BaseFragment implements View.OnClickListener, SensorEventListener {
     public static final String TAG = ProximityActivity.class.getSimpleName();
 
     private SensorManager mgr;
@@ -41,8 +41,8 @@ public class ProximityFragment extends BaseFragment implements View.OnClickListe
     private FragmentController fragmentController;
     private TitlebarHelper titlebarHelper;
 
-    public static ProximityFragment newInstance(Bundle bundle) {
-        ProximityFragment fragment = new ProximityFragment();
+    public static PushupsFragment newInstance(Bundle bundle) {
+        PushupsFragment fragment = new PushupsFragment();
 
         if (null != bundle) {
             fragment.setArguments(bundle);

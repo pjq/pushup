@@ -88,7 +88,7 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
     int CONTENT_VIEW_ID;
     DashboardFragment dashboardFragment;
-    ProximityFragment proximityFragment;
+    PushupsFragment proximityFragment;
 
     private String currentFragmentTag;
     private TitlebarHelper titlebarHelper;
@@ -183,24 +183,26 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
     }
 
 
-    public void showProximityFragment() {
-        currentFragmentTag = ProximityFragment.TAG;
-        android.support.v4.app.Fragment fragment = findFragmentByTag(ProximityFragment.TAG);
+    public void showPushupFragment() {
+        updateItemSelected(Constants.DRAWER_ITEM_PUSHUPS);
+        currentFragmentTag = PushupsFragment.TAG;
+        android.support.v4.app.Fragment fragment = findFragmentByTag(PushupsFragment.TAG);
         hideTheOtherFragment();
 
         if (null == fragment) {
-            fragment = ProximityFragment.newInstance(new Bundle());
-//            replaceChildFragment(fragment, ProximityFragment.TAG, fromLeft2Right());
-            addChildFragment(fragment, ProximityFragment.TAG, fromLeft2Right());
+            fragment = PushupsFragment.newInstance(new Bundle());
+//            replaceChildFragment(fragment, PushupsFragment.TAG, fromLeft2Right());
+            addChildFragment(fragment, PushupsFragment.TAG, fromLeft2Right());
 
         } else {
-            showFragment(fragment, ProximityFragment.TAG, fromLeft2Right());
+            showFragment(fragment, PushupsFragment.TAG, fromLeft2Right());
         }
 
-        notifyFragmentChangeAll(ProximityFragment.TAG);
+        notifyFragmentChangeAll(PushupsFragment.TAG);
     }
 
     public void showGameBoardFragment() {
+        updateItemSelected(Constants.DRAWER_ITEM_LEADERBOARD);
         currentFragmentTag = GameBoardFragment.TAG;
         android.support.v4.app.Fragment fragment = findFragmentByTag(GameBoardFragment.TAG);
         hideTheOtherFragment();
@@ -218,6 +220,7 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
     }
 
     public void showDashboardFragment() {
+        updateItemSelected(Constants.DRAWER_ITEM_DASHBOARD);
         currentFragmentTag = DashboardFragment.TAG;
         android.support.v4.app.Fragment fragment = findFragmentByTag(DashboardFragment.TAG);
         hideTheOtherFragment();
@@ -234,7 +237,8 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         notifyFragmentChangeAll(DashboardFragment.TAG);
     }
 
-    public void showLanGameFragment() {
+    public void showMultiPlayerGameFragment() {
+        updateItemSelected(Constants.DRAWER_ITEM_MULTI);
         currentFragmentTag = MultiPlayerFragment.TAG;
         android.support.v4.app.Fragment fragment = findFragmentByTag(MultiPlayerFragment.TAG);
         hideTheOtherFragment();
@@ -251,7 +255,8 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         notifyFragmentChangeAll(MultiPlayerFragment.TAG);
     }
 
-    public void showTwistGameFragment() {
+    public void showWristGameFragment() {
+        updateItemSelected(Constants.DRAWER_ITEM_WRIST);
         currentFragmentTag = WristGameFragment.TAG;
         android.support.v4.app.Fragment fragment = findFragmentByTag(WristGameFragment.TAG);
         hideTheOtherFragment();
@@ -276,7 +281,7 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
     }
 
     private void notifyFragmentChangeAll(String tag) {
-        notifyFragmentChange(ProximityFragment.TAG, tag);
+        notifyFragmentChange(PushupsFragment.TAG, tag);
         notifyFragmentChange(DashboardFragment.TAG, tag);
         notifyFragmentChange(GameBoardFragment.TAG, tag);
         notifyFragmentChange(MultiPlayerFragment.TAG, tag);
@@ -299,7 +304,7 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
     }
 
     private void hideTheOtherFragment() {
-        android.support.v4.app.Fragment fragment = findFragmentByTag(ProximityFragment.TAG);
+        android.support.v4.app.Fragment fragment = findFragmentByTag(PushupsFragment.TAG);
         hideFragment(fragment, fromLeft2Right());
 
         fragment = findFragmentByTag(DashboardFragment.TAG);
@@ -544,14 +549,14 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
     public void showFragment(String tag) {
         if (tag.equalsIgnoreCase(DashboardFragment.TAG)) {
             showDashboardFragment();
-        } else if (tag.equalsIgnoreCase(ProximityFragment.TAG)) {
-            showProximityFragment();
+        } else if (tag.equalsIgnoreCase(PushupsFragment.TAG)) {
+            showPushupFragment();
+        } else if (tag.equalsIgnoreCase(MultiPlayerFragment.TAG)) {
+            showMultiPlayerGameFragment();
+        } else if (tag.equalsIgnoreCase(WristGameFragment.TAG)) {
+            showWristGameFragment();
         } else if (tag.equalsIgnoreCase(GameBoardFragment.TAG)) {
             showGameBoardFragment();
-        } else if (tag.equalsIgnoreCase(MultiPlayerFragment.TAG)) {
-            showLanGameFragment();
-        } else if (tag.equalsIgnoreCase(WristGameFragment.TAG)) {
-            showTwistGameFragment();
         }
     }
 
@@ -651,23 +656,23 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
     private void selectItem(int position) {
         switch (position) {
-            case 0:
+            case Constants.DRAWER_ITEM_DASHBOARD:
                 showDashboardFragment();
                 break;
-            case 1:
-                showProximityFragment();
+            case Constants.DRAWER_ITEM_PUSHUPS:
+                showPushupFragment();
                 break;
-            case 2:
-                showLanGameFragment();
+            case Constants.DRAWER_ITEM_MULTI:
+                showMultiPlayerGameFragment();
                 break;
-            case 3:
-                showTwistGameFragment();
+            case Constants.DRAWER_ITEM_WRIST:
+                showWristGameFragment();
                 break;
-            case 4:
-            case 5:
+            case Constants.DRAWER_ITEM_LEADERBOARD:
+            case Constants.DRAWER_ITEM_ARCHIEVEMENT:
                 showGameBoardFragment();
                 break;
-            case 6:
+            case Constants.DRAWER_ITEM_ABOUT:
                 showAbout();
                 break;
         }
@@ -683,9 +688,14 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 //        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
         // update selected item and title, then close the drawer
+        updateItemSelected(position);
+
+        mDrawerLayout.closeDrawer(mDrawerList);
+    }
+
+    private void updateItemSelected(int position){
         mDrawerList.setItemChecked(position, true);
         setTitle(mDrawerItems[position]);
-        mDrawerLayout.closeDrawer(mDrawerList);
     }
 
     private void showAbout() {
