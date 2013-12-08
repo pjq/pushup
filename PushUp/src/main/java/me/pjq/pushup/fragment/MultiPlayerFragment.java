@@ -94,10 +94,10 @@ public class MultiPlayerFragment extends BaseFragment implements View.OnClickLis
         player3TextView = (TextView) view.findViewById(R.id.player3);
         player4TextView = (TextView) view.findViewById(R.id.player4);
 
-        player1TextView.setVisibility(View.GONE);
-        player2TextView.setVisibility(View.GONE);
-        player3TextView.setVisibility(View.GONE);
-        player4TextView.setVisibility(View.GONE);
+//        player1TextView.setVisibility(View.GONE);
+//        player2TextView.setVisibility(View.GONE);
+//        player3TextView.setVisibility(View.GONE);
+//        player4TextView.setVisibility(View.GONE);
 
         refreshButton.setOnClickListener(this);
         shareTextView.setOnClickListener(this);

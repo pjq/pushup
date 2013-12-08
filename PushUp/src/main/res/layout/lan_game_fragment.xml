@@ -21,25 +21,21 @@
         <TextView
             android:id="@+id/player1"
             style="@style/PlayerItemStyle"
-            android:text="Player1"
             ></TextView>
 
         <TextView
             android:id="@+id/player2"
             style="@style/PlayerItemStyle"
-            android:text="Player2"
             ></TextView>
 
         <TextView
             android:id="@+id/player3"
             style="@style/PlayerItemStyle"
-            android:text="Player3"
             ></TextView>
 
         <TextView
             android:id="@+id/player4"
             style="@style/PlayerItemStyle"
-            android:text="Player4"
             ></TextView>
     </LinearLayout>
 
