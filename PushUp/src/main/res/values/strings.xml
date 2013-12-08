@@ -56,6 +56,7 @@
     -->
     <string name="total_times">Total %d times</string>
     <string name="pushups_per_time"> %d pushups/time</string>
+    <string name="press_again_to_exit">Press Back-Key again to exit.</string>
 
     <string-array name="drawer_items_array">
         <item>@string/menu_item_dashboard</item>

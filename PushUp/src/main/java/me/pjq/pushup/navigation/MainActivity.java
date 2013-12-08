@@ -22,6 +22,7 @@ import android.app.Fragment;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.*;
+import android.os.Process;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -39,6 +40,7 @@ import com.squareup.otto.Bus;
 import me.pjq.pushup.*;
 import me.pjq.pushup.fragment.*;
 import me.pjq.pushup.utils.TitlebarHelper;
+import me.pjq.pushup.utils.ToastUtil;
 import me.pjq.pushup.utils.Utils;
 import me.pjq.pushup.R;
 
@@ -581,16 +583,51 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
             if (!currentFragmentTag.equalsIgnoreCase(DashboardFragment.TAG)) {
                 showDashboardFragment();
                 return true;
+            } else {
+                pressAgainToExit();
+                return true;
             }
         }
 
         return super.onKeyDown(keyCode, event);
     }
 
+
+    private long lastPressBackTime;
+    private static final int PRESS_AGAIN_LIMIT_DURATION = 3;
+
+    private void pressAgainToExit() {
+        long current = System.currentTimeMillis();
+        long duration = (current - lastPressBackTime) / 1000;
+
+        if (duration <= PRESS_AGAIN_LIMIT_DURATION) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+//                    exitApp();
+                    finish();
+                }
+            });
+        } else {
+            lastPressBackTime = current;
+            ToastUtil.showToast(getApplicationContext(), getString(R.string.press_again_to_exit));
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
+        exitApp();
+    }
+
+    private void exitApp() {
         MyApplication.getPeersMgr().stop();
         android.os.Process.killProcess(android.os.Process.myPid());
     }
@@ -693,7 +730,7 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
-    private void updateItemSelected(int position){
+    private void updateItemSelected(int position) {
         mDrawerList.setItemChecked(position, true);
         setTitle(mDrawerItems[position]);
     }
