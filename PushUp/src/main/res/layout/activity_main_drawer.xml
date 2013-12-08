@@ -70,7 +70,7 @@
                 android:id="@+id/user_icon"
                 android:layout_width="50dip"
                 android:layout_height="50dip"
-                android:background="@drawable/ic_game"
+                android:background="@drawable/google_plus_logo"
                 ></ImageView>
 
             <TextView
