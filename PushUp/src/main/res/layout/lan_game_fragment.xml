@@ -16,6 +16,7 @@
         android:layout_width="fill_parent"
         android:layout_height="40dip"
         android:layout_below="@id/titleIndicatorLayout"
+        android:layout_marginBottom="15dip"
         >
 
         <TextView
