@@ -59,6 +59,18 @@
             />
     </RelativeLayout>
 
+    <TextView
+        android:layout_marginTop="15dip"
+        android:layout_marginBottom="15dip"
+        android:id="@+id/total_times"
+        android:layout_below="@id/total_text_layout"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        style="@style/DetailInfoTextStyle"
+        android:gravity="center"
+        android:layout_marginRight="20dip"
+        android:text="@string/total_times"/>
+
     <RelativeLayout
         android:visibility="visible"
         android:id="@+id/detail_info_layout"
@@ -101,7 +113,7 @@
 
     <TextView
         android:id="@+id/start_button"
-        android:layout_below="@id/detail_info_layout"
+        android:layout_below="@id/total_times"
         android:layout_centerInParent="true"
         android:layout_marginBottom="5dip"
         android:layout_centerHorizontal="true"
@@ -116,7 +128,8 @@
     <LinearLayout
         android:layout_below="@id/start_button"
         android:layout_width="fill_parent"
-        android:layout_height="50dip">
+        android:layout_height="50dip"
+        android:visibility="gone">
 
         <TextView
             android:layout_weight="1.0"

@@ -1,4 +1,4 @@
-package me.pjq.pushup;
+package me.pjq.pushup.lan;
 
 import android.content.Context;
 import android.net.wifi.WifiInfo;
@@ -20,7 +20,7 @@ public class WifiNetworkHelper {
     WifiManager mWifiManager;
     WifiManager.WifiLock mWifiLock;
 
-    WifiNetworkHelper(Context ctx) {
+    public WifiNetworkHelper(Context ctx) {
         mWifiManager = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
         mWifiLock = mWifiManager.createWifiLock(
                 android.os.Build.VERSION.SDK_INT >= 12

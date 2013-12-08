@@ -42,6 +42,29 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="action_websearch">Web search</string>
     <string name="app_not_available">Sorry, there\'s no web browser available</string>
+    <string name="about_url">http://www.pooshup.com</string>
+    <string name="menu_item_dashboard">Dashboard</string>
+    <string name="menu_item_pushup">Pushups</string>
+    <string name="menu_item_multi">Multi-Player</string>
+    <string name="menu_item_wrist">Wrist</string>
+    <string name="menu_item_leaderboard">Leaderboard</string>
+    <string name="menu_item_archievement">Archievement</string>
+    <string name="menu_item_about">About</string>
+    <string name="action_share">Share</string>
+    <!--
+    <string name="total_times_per_count">%s times, %s pushups per time </string>
+    -->
+    <string name="total_times">Total %d times</string>
+    <string name="pushups_per_time"> %d pushups/time</string>
 
+    <string-array name="drawer_items_array">
+        <item>@string/menu_item_dashboard</item>
+        <item>@string/menu_item_pushup</item>
+        <item>@string/menu_item_multi</item>
+        <item>@string/menu_item_wrist</item>
+        <item>@string/menu_item_leaderboard</item>
+        <item>@string/menu_item_archievement</item>
+        <item>@string/menu_item_about</item>
+    </string-array>
 
 </resources>

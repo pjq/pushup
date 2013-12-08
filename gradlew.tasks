@@ -32,12 +32,12 @@ wrapper - Generates Gradle wrapper files. [incubating]
 
 Help tasks
 ----------
-dependencies - Displays all dependencies declared in root project 'PushUpProject'.
-dependencyInsight - Displays the insight into a specific dependency in root project 'PushUpProject'.
+dependencies - Displays all dependencies declared in root project 'pushup'.
+dependencyInsight - Displays the insight into a specific dependency in root project 'pushup'.
 help - Displays a help message
-projects - Displays the sub-projects of root project 'PushUpProject'.
-properties - Displays the properties of root project 'PushUpProject'.
-tasks - Displays the tasks runnable from root project 'PushUpProject' (some of the displayed tasks may belong to subprojects).
+projects - Displays the sub-projects of root project 'pushup'.
+properties - Displays the properties of root project 'pushup'.
+tasks - Displays the tasks runnable from root project 'pushup' (some of the displayed tasks may belong to subprojects).
 
 Install tasks
 -------------
@@ -65,4 +65,4 @@ To see all tasks and more detail, run with --all.
 
 BUILD SUCCESSFUL
 
-Total time: 7.248 secs
+Total time: 8.392 secs

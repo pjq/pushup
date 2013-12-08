@@ -191,20 +191,20 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
     }
 
     public void showLanGameFragment() {
-        currentFragmentTag = LanGameFragment.TAG;
-        Fragment fragment = findFragmentByTag(LanGameFragment.TAG);
+        currentFragmentTag = MultiPlayerFragment.TAG;
+        Fragment fragment = findFragmentByTag(MultiPlayerFragment.TAG);
         hideTheOtherFragment();
 
         if (null == fragment) {
-            fragment = LanGameFragment.newInstance(new Bundle());
-//            replaceChildFragment(fragment, LanGameFragment.TAG, fromLeft2Right());
-            addChildFragment(fragment, LanGameFragment.TAG, fromLeft2Right());
+            fragment = MultiPlayerFragment.newInstance(new Bundle());
+//            replaceChildFragment(fragment, MultiPlayerFragment.TAG, fromLeft2Right());
+            addChildFragment(fragment, MultiPlayerFragment.TAG, fromLeft2Right());
 
         } else {
-            showFragment(fragment, LanGameFragment.TAG, fromLeft2Right());
+            showFragment(fragment, MultiPlayerFragment.TAG, fromLeft2Right());
         }
 
-        notifyFragmentChangeAll(LanGameFragment.TAG);
+        notifyFragmentChangeAll(MultiPlayerFragment.TAG);
     }
 
     public void showTwistGameFragment() {
@@ -214,7 +214,7 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
 
         if (null == fragment) {
             fragment = WristGameFragment.newInstance(new Bundle());
-//            replaceChildFragment(fragment, LanGameFragment.TAG, fromLeft2Right());
+//            replaceChildFragment(fragment, MultiPlayerFragment.TAG, fromLeft2Right());
             addChildFragment(fragment, WristGameFragment.TAG, fromLeft2Right());
 
         } else {
@@ -235,7 +235,7 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
         notifyFragmentChange(ProximityFragment.TAG, tag);
         notifyFragmentChange(DashboardFragment.TAG, tag);
         notifyFragmentChange(GameBoardFragment.TAG, tag);
-        notifyFragmentChange(LanGameFragment.TAG, tag);
+        notifyFragmentChange(MultiPlayerFragment.TAG, tag);
         notifyFragmentChange(WristGameFragment.TAG, tag);
     }
 
@@ -264,7 +264,7 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
         fragment = findFragmentByTag(GameBoardFragment.TAG);
         hideFragment(fragment, fromLeft2Right());
 
-        fragment = findFragmentByTag(LanGameFragment.TAG);
+        fragment = findFragmentByTag(MultiPlayerFragment.TAG);
         hideFragment(fragment, fromLeft2Right());
 
         fragment = findFragmentByTag(WristGameFragment.TAG);
@@ -505,7 +505,7 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
             showProximityFragment();
         } else if (tag.equalsIgnoreCase(GameBoardFragment.TAG)) {
             showGameBoardFragment();
-        } else if (tag.equalsIgnoreCase(LanGameFragment.TAG)) {
+        } else if (tag.equalsIgnoreCase(MultiPlayerFragment.TAG)) {
             showLanGameFragment();
         } else if (tag.equalsIgnoreCase(WristGameFragment.TAG)) {
             showTwistGameFragment();

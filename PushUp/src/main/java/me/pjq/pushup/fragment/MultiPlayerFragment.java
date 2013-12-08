@@ -18,7 +18,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.google.android.gms.internal.fa;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import me.pjq.pushup.AppPreference;
@@ -38,10 +37,10 @@ import me.pjq.pushup.utils.Utils;
 import java.util.ArrayList;
 
 /**
- * Created by pjq on 5/26/13.
+ * Created by pjq on 11/26/13.
  */
-public class LanGameFragment extends BaseFragment implements View.OnClickListener, SensorEventListener {
-    public static final String TAG = LanGameFragment.class.getSimpleName();
+public class MultiPlayerFragment extends BaseFragment implements View.OnClickListener, SensorEventListener {
+    public static final String TAG = MultiPlayerFragment.class.getSimpleName();
 
     private SensorManager mgr;
     private Sensor proximity;
@@ -70,8 +69,8 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
 
     private Bus bus;
 
-    public static LanGameFragment newInstance(Bundle bundle) {
-        LanGameFragment fragment = new LanGameFragment();
+    public static MultiPlayerFragment newInstance(Bundle bundle) {
+        MultiPlayerFragment fragment = new MultiPlayerFragment();
 
         if (null != bundle) {
             fragment.setArguments(bundle);
@@ -274,10 +273,10 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
         ArrayList<LanPlayer> players = LanPlayerHelper.getLanPlayers();
 
         if (players == null || players.size() == 0) {
-            player1TextView.setVisibility(View.GONE);
-            player2TextView.setVisibility(View.GONE);
-            player3TextView.setVisibility(View.GONE);
-            player4TextView.setVisibility(View.GONE);
+//            player1TextView.setVisibility(View.GONE);
+//            player2TextView.setVisibility(View.GONE);
+//            player3TextView.setVisibility(View.GONE);
+//            player4TextView.setVisibility(View.GONE);
 
             return;
         }
@@ -531,7 +530,7 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
 
     private void exit() {
         if (count > 0) {
-            AppPreference.getInstance(getApplicationContext()).increate(count);
+            AppPreference.getInstance(getApplicationContext()).increase(count);
         }
 
         handler.removeMessages(MSG_COUNT_DOWN);
@@ -676,7 +675,7 @@ public class LanGameFragment extends BaseFragment implements View.OnClickListene
             alreadyStartCountDown = false;
             countDown = 3;
             if (count > 0) {
-                AppPreference.getInstance(getApplicationContext()).increate(count);
+                AppPreference.getInstance(getApplicationContext()).increase(count);
             }
 
             handler.removeMessages(MSG_COUNT_DOWN);

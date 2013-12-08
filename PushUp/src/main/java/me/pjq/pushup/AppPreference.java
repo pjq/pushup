@@ -266,7 +266,7 @@ public class AppPreference {
     }
 
 
-    public void increate(int count) {
+    public void increase(int count) {
         ArrayList<RecordItem> recordItems = getRecordItems();
 
         boolean alreadyExist = false;

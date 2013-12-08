@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Environment;
 import android.util.DisplayMetrics;
+import me.pjq.pushup.lan.PeersMgr;
+import me.pjq.pushup.lan.WifiNetworkHelper;
 
 import java.lang.reflect.Field;
 

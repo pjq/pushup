@@ -18,7 +18,8 @@ package com.google.example.games.basegameutils;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 
 import com.google.android.gms.appstate.AppStateClient;
 import com.google.android.gms.common.ConnectionResult;
@@ -42,7 +43,7 @@ import com.google.android.gms.plus.PlusClient;
  *
  * @author Bruno Oliveira (Google)
  */
-public abstract class BaseGameActivity extends FragmentActivity implements
+public abstract class BaseGameActivity extends ActionBarActivity implements
         GameHelper.GameHelperListener {
 
     // The game helper object. This class is mainly a wrapper around this object.
@@ -186,5 +187,9 @@ public abstract class BaseGameActivity extends FragmentActivity implements
 
     protected GameHelper.SignInFailureReason getSignInError() {
         return mHelper.getSignInError();
+    }
+
+    public ActionBar getActionBarImpl(){
+        return getSupportActionBar();
     }
 }

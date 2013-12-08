@@ -15,8 +15,12 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_websearch"
-          android:icon="@drawable/action_search"
-          android:title="@string/action_websearch"
+    <item android:id="@+id/action_share"
+          android:icon="@drawable/blue_circle"
+          android:title="@string/action_share"
+          android:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/action_about"
+          android:icon="@drawable/blue_circle"
+          android:title="@string/menu_item_about"
           android:showAsAction="ifRoom|withText" />
 </menu>

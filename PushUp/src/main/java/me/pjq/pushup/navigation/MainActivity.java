@@ -18,11 +18,7 @@ package me.pjq.pushup.navigation;
 
 import java.util.Locale;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.SearchManager;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.*;
@@ -41,10 +37,10 @@ import com.google.android.gms.games.Player;
 import com.google.example.games.basegameutils.BaseGameActivity;
 import com.squareup.otto.Bus;
 import me.pjq.pushup.*;
-import me.pjq.pushup.activity.DashboardActivity;
 import me.pjq.pushup.fragment.*;
 import me.pjq.pushup.utils.TitlebarHelper;
 import me.pjq.pushup.utils.Utils;
+import me.pjq.pushup.R;
 
 /**
  * This example illustrates a common usage of the DrawerLayout widget
@@ -80,7 +76,7 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-    private String[] mPlanetTitles;
+    private String[] mDrawerItems;
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private TextView userInfo;
@@ -104,7 +100,7 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         CONTENT_VIEW_ID = R.id.content_frame;
 
         mTitle = mDrawerTitle = getTitle();
-        mPlanetTitles = getResources().getStringArray(R.array.planets_array);
+        mDrawerItems = getResources().getStringArray(R.array.drawer_items_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -112,12 +108,13 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mPlanetTitles));
+                R.layout.drawer_list_item, mDrawerItems));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
+        getActionBarImpl().setDisplayHomeAsUpEnabled(true);
+        getActionBarImpl().setHomeButtonEnabled(true);
+
 
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the sliding drawer and the action bar app icon
@@ -127,14 +124,14 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
                 R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
                 R.string.drawer_open,  /* "open drawer" description for accessibility */
                 R.string.drawer_close  /* "close drawer" description for accessibility */
-                ) {
+        ) {
             public void onDrawerClosed(View view) {
-                getActionBar().setTitle(mTitle);
+                getActionBarImpl().setTitle(mTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             public void onDrawerOpened(View drawerView) {
-                getActionBar().setTitle(mDrawerTitle);
+                getActionBarImpl().setTitle(mDrawerTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
@@ -182,7 +179,7 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
         getGamesClient().connect();
 
-        showDashboardFragment();
+//        showDashboardFragment();
     }
 
 
@@ -238,20 +235,37 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
     }
 
     public void showLanGameFragment() {
-        currentFragmentTag = LanGameFragment.TAG;
-        android.support.v4.app.Fragment fragment = findFragmentByTag(LanGameFragment.TAG);
+        currentFragmentTag = MultiPlayerFragment.TAG;
+        android.support.v4.app.Fragment fragment = findFragmentByTag(MultiPlayerFragment.TAG);
         hideTheOtherFragment();
 
         if (null == fragment) {
-            fragment = LanGameFragment.newInstance(new Bundle());
-//            replaceChildFragment(fragment, LanGameFragment.TAG, fromLeft2Right());
-            addChildFragment(fragment, LanGameFragment.TAG, fromLeft2Right());
+            fragment = MultiPlayerFragment.newInstance(new Bundle());
+//            replaceChildFragment(fragment, MultiPlayerFragment.TAG, fromLeft2Right());
+            addChildFragment(fragment, MultiPlayerFragment.TAG, fromLeft2Right());
 
         } else {
-            showFragment(fragment, LanGameFragment.TAG, fromLeft2Right());
+            showFragment(fragment, MultiPlayerFragment.TAG, fromLeft2Right());
         }
 
-        notifyFragmentChangeAll(LanGameFragment.TAG);
+        notifyFragmentChangeAll(MultiPlayerFragment.TAG);
+    }
+
+    public void showTwistGameFragment() {
+        currentFragmentTag = WristGameFragment.TAG;
+        android.support.v4.app.Fragment fragment = findFragmentByTag(WristGameFragment.TAG);
+        hideTheOtherFragment();
+
+        if (null == fragment) {
+            fragment = WristGameFragment.newInstance(new Bundle());
+//            replaceChildFragment(fragment, MultiPlayerFragment.TAG, fromLeft2Right());
+            addChildFragment(fragment, WristGameFragment.TAG, fromLeft2Right());
+
+        } else {
+            showFragment(fragment, WristGameFragment.TAG, fromLeft2Right());
+        }
+
+        notifyFragmentChangeAll(WristGameFragment.TAG);
     }
 
     private void notifyFragmentChange(String fragmentTag, String tag) {
@@ -265,7 +279,8 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         notifyFragmentChange(ProximityFragment.TAG, tag);
         notifyFragmentChange(DashboardFragment.TAG, tag);
         notifyFragmentChange(GameBoardFragment.TAG, tag);
-        notifyFragmentChange(LanGameFragment.TAG, tag);
+        notifyFragmentChange(MultiPlayerFragment.TAG, tag);
+        notifyFragmentChange(WristGameFragment.TAG, tag);
     }
 
 
@@ -293,7 +308,10 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         fragment = findFragmentByTag(GameBoardFragment.TAG);
         hideFragment(fragment, fromLeft2Right());
 
-        fragment = findFragmentByTag(LanGameFragment.TAG);
+        fragment = findFragmentByTag(MultiPlayerFragment.TAG);
+        hideFragment(fragment, fromLeft2Right());
+
+        fragment = findFragmentByTag(WristGameFragment.TAG);
         hideFragment(fragment, fromLeft2Right());
     }
 
@@ -331,6 +349,8 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
                     getString(R.string.achievement_10days));
         }
 
+        int numberOfTimes = AppPreference.getInstance(getApplicationContext()).getNumberOfTimes();
+        getGamesClient().submitScore(getString(R.string.leaderboard_number_of_times), numberOfTimes);
     }
 
     // Shows the "sign in" bar (explanation and button).
@@ -528,8 +548,10 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
             showProximityFragment();
         } else if (tag.equalsIgnoreCase(GameBoardFragment.TAG)) {
             showGameBoardFragment();
-        } else if (tag.equalsIgnoreCase(LanGameFragment.TAG)) {
+        } else if (tag.equalsIgnoreCase(MultiPlayerFragment.TAG)) {
             showLanGameFragment();
+        } else if (tag.equalsIgnoreCase(WristGameFragment.TAG)) {
+            showTwistGameFragment();
         }
     }
 
@@ -580,32 +602,42 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-        menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
+//        menu.findItem(R.id.action_share).setVisible(!drawerOpen);
+//        menu.findItem(R.id.action_about).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-         // The action bar home/up action should open or close the drawer.
-         // ActionBarDrawerToggle will take care of this.
+        // The action bar home/up action should open or close the drawer.
+        // ActionBarDrawerToggle will take care of this.
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
         // Handle action buttons
-        switch(item.getItemId()) {
-        case R.id.action_websearch:
-            // create intent to perform web search for this planet
-            Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
-            intent.putExtra(SearchManager.QUERY, getActionBar().getTitle());
-            // catch event that there's no activity to handle intent
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                startActivity(intent);
-            } else {
-                Toast.makeText(this, R.string.app_not_available, Toast.LENGTH_LONG).show();
-            }
-            return true;
-        default:
-            return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+//            case R.id.action_websearch:
+//                // create intent to perform web search for this planet
+//                Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
+//                intent.putExtra(SearchManager.QUERY, getActionBarImpl().getTitle());
+//                // catch event that there's no activity to handle intent
+//                if (intent.resolveActivity(getPackageManager()) != null) {
+//                    startActivity(intent);
+//                } else {
+//                    Toast.makeText(this, R.string.app_not_available, Toast.LENGTH_LONG).show();
+//                }
+//                return true;
+
+            case R.id.action_share:
+                showShare();
+                return true;
+
+            case R.id.action_about:
+                showAbout();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -618,25 +650,52 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
     }
 
     private void selectItem(int position) {
-        // update the main content by replacing fragments
-        Fragment fragment = new PlanetFragment();
-        Bundle args = new Bundle();
-        args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
-        fragment.setArguments(args);
+        switch (position) {
+            case 0:
+                showDashboardFragment();
+                break;
+            case 1:
+                showProximityFragment();
+                break;
+            case 2:
+                showLanGameFragment();
+                break;
+            case 3:
+                showTwistGameFragment();
+                break;
+            case 4:
+            case 5:
+                showGameBoardFragment();
+                break;
+            case 6:
+                showAbout();
+                break;
+        }
 
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+
+        // update the main content by replacing fragments
+//        Fragment fragment = new PlanetFragment();
+//        Bundle args = new Bundle();
+//        args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
+//        fragment.setArguments(args);
+//
+//        FragmentManager fragmentManager = getFragmentManager();
+//        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);
-        setTitle(mPlanetTitles[position]);
+        setTitle(mDrawerItems[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
+    }
+
+    private void showAbout() {
+        Utils.openUrlInsideApp(this, getString(R.string.about_url));
     }
 
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-        getActionBar().setTitle(mTitle);
+        getActionBarImpl().setTitle(mTitle);
     }
 
     /**
@@ -670,19 +729,42 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_planet, container, false);
             int i = getArguments().getInt(ARG_PLANET_NUMBER);
             String planet = getResources().getStringArray(R.array.planets_array)[i];
 
             int imageId = getResources().getIdentifier(planet.toLowerCase(Locale.getDefault()),
-                            "drawable", getActivity().getPackageName());
+                    "drawable", getActivity().getPackageName());
             ((ImageView) rootView.findViewById(R.id.image)).setImageResource(imageId);
             getActivity().setTitle(planet);
             return rootView;
         }
     }
 
+    private void showShare() {
+        final String text = String.format(getString(R.string.share_text_full_total), appPreference.getTotalNumber());
+        final String filename = ScreenshotUtils.getshotFilePath();
+        ScreenshotUtils.shotBitmap(MainActivity.this, filename);
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Utils.share(MainActivity.this, MainActivity.this.getString(R.string.app_name), text, filename);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        share.startAnimation(animation);
+    }
 
     @Override
     public void onClick(View v) {
@@ -708,29 +790,11 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
                 break;
 
             case R.id.share_textview: {
-                final String text = String.format(getString(R.string.share_text_full_total), appPreference.getTotalNumber());
-                final String filename = ScreenshotUtils.getshotFilePath();
-                ScreenshotUtils.shotBitmap(MainActivity.this, filename);
-                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
-                animation.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        Utils.share(MainActivity.this, MainActivity.this.getString(R.string.app_name), text, filename);
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-
-                    }
-                });
-                share.startAnimation(animation);
+                showShare();
                 break;
             }
         }
     }
+
+
 }

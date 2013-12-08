@@ -25,7 +25,7 @@ public class TitlebarHelper {
     }
 
     public void setTitlebarText(String text) {
-        if (null!=titlebarText){
+        if (null != titlebarText) {
             titlebarText.setText(text);
             titlebarText.setBackground(null);
         }
@@ -58,6 +58,13 @@ public class TitlebarHelper {
 
 
     public TitlebarHelper(View container, final OnTitlebarClickListener listener) {
+        if (null != container) {
+            View titleLayout = container.findViewById(R.id.titleIndicatorLayout);
+            if (null != titleLayout) {
+                titleLayout.setVisibility(View.GONE);
+            }
+        }
+
         titlebarIcon = (ImageView) container.findViewById(R.id.icon);
         titlebarText = (TextView) container.findViewById(R.id.title);
 

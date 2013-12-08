@@ -1,10 +1,9 @@
-package me.pjq.pushup;
+package me.pjq.pushup.lan;
 
 import android.text.TextUtils;
 import android.util.Log;
-import com.google.android.gms.internal.el;
-import me.pjq.pushup.lan.LanPlayer;
-import me.pjq.pushup.lan.LanUtils;
+import me.pjq.pushup.AppPreference;
+import me.pjq.pushup.MyApplication;
 import me.pjq.pushup.utils.Utils;
 import org.jgroups.Address;
 import org.jgroups.JChannel;

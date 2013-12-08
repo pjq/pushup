@@ -241,7 +241,7 @@ public class ProximityActivity extends BaseFragmentActivity implements SensorEve
 
     private void exit() {
         if (count > 0) {
-            AppPreference.getInstance(getApplicationContext()).increate(count);
+            AppPreference.getInstance(getApplicationContext()).increase(count);
         }
 
         handler.removeMessages(MSG_COUNT_DOWN);

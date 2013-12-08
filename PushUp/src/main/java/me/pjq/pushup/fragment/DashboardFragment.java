@@ -39,6 +39,8 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     TextView durationTextView;
     TextView levelTextView;
 
+    TextView totalTimesTextView;
+
     Bus bus;
 
     AppPreference appPreference;
@@ -73,6 +75,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         daysTextView = (TextView) view.findViewById(R.id.days);
         durationTextView = (TextView) view.findViewById(R.id.duration_time);
         levelTextView = (TextView) view.findViewById(R.id.level);
+        totalTimesTextView = (TextView) view.findViewById(R.id.total_times);
 
         startImageView.setOnClickListener(this);
         twistImageView.setOnClickListener(this);
@@ -142,6 +145,9 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         //showResultText();
 
         daysTextView.setText(String.format(getString(R.string.how_many_days), appPreference.getHowManyDays()));
+
+        int totalTimes = appPreference.getNumberOfTimes();
+        totalTimesTextView.setText(String.format(getString(R.string.total_times), totalTimes)+", " + String.format(getString(R.string.pushups_per_time), totalCount / totalTimes));
     }
 
     private static final int COUNTDOWN_ANIMATION_DURATION = 2000;
@@ -168,7 +174,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         switch (id) {
             case R.id.start_button: {
 //                fragmentController.showFragment(ProximityFragment.TAG);
-                fragmentController.showFragment(LanGameFragment.TAG);
+                fragmentController.showFragment(MultiPlayerFragment.TAG);
 
                 break;
             }

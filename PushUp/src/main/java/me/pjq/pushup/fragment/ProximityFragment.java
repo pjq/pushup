@@ -266,7 +266,7 @@ public class ProximityFragment extends BaseFragment implements View.OnClickListe
 
     private void exit() {
         if (count > 0) {
-            AppPreference.getInstance(getApplicationContext()).increate(count);
+            AppPreference.getInstance(getApplicationContext()).increase(count);
         }
 
         handler.removeMessages(MSG_COUNT_DOWN);
@@ -396,7 +396,7 @@ public class ProximityFragment extends BaseFragment implements View.OnClickListe
             alreadyStartCountDown = false;
             countDown = 3;
             if (count > 0) {
-                AppPreference.getInstance(getApplicationContext()).increate(count);
+                AppPreference.getInstance(getApplicationContext()).increase(count);
             }
 
             handler.removeMessages(MSG_COUNT_DOWN);
