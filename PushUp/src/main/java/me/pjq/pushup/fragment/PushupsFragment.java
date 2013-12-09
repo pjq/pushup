@@ -13,6 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.*;
 import me.pjq.pushup.*;
 import me.pjq.pushup.backup.ProximityActivity;
+import me.pjq.pushup.utils.AnimationsUtil;
 import me.pjq.pushup.utils.TitlebarHelper;
 import me.pjq.pushup.utils.Utils;
 
@@ -285,23 +286,24 @@ public class PushupsFragment extends BaseFragment implements View.OnClickListene
     }
 
     private void doCountTextViewAnimation() {
-        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
-        animation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        countTextView.startAnimation(animation);
+//        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
+//        animation.setAnimationListener(new Animation.AnimationListener() {
+//            @Override
+//            public void onAnimationStart(Animation animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animation animation) {
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animation animation) {
+//
+//            }
+//        });
+//        countTextView.startAnimation(animation);
+        AnimationsUtil.sacleBreath(countTextView);
     }
 
     private static final int MSG_COUNT_DOWN = 1;

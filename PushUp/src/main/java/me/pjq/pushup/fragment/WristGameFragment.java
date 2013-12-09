@@ -22,6 +22,7 @@ import me.pjq.pushup.audio.PlayerUtils;
 import me.pjq.pushup.lan.LanPlayer;
 import me.pjq.pushup.lan.LanPlayerHelper;
 import me.pjq.pushup.lan.MsgUpdatePlayer;
+import me.pjq.pushup.utils.AnimationsUtil;
 import me.pjq.pushup.utils.TitlebarHelper;
 import me.pjq.pushup.utils.Utils;
 
@@ -554,23 +555,25 @@ public class WristGameFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void doCountTextViewAnimation() {
-        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
-        animation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
+//        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
+//        animation.setAnimationListener(new Animation.AnimationListener() {
+//            @Override
+//            public void onAnimationStart(Animation animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animation animation) {
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animation animation) {
+//
+//            }
+//        });
+//        countTextView.startAnimation(animation);
 
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        countTextView.startAnimation(animation);
+        AnimationsUtil.sacleBreath(countTextView);
     }
 
     private static final int MSG_COUNT_DOWN = 1;
