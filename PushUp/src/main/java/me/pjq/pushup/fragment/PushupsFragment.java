@@ -13,9 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.*;
 import me.pjq.pushup.*;
 import me.pjq.pushup.backup.ProximityActivity;
-import me.pjq.pushup.utils.AnimationsUtil;
-import me.pjq.pushup.utils.TitlebarHelper;
-import me.pjq.pushup.utils.Utils;
+import me.pjq.pushup.utils.*;
 
 /**
  * Created by pjq on 5/26/13.

@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import me.pjq.pushup.*;
 import me.pjq.pushup.activity.BaseFragmentActivity;
+import me.pjq.pushup.utils.ScreenshotUtils;
+import me.pjq.pushup.utils.SpeakerUtil;
 import me.pjq.pushup.utils.Utils;
 
 

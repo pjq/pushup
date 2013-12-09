@@ -19,6 +19,7 @@ import com.google.example.games.basegameutils.BaseGameActivity;
 import com.squareup.otto.Bus;
 import me.pjq.pushup.*;
 import me.pjq.pushup.fragment.*;
+import me.pjq.pushup.utils.ScreenshotUtils;
 import me.pjq.pushup.utils.TitlebarHelper;
 import me.pjq.pushup.utils.Utils;
 

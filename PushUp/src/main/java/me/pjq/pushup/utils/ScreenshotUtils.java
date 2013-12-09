@@ -1,4 +1,4 @@
-package me.pjq.pushup;
+package me.pjq.pushup.utils;
 
 /**
  * Created by pjq on 11/9/13.
@@ -12,9 +12,8 @@ import java.io.IOException;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.View;
-import me.pjq.pushup.utils.Utils;
+import me.pjq.pushup.LocalPathResolver;
 
 public class ScreenshotUtils {
     /**

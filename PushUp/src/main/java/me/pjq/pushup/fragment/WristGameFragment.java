@@ -22,9 +22,7 @@ import me.pjq.pushup.audio.PlayerUtils;
 import me.pjq.pushup.lan.LanPlayer;
 import me.pjq.pushup.lan.LanPlayerHelper;
 import me.pjq.pushup.lan.MsgUpdatePlayer;
-import me.pjq.pushup.utils.AnimationsUtil;
-import me.pjq.pushup.utils.TitlebarHelper;
-import me.pjq.pushup.utils.Utils;
+import me.pjq.pushup.utils.*;
 
 import java.util.ArrayList;
 
