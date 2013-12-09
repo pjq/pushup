@@ -36,16 +36,19 @@ public class MyShareActionProvider extends ShareActionProvider {
 
     @Override
     public void onPrepareSubMenu(SubMenu subMenu) {
+        EFLogger.i(TAG, "onPrepareSubMenu");
         super.onPrepareSubMenu(subMenu);
     }
 
     @Override
     public boolean onPerformDefaultAction() {
+        EFLogger.i(TAG, "onPerformDefaultAction");
         return true;
     }
 
     @Override
     public void setOnShareTargetSelectedListener(OnShareTargetSelectedListener listener) {
+        EFLogger.i(TAG, "setOnShareTargetSelectedListenern");
         super.setOnShareTargetSelectedListener(listener);
     }
 

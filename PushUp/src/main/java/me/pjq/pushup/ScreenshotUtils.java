@@ -14,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.View;
+import me.pjq.pushup.utils.Utils;
 
 public class ScreenshotUtils {
     /**
@@ -70,6 +71,17 @@ public class ScreenshotUtils {
         }
 
         return imagePath + System.currentTimeMillis() + ".png";
+    }
+
+    public static String getshotFilePathByDay() {
+        String imagePath = LocalPathResolver.getCachePath("images");
+
+        File file = new File(imagePath);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+
+        return imagePath + Utils.time2DateKey(""+System.currentTimeMillis()) + ".png";
     }
 
     /**

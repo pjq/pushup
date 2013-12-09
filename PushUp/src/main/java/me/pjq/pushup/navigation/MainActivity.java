@@ -288,6 +288,8 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         notifyFragmentChange(GameBoardFragment.TAG, tag);
         notifyFragmentChange(MultiPlayerFragment.TAG, tag);
         notifyFragmentChange(WristGameFragment.TAG, tag);
+
+        updateShareIntent();
     }
 
 
@@ -641,17 +643,33 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
         MenuItem shareItem = menu.findItem(R.id.action_share);
         mShareActionProvider = (MyShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
-        mShareActionProvider.setShareHistoryFileName("customer_share_history.xml");
+        mShareActionProvider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
         //mShareActionProvider.setShareIntent(Utils.getShareRawIntent(this));
 
         mShareActionProvider.setOnShareTargetSelectedListener(new ShareActionProvider.OnShareTargetSelectedListener() {
             @Override
             public boolean onShareTargetSelected(ShareActionProvider shareActionProvider, Intent intent) {
                 updateShareIntent();
-                return true;
+                return false;
             }
         });
         updateShareIntent();
+
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            if (item.getItemId() == R.id.action_share) {
+                View itemChooser =    MenuItemCompat.getActionView(item);
+                if (itemChooser != null) {
+                    itemChooser.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            EFLogger.i(TAG,"onClick");
+                            ScreenshotUtils.shotBitmap(MainActivity.this, shareFileName);
+                        }
+                    });
+                }
+            }
+        }
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -663,11 +681,12 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
      * mShareActionProvider.setShareIntent()
      */
     private Intent updateShareIntent() {
+        if (null == appPreference) {
+            return null;
+        }
+
         final String text = String.format(getString(R.string.share_text_full_total), appPreference.getTotalNumber());
-
-        shareFileName = ScreenshotUtils.getshotFilePath();
-        ScreenshotUtils.shotBitmap(MainActivity.this, shareFileName);
-
+        takeScreenshot();
         Intent intent = Utils.getShareIntent(MainActivity.this, MainActivity.this.getString(R.string.app_name), text, shareFileName);
 
         if (null != mShareActionProvider) {
@@ -676,6 +695,15 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         }
 
         return intent;
+    }
+
+    private void takeScreenshot() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ScreenshotUtils.shotBitmap(MainActivity.this, shareFileName);
+            }
+        });
     }
 
     /* Called whenever we call invalidateOptionsMenu() */
@@ -805,17 +833,15 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    private String shareFileName;
+    private String shareFileName = ScreenshotUtils.getshotFilePathByDay();
 
     private void showShare() {
         final String text = String.format(getString(R.string.share_text_full_total), appPreference.getTotalNumber());
-        shareFileName = ScreenshotUtils.getshotFilePath();
         ScreenshotUtils.shotBitmap(MainActivity.this, shareFileName);
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
             }
 
             @Override
