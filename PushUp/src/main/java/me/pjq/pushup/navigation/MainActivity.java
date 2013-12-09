@@ -16,17 +16,17 @@
 
 package me.pjq.pushup.navigation;
 
-import java.util.Locale;
 
-import android.app.Fragment;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.*;
-import android.os.Process;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.*;
 import android.view.animation.Animation;
@@ -632,11 +632,50 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 
+    MyShareActionProvider mShareActionProvider;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
+
+        MenuItem shareItem = menu.findItem(R.id.action_share);
+        mShareActionProvider = (MyShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
+        mShareActionProvider.setShareHistoryFileName("customer_share_history.xml");
+        //mShareActionProvider.setShareIntent(Utils.getShareRawIntent(this));
+
+        mShareActionProvider.setOnShareTargetSelectedListener(new ShareActionProvider.OnShareTargetSelectedListener() {
+            @Override
+            public boolean onShareTargetSelected(ShareActionProvider shareActionProvider, Intent intent) {
+                updateShareIntent();
+                return true;
+            }
+        });
+        updateShareIntent();
+
         return super.onCreateOptionsMenu(menu);
+    }
+
+    /**
+     * Defines a default (dummy) share intent to initialize the action provider.
+     * However, as soon as the actual content to be used in the intent
+     * is known or changes, you must update the share intent by again calling
+     * mShareActionProvider.setShareIntent()
+     */
+    private Intent updateShareIntent() {
+        final String text = String.format(getString(R.string.share_text_full_total), appPreference.getTotalNumber());
+
+        shareFileName = ScreenshotUtils.getshotFilePath();
+        ScreenshotUtils.shotBitmap(MainActivity.this, shareFileName);
+
+        Intent intent = Utils.getShareIntent(MainActivity.this, MainActivity.this.getString(R.string.app_name), text, shareFileName);
+
+        if (null != mShareActionProvider) {
+//            mShareActionProvider.setShareIntent(Utils.getShareRawIntent(this));
+            mShareActionProvider.setShareIntent(intent);
+        }
+
+        return intent;
     }
 
     /* Called whenever we call invalidateOptionsMenu() */
@@ -671,12 +710,13 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 //                return true;
 
             case R.id.action_share:
-                showShare();
+                updateShareIntent();
+//                showShare();
                 return true;
 
-            case R.id.action_about:
-                showAbout();
-                return true;
+//            case R.id.action_about:
+//                showAbout();
+//                return true;
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -737,6 +777,7 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
     private void showAbout() {
         Utils.openUrlInsideApp(this, getString(R.string.about_url));
+        Utils.overridePendingTransitionRight2Left(this);
     }
 
     @Override
@@ -764,35 +805,12 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    /**
-     * Fragment that appears in the "content_frame", shows a planet
-     */
-    public static class PlanetFragment extends Fragment {
-        public static final String ARG_PLANET_NUMBER = "planet_number";
-
-        public PlanetFragment() {
-            // Empty constructor required for fragment subclasses
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_planet, container, false);
-            int i = getArguments().getInt(ARG_PLANET_NUMBER);
-            String planet = getResources().getStringArray(R.array.planets_array)[i];
-
-            int imageId = getResources().getIdentifier(planet.toLowerCase(Locale.getDefault()),
-                    "drawable", getActivity().getPackageName());
-            ((ImageView) rootView.findViewById(R.id.image)).setImageResource(imageId);
-            getActivity().setTitle(planet);
-            return rootView;
-        }
-    }
+    private String shareFileName;
 
     private void showShare() {
         final String text = String.format(getString(R.string.share_text_full_total), appPreference.getTotalNumber());
-        final String filename = ScreenshotUtils.getshotFilePath();
-        ScreenshotUtils.shotBitmap(MainActivity.this, filename);
+        shareFileName = ScreenshotUtils.getshotFilePath();
+        ScreenshotUtils.shotBitmap(MainActivity.this, shareFileName);
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -802,7 +820,7 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                Utils.share(MainActivity.this, MainActivity.this.getString(R.string.app_name), text, filename);
+                Utils.share(MainActivity.this, MainActivity.this.getString(R.string.app_name), text, shareFileName);
             }
 
             @Override

@@ -13,6 +13,7 @@ public class SpeakerUtil {
     private static SpeakerUtil instance;
     private TextToSpeech tts;
     private boolean isTtsInited = false;
+    private boolean ENABLE_SPEAKER = false;
 
     public SpeakerUtil(Context context) {
         tts = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
@@ -41,6 +42,10 @@ public class SpeakerUtil {
     }
 
     public void speak(String text) {
+        if (!ENABLE_SPEAKER) {
+            return;
+        }
+
         if (TextUtils.isEmpty(text)) {
             return;
         }

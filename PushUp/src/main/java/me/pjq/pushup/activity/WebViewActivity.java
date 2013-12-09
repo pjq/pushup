@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.ActionBar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -22,8 +23,8 @@ import java.util.Map;
 /**
  * Created by kicoolzhang on 7/26/13.
  */
-public abstract class WebViewActivity extends BaseFragmentActivity {
-    protected static String TAG;
+public abstract class WebViewActivity extends BaseActionBarActivity {
+    protected static String TAG = WebViewActivity.class.getSimpleName();
     public static final String KEY_URL = "url";
 
     protected WebView mWebView;
@@ -40,8 +41,7 @@ public abstract class WebViewActivity extends BaseFragmentActivity {
 
     @Override
     protected void onCreate(Bundle arg0) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(arg0);
 
         ensureUI();
@@ -55,6 +55,10 @@ public abstract class WebViewActivity extends BaseFragmentActivity {
         EFLogger.i(TAG, "onCreate openUrl:" + mUrl);
 
         loadurl(mWebView, mUrl);
+        ActionBar actionBar = getActionBarImpl();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setTitle(getString(R.string.menu_item_about));
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     protected void init() {
@@ -70,7 +74,7 @@ public abstract class WebViewActivity extends BaseFragmentActivity {
                     switch (msg.what) {
                         case 0:
                             progressBar.setVisibility(View.VISIBLE);
-                            webSettings.setBlockNetworkImage(true);
+//                            webSettings.setBlockNetworkImage(true);
                             break;
                         case 1:
                             progressBar.setVisibility(View.GONE);
@@ -129,7 +133,7 @@ public abstract class WebViewActivity extends BaseFragmentActivity {
 
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-            Toast.makeText(activity, "Error:" + description, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(activity, "Error:" + description, Toast.LENGTH_SHORT).show();
         }
 
         @Override

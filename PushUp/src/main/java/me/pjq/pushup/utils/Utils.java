@@ -51,23 +51,31 @@ public class Utils {
 //        activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
 //    }
 
-    public static void share(Context context, String subject, String text, String filePath) {
-        long start = System.currentTimeMillis();
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
+    public static Intent getShareIntent(Context context, String subject, String text, String filePath){
+        Intent intent = getShareRawIntent(context);
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_TEXT, text);
-        intent.setType("image/png");
         intent.putExtra(Intent.EXTRA_TEXT, text);
         File file = new File(filePath);
         Uri uri = Uri.fromFile(file);
         intent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        return intent;
+    }
+
+    public static Intent getShareRawIntent(Context context){
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.setType("image/*");
+
+        return intent;
+    }
+    public static void share(Context context, String subject, String text, String filePath) {
+        Intent intent = getShareIntent(context,subject,text,filePath);
+
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(Intent.createChooser(intent,
                 context.getString(R.string.app_name)));
-        long usetime = System.currentTimeMillis() - start;
-
-        EFLogger.i(TAG, "use time " + usetime);
     }
 
     private static final SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
