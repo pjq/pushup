@@ -528,6 +528,26 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
     }
 
     @Override
+    public void onShowAchievementsRequested() {
+
+    }
+
+    @Override
+    public void onShowLeaderboardsRequested() {
+
+    }
+
+    @Override
+    public void beginUserInitiatedSignInImpl() {
+
+    }
+
+    @Override
+    public void signOutImpl() {
+
+    }
+
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (KeyEvent.KEYCODE_BACK == keyCode) {
             if (!currentFragmentTag.equalsIgnoreCase(DashboardFragment.TAG)) {

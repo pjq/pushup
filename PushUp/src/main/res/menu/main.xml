@@ -16,19 +16,19 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:myapp="http://schemas.android.com/apk/res-auto">
-    <!--
     <item android:id="@+id/action_share"
-          android:icon="@drawable/blue_circle"
           android:title="@string/action_share"
-          android:showAsAction="ifRoom|withText" />
-          -->
+          myapp:showAsAction="ifRoom"
+          android:icon="@android:drawable/ic_menu_share"
+        />
+    <!--
     <item
         android:id="@+id/action_share"
         android:title="@string/action_share"
-        myapp:showAsAction="ifRoom"
         android:icon="@android:drawable/ic_menu_share"
         myapp:actionProviderClass="me.pjq.pushup.navigation.MyShareActionProvider"
         />
+          -->
 
     <!--
     <item android:id="@+id/action_about"

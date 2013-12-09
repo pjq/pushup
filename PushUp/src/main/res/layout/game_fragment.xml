@@ -28,7 +28,8 @@
         />
 
     <!-- MAIN DISPLAY -->
-    <LinearLayout style="@style/MainDisplay"
+    <LinearLayout
+        style="@style/MainDisplay"
         android:layout_marginTop="30dip">
 
         <Button
@@ -44,4 +45,45 @@
             android:layout_marginTop="30dip"
             style="@style/Button"/>
     </LinearLayout>
+
+    <!-- SIGN-IN BAR -->
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:id="@+id/sign_in_bar"
+        style="@style/SignInOutBar">
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/button_sign_in"
+            style="@style/SignInButton"/>
+
+        <TextView
+            style="@style/SignInOutBarBlurb"
+            android:text="@string/sign_in_explanation"/>
+    </LinearLayout>
+
+    <!-- SIGN-OUT BAR -->
+    <LinearLayout
+        android:id="@+id/sign_out_bar"
+        style="@style/SignInOutBar"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/user_icon"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:background="@drawable/google_plus_logo"
+            ></ImageView>
+
+        <TextView
+            android:id="@+id/user_info"
+            style="@style/SignInOutBarBlurb"
+            android:text="@string/you_are_signed_in"/>
+
+        <Button
+            style="@style/SignOutButton"
+            android:id="@+id/button_sign_out"
+            android:text="@string/sign_out"/>
+    </LinearLayout>
+
 </LinearLayout>

@@ -13,4 +13,12 @@ public interface FragmentController {
     boolean isSignedInPublic();
 
     void showAlertPublic(String string);
+
+    void onShowAchievementsRequested();
+
+    void onShowLeaderboardsRequested();
+
+    void beginUserInitiatedSignInImpl();
+
+    void signOutImpl();
 }

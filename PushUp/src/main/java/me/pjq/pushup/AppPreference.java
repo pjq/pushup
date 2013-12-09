@@ -192,7 +192,7 @@ public class AppPreference {
     }
 
     public String getRecordJson() {
-        String record = userPreference.getString(KEY_PUSH_UP_RECORD, new JSONObject().toString());
+        String record = userPreference.getString(KEY_PUSH_UP_RECORD, new JSONArray().toString());
         return record;
     }
 

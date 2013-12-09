@@ -146,8 +146,13 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
         daysTextView.setText(String.format(getString(R.string.how_many_days), appPreference.getHowManyDays()));
 
-        int totalTimes = appPreference.getNumberOfTimes();
-        totalTimesTextView.setText(String.format(getString(R.string.total_times), totalTimes)+", " + String.format(getString(R.string.pushups_per_time), totalCount / totalTimes));
+
+        if (false) {
+            int totalTimes = appPreference.getNumberOfTimes();
+            totalTimesTextView.setText(String.format(getString(R.string.total_times), totalTimes) + ", " + String.format(getString(R.string.pushups_per_time), totalCount / (totalTimes == 0 ? 1 : totalTimes)));
+        }else {
+            totalTimesTextView.setVisibility(View.INVISIBLE);
+        }
     }
 
     private static final int COUNTDOWN_ANIMATION_DURATION = 2000;

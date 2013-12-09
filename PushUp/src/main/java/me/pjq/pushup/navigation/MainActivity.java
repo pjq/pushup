@@ -23,8 +23,7 @@ import android.net.Uri;
 import android.os.*;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.*;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
@@ -289,7 +288,7 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         notifyFragmentChange(MultiPlayerFragment.TAG, tag);
         notifyFragmentChange(WristGameFragment.TAG, tag);
 
-        updateShareIntent();
+//        updateShareIntent();
     }
 
 
@@ -642,31 +641,33 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         inflater.inflate(R.menu.main, menu);
 
         MenuItem shareItem = menu.findItem(R.id.action_share);
-        mShareActionProvider = (MyShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
-        mShareActionProvider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
-        //mShareActionProvider.setShareIntent(Utils.getShareRawIntent(this));
+        android.support.v4.view.ActionProvider actionProvider = MenuItemCompat.getActionProvider(shareItem);
+        if (null != actionProvider && actionProvider instanceof ShareActionProvider) {
+            mShareActionProvider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
+            //mShareActionProvider.setShareIntent(Utils.getShareRawIntent(this));
 
-        mShareActionProvider.setOnShareTargetSelectedListener(new ShareActionProvider.OnShareTargetSelectedListener() {
-            @Override
-            public boolean onShareTargetSelected(ShareActionProvider shareActionProvider, Intent intent) {
-                updateShareIntent();
-                return false;
-            }
-        });
-        updateShareIntent();
+            mShareActionProvider.setOnShareTargetSelectedListener(new ShareActionProvider.OnShareTargetSelectedListener() {
+                @Override
+                public boolean onShareTargetSelected(ShareActionProvider shareActionProvider, Intent intent) {
+                    updateShareIntent();
+                    return false;
+                }
+            });
+            updateShareIntent();
 
-        for (int i = 0; i < menu.size(); i++) {
-            MenuItem item = menu.getItem(i);
-            if (item.getItemId() == R.id.action_share) {
-                View itemChooser =    MenuItemCompat.getActionView(item);
-                if (itemChooser != null) {
-                    itemChooser.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            EFLogger.i(TAG,"onClick");
-                            ScreenshotUtils.shotBitmap(MainActivity.this, shareFileName);
-                        }
-                    });
+            for (int i = 0; i < menu.size(); i++) {
+                MenuItem item = menu.getItem(i);
+                if (item.getItemId() == R.id.action_share) {
+                    View itemChooser = MenuItemCompat.getActionView(item);
+                    if (itemChooser != null) {
+                        itemChooser.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                EFLogger.i(TAG, "onClick");
+                                ScreenshotUtils.shotBitmap(MainActivity.this, shareFileName);
+                            }
+                        });
+                    }
                 }
             }
         }
@@ -738,8 +739,8 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 //                return true;
 
             case R.id.action_share:
-                updateShareIntent();
-//                showShare();
+//                updateShareIntent();
+                showShare();
                 return true;
 
 //            case R.id.action_about:
@@ -764,19 +765,31 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
             case Constants.DRAWER_ITEM_DASHBOARD:
                 showDashboardFragment();
                 break;
+
             case Constants.DRAWER_ITEM_PUSHUPS:
                 showPushupFragment();
                 break;
+
             case Constants.DRAWER_ITEM_MULTI:
                 showMultiPlayerGameFragment();
                 break;
+
             case Constants.DRAWER_ITEM_WRIST:
                 showWristGameFragment();
                 break;
-            case Constants.DRAWER_ITEM_LEADERBOARD:
-            case Constants.DRAWER_ITEM_ARCHIEVEMENT:
+
+            case Constants.DRAWER_ITEM_GOOGLE:
                 showGameBoardFragment();
                 break;
+
+            case Constants.DRAWER_ITEM_LEADERBOARD:
+                onShowLeaderboardsRequested();
+                break;
+
+            case Constants.DRAWER_ITEM_ARCHIEVEMENT:
+                onShowAchievementsRequested();
+                break;
+
             case Constants.DRAWER_ITEM_ABOUT:
                 showAbout();
                 break;
@@ -837,24 +850,26 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
     private void showShare() {
         final String text = String.format(getString(R.string.share_text_full_total), appPreference.getTotalNumber());
-        ScreenshotUtils.shotBitmap(MainActivity.this, shareFileName);
-        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
-        animation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                Utils.share(MainActivity.this, MainActivity.this.getString(R.string.app_name), text, shareFileName);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        share.startAnimation(animation);
+        takeScreenshot();
+//        ScreenshotUtils.shotBitmap(MainActivity.this, shareFileName);
+//        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
+//        animation.setAnimationListener(new Animation.AnimationListener() {
+//            @Override
+//            public void onAnimationStart(Animation animation) {
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animation animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animation animation) {
+//
+//            }
+//        });
+//        share.startAnimation(animation);
+        Utils.share(MainActivity.this, MainActivity.this.getString(R.string.app_name), text, shareFileName);
     }
 
     @Override
@@ -871,12 +886,12 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
             case R.id.button_sign_in:
                 // start the sign-in flow
-                beginUserInitiatedSignIn();
+                beginUserInitiatedSignInImpl();
                 break;
 
             case R.id.button_sign_out:
                 // sign out.
-                signOut();
+                signOutImpl();
                 showSignInBar();
                 break;
 
@@ -887,5 +902,35 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         }
     }
 
+    public void signOutImpl(){
+        signOut();
+    }
+
+    public void beginUserInitiatedSignInImpl(){
+        beginUserInitiatedSignIn();
+    }
+
+    // request codes we use when invoking an external activity
+    final int RC_RESOLVE = 5000, RC_UNUSED = 5001;
+
+    public void onShowAchievementsRequested() {
+        if (isSignedInPublic()) {
+            startActivityForResult(getGamesClient().getAchievementsIntent(), RC_UNUSED);
+//            Utils.overridePendingTransitionRight2Left(this);
+        } else {
+            showAlertPublic(getString(R.string.achievements_not_available));
+            showGameBoardFragment();
+        }
+    }
+
+    public void onShowLeaderboardsRequested() {
+        if (isSignedInPublic()) {
+            startActivityForResult(getGamesClient().getAllLeaderboardsIntent(), RC_UNUSED);
+//            Utils.overridePendingTransitionRight2Left(this);
+        } else {
+            showAlertPublic(getString(R.string.leaderboards_not_available));
+            showGameBoardFragment();
+        }
+    }
 
 }
