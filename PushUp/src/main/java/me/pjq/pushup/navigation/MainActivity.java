@@ -816,11 +816,7 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
     private void updateItemSelected(int position) {
         mDrawerList.setItemChecked(position, true);
 
-        if (position == Constants.DRAWER_ITEM_LEADERBOARD || position == Constants.DRAWER_ITEM_ARCHIEVEMENT) {
-
-        } else {
-            setTitle(mDrawerItems[position]);
-        }
+        setTitle(mDrawerItems[position]);
     }
 
     private void showAbout() {
@@ -922,7 +918,9 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
     public void onShowAchievementsRequested() {
         if (isSignedInPublic()) {
-            showGameBoardFragment();
+            if (!currentFragmentTag.equalsIgnoreCase(GameBoardFragment.TAG)) {
+                showGameBoardFragment();
+            }
             startActivityForResult(getGamesClient().getAchievementsIntent(), RC_UNUSED);
             Utils.overridePendingTransitionRight2Left(this);
         } else {
@@ -935,7 +933,9 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
     public void onShowLeaderboardsRequested() {
         if (isSignedInPublic()) {
-            showGameBoardFragment();
+            if (!currentFragmentTag.equalsIgnoreCase(GameBoardFragment.TAG)) {
+                showGameBoardFragment();
+            }
             startActivityForResult(getGamesClient().getAllLeaderboardsIntent(), RC_UNUSED);
             Utils.overridePendingTransitionRight2Left(this);
         } else {
