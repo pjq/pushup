@@ -30,19 +30,43 @@
     <!-- MAIN DISPLAY -->
     <LinearLayout
         style="@style/MainDisplay"
-        android:layout_marginTop="30dip">
+        android:layout_marginTop="0dip">
 
-        <Button
-            android:id="@+id/button_archievement"
-            android:text="@string/Archievement"
-            android:layout_width="fill_parent"
-            style="@style/Button"/>
 
         <Button
             android:id="@+id/button_leaderboard"
             android:text="@string/LeaderBoard"
             android:layout_width="fill_parent"
-            android:layout_marginTop="30dip"
+            android:layout_marginTop="0dip"
+            android:layout_weight="1.0"
+            style="@style/Button"/>
+
+        <View
+            android:background="@color/whiteColor"
+            android:layout_width="fill_parent"
+            android:layout_height="2px"
+            ></View>
+
+        <Button
+            android:id="@+id/button_archievement"
+            android:text="@string/Archievement"
+            android:layout_width="fill_parent"
+            android:layout_weight="1.0"
+            style="@style/Button"/>
+
+
+        <View
+            android:background="@color/whiteColor"
+            android:layout_width="fill_parent"
+            android:layout_height="2px"
+            ></View>
+
+        <Button
+            android:id="@+id/button_invitation"
+            android:text="@string/invitation"
+            android:layout_width="fill_parent"
+            android:layout_marginTop="0dip"
+            android:layout_weight="1.0"
             style="@style/Button"/>
     </LinearLayout>
 

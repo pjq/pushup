@@ -18,6 +18,7 @@ public class GameBoardFragment extends BaseFragment implements View.OnClickListe
     public static final String TAG = GameBoardFragment.class.getSimpleName();
     private Button archievementButton;
     private Button leaderboardButton;
+    private Button invitationButton;
 
     private TitlebarHelper titlebarHelper;
     private FragmentController fragmentController;
@@ -49,6 +50,7 @@ public class GameBoardFragment extends BaseFragment implements View.OnClickListe
         appPreference = AppPreference.getInstance(getApplicationContext());
         archievementButton = (Button) view.findViewById(R.id.button_archievement);
         leaderboardButton = (Button) view.findViewById(R.id.button_leaderboard);
+        invitationButton = (Button) view.findViewById(R.id.button_invitation);
 
         userIcon = (ImageView) view.findViewById(R.id.user_icon);
         userInfo = (TextView) view.findViewById(R.id.user_info);
@@ -67,6 +69,7 @@ public class GameBoardFragment extends BaseFragment implements View.OnClickListe
 
         leaderboardButton.setOnClickListener(this);
         archievementButton.setOnClickListener(this);
+        invitationButton.setOnClickListener(this);
 
         view.findViewById(R.id.button_sign_in).setOnClickListener(this);
         view.findViewById(R.id.button_sign_out).setOnClickListener(this);
@@ -149,6 +152,10 @@ public class GameBoardFragment extends BaseFragment implements View.OnClickListe
                 onShowLeaderboardsRequested();
                 break;
 
+            case R.id.button_invitation:
+                onShowInvitationRequested();
+                break;
+
             case R.id.button_sign_in:
                 // start the sign-in flow
                 fragmentController.beginUserInitiatedSignInImpl();
@@ -171,6 +178,10 @@ public class GameBoardFragment extends BaseFragment implements View.OnClickListe
 
     public void onShowLeaderboardsRequested() {
         fragmentController.onShowLeaderboardsRequested();
+    }
+
+    public void onShowInvitationRequested() {
+        fragmentController.onShowInvitationRequested();
     }
 
     @Override

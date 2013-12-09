@@ -24,6 +24,7 @@
     <string name="you_won">OK! You won!</string>
     <string name="achievements_not_available">Please sign in to view achievements.</string>
     <string name="leaderboards_not_available">Please sign in to view leaderboards.</string>
+    <string name="invitation_not_available">Please sign in to view invitations.</string>
     <string name="Archievement">Archievements</string>
     <string name="LeaderBoard">Leaderboards</string>
 
@@ -58,6 +59,7 @@
     <string name="total_times">Total %d times</string>
     <string name="pushups_per_time"> %d pushups/time</string>
     <string name="press_again_to_exit">Press Back-Key again to exit.</string>
+    <string name="invitation">Invitations</string>
 
     <string-array name="drawer_items_array">
         <item>@string/menu_item_dashboard</item>

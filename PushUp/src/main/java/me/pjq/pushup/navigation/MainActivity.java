@@ -28,8 +28,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.*;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.*;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.games.GamesClient;
@@ -179,6 +177,10 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         });
 
         getGamesClient().connect();
+
+        if (!isSignedIn()) {
+            beginUserInitiatedSignIn();
+        }
 
 //        showDashboardFragment();
     }
@@ -813,7 +815,12 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
     private void updateItemSelected(int position) {
         mDrawerList.setItemChecked(position, true);
-        setTitle(mDrawerItems[position]);
+
+        if (position == Constants.DRAWER_ITEM_LEADERBOARD || position == Constants.DRAWER_ITEM_ARCHIEVEMENT) {
+
+        } else {
+            setTitle(mDrawerItems[position]);
+        }
     }
 
     private void showAbout() {
@@ -902,12 +909,12 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         }
     }
 
-    public void signOutImpl(){
+    public void signOutImpl() {
         signOut();
     }
 
-    public void beginUserInitiatedSignInImpl(){
-        beginUserInitiatedSignIn();
+    public void beginUserInitiatedSignInImpl() {
+        MainActivity.this.beginUserInitiatedSignIn();
     }
 
     // request codes we use when invoking an external activity
@@ -915,22 +922,39 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
     public void onShowAchievementsRequested() {
         if (isSignedInPublic()) {
+            showGameBoardFragment();
             startActivityForResult(getGamesClient().getAchievementsIntent(), RC_UNUSED);
-//            Utils.overridePendingTransitionRight2Left(this);
+            Utils.overridePendingTransitionRight2Left(this);
         } else {
             showAlertPublic(getString(R.string.achievements_not_available));
-            showGameBoardFragment();
+            if (!currentFragmentTag.equalsIgnoreCase(GameBoardFragment.TAG)) {
+                showGameBoardFragment();
+            }
         }
     }
 
     public void onShowLeaderboardsRequested() {
         if (isSignedInPublic()) {
+            showGameBoardFragment();
             startActivityForResult(getGamesClient().getAllLeaderboardsIntent(), RC_UNUSED);
-//            Utils.overridePendingTransitionRight2Left(this);
+            Utils.overridePendingTransitionRight2Left(this);
         } else {
             showAlertPublic(getString(R.string.leaderboards_not_available));
-            showGameBoardFragment();
+            if (!currentFragmentTag.equalsIgnoreCase(GameBoardFragment.TAG)) {
+                showGameBoardFragment();
+            }
         }
     }
 
+    public void onShowInvitationRequested() {
+        if (isSignedInPublic()) {
+            startActivityForResult(getGamesClient().getInvitationInboxIntent(), RC_UNUSED);
+            Utils.overridePendingTransitionRight2Left(this);
+        } else {
+            showAlertPublic(getString(R.string.invitation_not_available));
+            if (!currentFragmentTag.equalsIgnoreCase(GameBoardFragment.TAG)) {
+                showGameBoardFragment();
+            }
+        }
+    }
 }

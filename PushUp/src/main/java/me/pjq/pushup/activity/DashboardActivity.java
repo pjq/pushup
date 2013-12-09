@@ -538,6 +538,11 @@ public class DashboardActivity extends BaseGameActivity implements View.OnClickL
     }
 
     @Override
+    public void onShowInvitationRequested() {
+
+    }
+
+    @Override
     public void beginUserInitiatedSignInImpl() {
 
     }

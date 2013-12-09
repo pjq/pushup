@@ -18,6 +18,8 @@ public interface FragmentController {
 
     void onShowLeaderboardsRequested();
 
+    void onShowInvitationRequested();
+
     void beginUserInitiatedSignInImpl();
 
     void signOutImpl();

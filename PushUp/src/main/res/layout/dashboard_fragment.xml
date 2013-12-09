@@ -113,10 +113,8 @@
 
     <TextView
         android:id="@+id/start_button"
-        android:layout_below="@id/total_times"
         android:layout_centerInParent="true"
         android:layout_marginBottom="5dip"
-        android:layout_centerHorizontal="true"
         android:layout_height="150dip"
         android:layout_width="150dip"
         android:text="@string/start"
