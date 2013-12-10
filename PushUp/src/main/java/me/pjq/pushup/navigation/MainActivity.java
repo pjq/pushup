@@ -127,12 +127,14 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         ) {
             public void onDrawerClosed(View view) {
                 getActionBarImpl().setTitle(mTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                supportInvalidateOptionsMenu();
+//                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             public void onDrawerOpened(View drawerView) {
                 getActionBarImpl().setTitle(mDrawerTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                supportInvalidateOptionsMenu();
+//                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -179,9 +181,9 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
         getGamesClient().connect();
 
-        if (!isSignedIn()) {
-            beginUserInitiatedSignIn();
-        }
+//        if (!isSignedIn()) {
+//            beginUserInitiatedSignIn();
+//        }
 
 //        showDashboardFragment();
     }

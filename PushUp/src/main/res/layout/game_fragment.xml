@@ -39,10 +39,10 @@
             android:layout_width="fill_parent"
             android:layout_marginTop="0dip"
             android:layout_weight="1.0"
-            style="@style/Button"/>
+            style="@style/LeaderboardButton"/>
 
         <View
-            android:background="@color/whiteColor"
+            android:background="@color/bg_color_divider"
             android:layout_width="fill_parent"
             android:layout_height="2px"
             ></View>
@@ -52,11 +52,11 @@
             android:text="@string/Archievement"
             android:layout_width="fill_parent"
             android:layout_weight="1.0"
-            style="@style/Button"/>
+            style="@style/LeaderboardButton"/>
 
 
         <View
-            android:background="@color/whiteColor"
+            android:background="@color/bg_color_divider"
             android:layout_width="fill_parent"
             android:layout_height="2px"
             ></View>
@@ -67,7 +67,7 @@
             android:layout_width="fill_parent"
             android:layout_marginTop="0dip"
             android:layout_weight="1.0"
-            style="@style/Button"/>
+            style="@style/LeaderboardButton"/>
     </LinearLayout>
 
     <!-- SIGN-IN BAR -->
