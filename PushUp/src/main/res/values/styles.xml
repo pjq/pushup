@@ -34,12 +34,12 @@
     </style>
 
     <style name="TotalTextStyle">
-        <item name="android:textColor">#cc3333</item>
+        <item name="android:textColor">#ff3300</item>
         <item name="android:textSize">48sp</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">-3</item>
         <item name="android:shadowRadius">2</item>
-        <item name="android:shadowColor">@color/blackColor</item>
+        <item name="android:shadowColor">@color/bg_color_light_grey</item>
     </style>
 
     <style name="TitleTextStyle">
