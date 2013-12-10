@@ -26,6 +26,7 @@ import com.squareup.otto.Bus;
 import me.pjq.pushup.*;
 import me.pjq.pushup.activity.CommonWebviewActivity;
 import me.pjq.pushup.activity.WebViewActivity;
+import me.pjq.pushup.msg.UpdateMsg;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;

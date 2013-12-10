@@ -21,6 +21,7 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.games.Player;
 import com.google.example.games.basegameutils.BaseGameActivity;
 import me.pjq.pushup.*;
+import me.pjq.pushup.msg.UpdateMsg;
 import me.pjq.pushup.utils.ScreenshotUtils;
 import me.pjq.pushup.utils.Utils;
 

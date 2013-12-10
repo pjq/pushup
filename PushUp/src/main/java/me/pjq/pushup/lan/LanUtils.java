@@ -1,6 +1,7 @@
 package me.pjq.pushup.lan;
 
 import me.pjq.pushup.ServiceProvider;
+import me.pjq.pushup.msg.MsgUpdatePlayer;
 
 /**
  * Created by pengjianqing on 11/14/13.

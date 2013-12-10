@@ -10,8 +10,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.android.gms.games.Player;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 import me.pjq.pushup.AppPreference;
 import me.pjq.pushup.R;
+import me.pjq.pushup.ServiceProvider;
+import me.pjq.pushup.msg.MsgSignIn;
+import me.pjq.pushup.msg.MsgSignOut;
 import me.pjq.pushup.utils.TitlebarHelper;
 
 public class GameBoardFragment extends BaseFragment implements View.OnClickListener {
@@ -27,6 +32,9 @@ public class GameBoardFragment extends BaseFragment implements View.OnClickListe
     private TextView userInfo;
     private ImageView userIcon;
     private View view;
+
+    private Bus bus;
+    private SignInOutSubscribe subscribe = new SignInOutSubscribe();
 
     public static GameBoardFragment newInstance(Bundle bundle) {
         GameBoardFragment fragment = new GameBoardFragment();
@@ -80,6 +88,20 @@ public class GameBoardFragment extends BaseFragment implements View.OnClickListe
         super.onCreate(savedInstanceState);
 
         fragmentController = (FragmentController) getActivity();
+        bus = ServiceProvider.getBus();
+        bus.register(subscribe);
+    }
+
+    private class SignInOutSubscribe {
+        @Subscribe
+        public void signIn(MsgSignIn signIn) {
+            onSignInSucceeded();
+        }
+
+        @Subscribe
+        public void signOut(MsgSignOut signOut) {
+            showSignInBar();
+        }
     }
 
     @Override
@@ -193,7 +215,14 @@ public class GameBoardFragment extends BaseFragment implements View.OnClickListe
         }
     }
 
-//    private void exit() {
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        bus.unregister(subscribe);
+    }
+
+    //    private void exit() {
 //        finish();
 //        Utils.overridePendingTransitionLeft2Right(this);
 //    }

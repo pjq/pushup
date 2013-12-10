@@ -36,6 +36,8 @@ import com.google.example.games.basegameutils.BaseGameActivity;
 import com.squareup.otto.Bus;
 import me.pjq.pushup.*;
 import me.pjq.pushup.fragment.*;
+import me.pjq.pushup.msg.MsgSignIn;
+import me.pjq.pushup.msg.MsgSignOut;
 import me.pjq.pushup.utils.ScreenshotUtils;
 import me.pjq.pushup.utils.TitlebarHelper;
 import me.pjq.pushup.utils.ToastUtil;
@@ -390,6 +392,8 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         // Sign-in has failed. So show the user the sign-in button
         // so they can click the "Sign-in" button.
         showSignInBar();
+
+        bus.post(new MsgSignOut());
     }
 
     /**
@@ -402,6 +406,8 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         showSignOutBar();
 
         playerInfo();
+
+        bus.post(new MsgSignIn());
     }
 
     private void playerInfo() {
