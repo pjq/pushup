@@ -92,3 +92,23 @@
 -keepnames class * implements android.os.Parcelable {
     public static final ** CREATOR;
 }
+
+#-keep class org.ocera.orte** { *; }
+#-keep class org.jgroups.stack.** { *; }
+#-keep class org.jgroups.protocols.** { *; }
+-keep class org.jgroups.** { *; }
+#-keep class org.jgroups.*
+#-keep class org.jgroups.JChannel
+#-keep class org.jgroups.util.** { *; }
+#-keep class me.pjq.pushup.msg.** { *; }
+#-keep class * extends org.jgroups.ReceiverAdapter{ *; }
+-dontwarn org.jgroups.**
+-dontoptimize
+-dontpreverify
+#http://stuff.mit.edu/afs/sipb/project/android/sdk/android-sdk-linux/tools/proguard/docs/index.html#manual/troubleshooting.html
+#-injars libs/jgroups-3.4.1.Final.jar(!somepackage/SomeUnusedClass.class)
+#-injars libs/jgroups-3.4.1.Final.jar(!org/jgroups/demos/Topology.class)
+#-dontskipnonpubliclibraryclasses
+#-dontskipnonpubliclibraryclassmembers
+#-dontskipnonpubliclibraryclassmembers
+#-dontwarn org.ocera.orte.**
