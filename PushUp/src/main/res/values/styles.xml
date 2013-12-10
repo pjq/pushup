@@ -27,7 +27,15 @@
     <style name="JustPushUpTextStyle">
         <item name="android:textColor">#ff6600</item>
         <item name="android:textSize">48sp</item>
-        <item name="android:textStyle">italic</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">-3</item>
+        <item name="android:shadowRadius">2</item>
+        <item name="android:shadowColor">@color/blackColor</item>
+    </style>
+
+    <style name="TotalTextStyle">
+        <item name="android:textColor">#cc3333</item>
+        <item name="android:textSize">48sp</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">-3</item>
         <item name="android:shadowRadius">2</item>

@@ -42,8 +42,7 @@
             android:id="@+id/total_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/JustPushUpTextStyle"
-            android:textColor="@color/blue"
+            style="@style/TotalTextStyle"
             android:text="0"
             android:layout_alignParentBottom="true"
             />
@@ -64,9 +63,9 @@
             android:layout_height="wrap_content"
             style="@style/DetailInfoTextStyle"
             android:layout_toRightOf="@id/total_text"
-            android:gravity="bottom"
+            android:gravity="right"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="10dip"
+            android:layout_marginLeft="20dip"
             android:text="@string/pushups"
             />
     </RelativeLayout>

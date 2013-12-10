@@ -4,5 +4,7 @@
           android:drawable="@color/bg_color_light_blue"/>
     <item android:state_focused="true"
           android:drawable="@color/bg_color_light_blue"/>
+    <item android:state_activated="true"
+          android:drawable="@color/bg_color_light_blue"/>
     <item android:drawable="@color/whiteColor"/>
 </selector>
