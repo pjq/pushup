@@ -82,7 +82,7 @@ public class PushupsFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     protected View onGetFragmentView(LayoutInflater inflater) {
-        view = inflater.inflate(R.layout.proximity_fragment, null);
+        view = inflater.inflate(R.layout.pushups_fragment, null);
 
         return view;
     }
