@@ -35,6 +35,7 @@ import com.google.android.gms.games.Player;
 import com.google.example.games.basegameutils.BaseGameActivity;
 import com.squareup.otto.Bus;
 import me.pjq.pushup.*;
+import me.pjq.pushup.adapter.DrawerListAdapter;
 import me.pjq.pushup.fragment.*;
 import me.pjq.pushup.msg.MsgSignIn;
 import me.pjq.pushup.msg.MsgSignOut;
@@ -43,6 +44,8 @@ import me.pjq.pushup.utils.TitlebarHelper;
 import me.pjq.pushup.utils.ToastUtil;
 import me.pjq.pushup.utils.Utils;
 import me.pjq.pushup.R;
+
+import java.util.ArrayList;
 
 /**
  * This example illustrates a common usage of the DrawerLayout widget
@@ -78,7 +81,7 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-    private String[] mDrawerItems;
+//    private String[] mDrawerItems;
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private TextView userInfo;
@@ -94,6 +97,8 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
     private String currentFragmentTag;
     private TitlebarHelper titlebarHelper;
+    private DrawerListAdapter drawerListAdapter;
+    private ArrayList<Object> drawerItemArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,15 +107,29 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         CONTENT_VIEW_ID = R.id.content_frame;
 
         mTitle = mDrawerTitle = getTitle();
-        mDrawerItems = getResources().getStringArray(R.array.drawer_items_array);
+//        mDrawerItems = getResources().getStringArray(R.array.drawer_items_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mDrawerItems));
+        drawerListAdapter = new DrawerListAdapter(getApplicationContext());
+        drawerItemArrayList = new ArrayList<Object>();
+        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_DASHBOARD,getString(R.string.menu_item_dashboard)));
+        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_PUSHUPS,getString(R.string.menu_item_pushup)));
+        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_MULTI,getString(R.string.menu_item_multi)));
+        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_WRIST,getString(R.string.menu_item_wrist)));
+        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_GOOGLE,getString(R.string.menu_item_google)));
+        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_LEADERBOARD,getString(R.string.menu_item_leaderboard)));
+        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_ARCHIEVEMENT,getString(R.string.menu_item_archievement)));
+        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_ABOUT,getString(R.string.menu_item_about)));
+
+        drawerListAdapter.setDataList(drawerItemArrayList);
+        mDrawerList.setAdapter(drawerListAdapter);
+
+//        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+//                R.layout.drawer_list_item, mDrawerItems));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
@@ -142,7 +161,7 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         if (savedInstanceState == null) {
-            selectItem(0);
+            selectItem((DrawerListAdapter.DrawerItem)drawerListAdapter.getItem(0));
         }
 
         bus = ServiceProvider.getBus();
@@ -767,11 +786,14 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
+            DrawerListAdapter.DrawerItem drawerItem = (DrawerListAdapter.DrawerItem) parent.getAdapter().getItem(position);
+            selectItem(drawerItem);
         }
     }
 
-    private void selectItem(int position) {
+    private void selectItem(DrawerListAdapter.DrawerItem drawerItem) {
+        int position = drawerItem.getPosition();
+
         switch (position) {
             case Constants.DRAWER_ITEM_DASHBOARD:
                 showDashboardFragment();
@@ -817,15 +839,20 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 //        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
         // update selected item and title, then close the drawer
-        updateItemSelected(position);
+        updateItemSelected(drawerItem);
 
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
     private void updateItemSelected(int position) {
-        mDrawerList.setItemChecked(position, true);
+        DrawerListAdapter.DrawerItem drawerItem = (DrawerListAdapter.DrawerItem) drawerItemArrayList.get(position);
+        updateItemSelected(drawerItem);
+    }
 
-        setTitle(mDrawerItems[position]);
+    private void updateItemSelected(DrawerListAdapter.DrawerItem drawerItem) {
+        mDrawerList.setItemChecked(drawerItem.getPosition(), true);
+
+        setTitle(drawerItem.getTitle());
     }
 
     private void showAbout() {

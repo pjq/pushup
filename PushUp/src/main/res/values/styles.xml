@@ -170,8 +170,11 @@
         <item name="android:paddingTop">10dip</item>
         <item name="android:paddingBottom">10dip</item>
         <item name="android:textColor">#333333</item>
-        <item name="android:fontFamily"></item>
         <item name="android:textSize">18sp</item>
         <item name="android:background">@drawable/selector_drawer_item</item>
+    </style>
+    <style name="DrawerListItemIconStyle">
+        <item name="android:textColor">@color/whiteColor</item>
+        <item name="android:textSize">20sp</item>
     </style>
 </resources>
