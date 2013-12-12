@@ -141,7 +141,7 @@
             android:text="@string/wrist"
             style="@style/TwistTextStyle"
             android:gravity="center"
-            android:background="@android:color/holo_green_dark"
+            android:background="@color/holo_green_dark"
             ></TextView>
 
         <TextView
@@ -156,37 +156,8 @@
             android:text="@string/wrist"
             style="@style/TwistTextStyle"
             android:gravity="center"
-            android:background="@android:color/holo_orange_dark"
+            android:background="@color/holo_orange_dark"
             ></TextView>
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/pushup_text"
-        android:layout_below="@id/center_line"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dip"
-        android:layout_centerHorizontal="true"
-        style="@style/JustPushUpTextStyle"
-        android:background="@drawable/pushup_logo"
-        android:visibility="gone"
-        />
-
-    <ScrollView
-        android:layout_below="@id/pushup_text"
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent"
-        android:visibility="gone"
-        >
-
-        <TextView
-            android:padding="10dip"
-            android:id="@+id/result_text"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            style="@style/InfoTextStyle"
-            android:visibility="invisible"
-            />
-    </ScrollView>
 </RelativeLayout>

@@ -27,19 +27,11 @@
     <style name="JustPushUpTextStyle">
         <item name="android:textColor">#ff6600</item>
         <item name="android:textSize">48sp</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">-3</item>
-        <item name="android:shadowRadius">2</item>
-        <item name="android:shadowColor">@color/blackColor</item>
     </style>
 
     <style name="TotalTextStyle">
         <item name="android:textColor">@color/text_red_color</item>
         <item name="android:textSize">48sp</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">-3</item>
-        <item name="android:shadowRadius">2</item>
-        <item name="android:shadowColor">@color/bg_color_light_grey</item>
     </style>
 
     <style name="TitleTextStyle">
@@ -50,45 +42,26 @@
     <style name="CountTextStyle">
         <item name="android:textColor">@color/whiteColor</item>
         <item name="android:textSize">40sp</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">-5</item>
-        <item name="android:shadowRadius">5</item>
-        <item name="android:shadowColor">@color/blackColor</item>
     </style>
 
     <style name="StartTextStyle">
         <item name="android:textColor">@color/whiteColor</item>
         <item name="android:textSize">40sp</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">0</item>
-        <item name="android:shadowRadius">0</item>
     </style>
 
     <style name="TwistTextStyle">
         <item name="android:textColor">@color/whiteColor</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">-5</item>
-        <item name="android:shadowRadius">5</item>
-        <item name="android:shadowColor">@color/blackColor</item>
     </style>
 
     <style name="InfoTextStyle">
         <item name="android:textColor">#ff6600</item>
         <item name="android:textSize">12sp</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">-1</item>
-        <item name="android:shadowRadius">1</item>
-        <item name="android:shadowColor">@color/blackColor</item>
     </style>
 
     <style name="ShareTextStyle">
         <item name="android:textColor">@color/whiteColor</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">-1</item>
-        <item name="android:shadowRadius">1</item>
-        <item name="android:shadowColor">@color/blackColor</item>
     </style>
 
     <style name="DetailInfoTextStyle">

@@ -17,12 +17,33 @@
     android:textAppearance="?android:attr/textAppearanceListItemSmall"
   -->
 
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/text1"
-    android:layout_width="match_parent"
+<RelativeLayout
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    style="@style/DrawerListItemStyle"
-    />
+    android:layout_width="fill_parent"
+    android:background="@drawable/selector_drawer_item"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/drawerItemIcon"
+        android:layout_width="36dip"
+        android:layout_height="36dip"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dip"
+        android:background="@color/bg_color_light_blue"
+        style="@style/DrawerListItemIconStyle"
+        />
+
+    <TextView
+        android:id="@+id/drawerItemTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@id/drawerItemIcon"
+        android:paddingRight="16dp"
+        style="@style/DrawerListItemStyle"
+        />
+</RelativeLayout>

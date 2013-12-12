@@ -51,7 +51,6 @@ public class MultiPlayerFragment extends BaseFragment implements View.OnClickLis
     private TextView tipsTextView;
     private TextView infoTextView;
     private TextView shareTextView;
-    private ImageView refreshButton;
 
     private int count = 0;
     private long lastTime;
@@ -85,7 +84,6 @@ public class MultiPlayerFragment extends BaseFragment implements View.OnClickLis
         onMyResume();
 
         countTextView = (TextView) view.findViewById(R.id.count_textview);
-        refreshButton = (ImageView) view.findViewById(R.id.refresh_button);
         tipsTextView = (TextView) view.findViewById(R.id.tips_textview);
         infoTextView = (TextView) view.findViewById(R.id.info_textview);
         shareTextView = (TextView) view.findViewById(R.id.share_textview);
@@ -95,12 +93,6 @@ public class MultiPlayerFragment extends BaseFragment implements View.OnClickLis
         player3TextView = (TextView) view.findViewById(R.id.player3);
         player4TextView = (TextView) view.findViewById(R.id.player4);
 
-//        player1TextView.setVisibility(View.GONE);
-//        player2TextView.setVisibility(View.GONE);
-//        player3TextView.setVisibility(View.GONE);
-//        player4TextView.setVisibility(View.GONE);
-
-        refreshButton.setOnClickListener(this);
         shareTextView.setOnClickListener(this);
         countTextView.setOnClickListener(this);
         tipsTextView.setOnClickListener(this);
@@ -482,11 +474,6 @@ public class MultiPlayerFragment extends BaseFragment implements View.OnClickLis
         int id = v.getId();
 
         switch (id) {
-            case R.id.refresh_button:
-                count = 0;
-                updateCount();
-                break;
-
             case R.id.count_textview:
                 count = 0;
                 updateCount();

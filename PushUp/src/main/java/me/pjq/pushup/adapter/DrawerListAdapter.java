@@ -1,7 +1,6 @@
 package me.pjq.pushup.adapter;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,7 @@ public class DrawerListAdapter extends MyBaseAdapter {
         DrawerItem item = (DrawerItem) getItem(position);
         if (null == itemView) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            itemView = inflater.inflate(R.layout.drawer_list_item2, null);
+            itemView = inflater.inflate(R.layout.drawer_list_item, null);
             viewHolder = new ViewHolder();
             viewHolder.title = (TextView) itemView.findViewById(R.id.drawerItemTitle);
             viewHolder.icon = (TextView) itemView.findViewById(R.id.drawerItemIcon);

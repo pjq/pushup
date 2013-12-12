@@ -31,29 +31,6 @@
             android:value="@integer/google_play_services_version"/>
 
         <activity
-            android:name=".backup.MainActivity"
-            android:label="@string/app_name"
-            android:configChanges="orientation|keyboardHidden"
-            android:theme="@style/Theme.AppCompat.Light"
-            android:screenOrientation="portrait">
-
-        </activity>
-
-        <activity
-            android:name=".backup.ProximityActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light"
-            >
-        </activity>
-        <activity
-            android:name=".backup.GameActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light"
-            >
-        </activity>
-        <activity
             android:name="me.pjq.pushup.activity.CommonWebviewActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
@@ -63,16 +40,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="me.pjq.pushup.navigation.MainActivity"/>
-            <!--
-            -->
-
-        </activity>
-        <activity
-            android:name="me.pjq.pushup.activity.DashboardActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light"
-            >
         </activity>
         <activity
             android:name="me.pjq.pushup.activity.UserGuideActivity"

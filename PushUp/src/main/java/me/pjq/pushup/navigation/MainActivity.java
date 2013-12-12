@@ -108,7 +108,7 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         setContentView(R.layout.activity_main_drawer);
         CONTENT_VIEW_ID = R.id.content_frame;
 
-        Utils.showUserGuardIfNeed(this,UserGuideActivity.START_FROM_SPLASH);
+        Utils.showUserGuardIfNeed(this, UserGuideActivity.START_FROM_SPLASH);
 
         mTitle = mDrawerTitle = getTitle();
 //        mDrawerItems = getResources().getStringArray(R.array.drawer_items_array);
@@ -120,15 +120,15 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         // set up the drawer's list view with items and click listener
         drawerListAdapter = new DrawerListAdapter(getApplicationContext());
         drawerItemArrayList = new ArrayList<Object>();
-        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_DASHBOARD,getString(R.string.menu_item_dashboard)));
-        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_PUSHUPS,getString(R.string.menu_item_pushup)));
-        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_MULTI,getString(R.string.menu_item_multi)));
-        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_WRIST,getString(R.string.menu_item_wrist)));
-        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_GOOGLE,getString(R.string.menu_item_google)));
-        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_LEADERBOARD,getString(R.string.menu_item_leaderboard)));
-        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_ARCHIEVEMENT,getString(R.string.menu_item_archievement)));
-        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_HELPER,getString(R.string.menu_item_helper)));
-        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_ABOUT,getString(R.string.menu_item_about)));
+        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_DASHBOARD, getString(R.string.menu_item_dashboard)));
+        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_PUSHUPS, getString(R.string.menu_item_pushup)));
+        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_MULTI, getString(R.string.menu_item_multi)));
+        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_WRIST, getString(R.string.menu_item_wrist)));
+        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_GOOGLE, getString(R.string.menu_item_google)));
+        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_LEADERBOARD, getString(R.string.menu_item_leaderboard)));
+        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_ARCHIEVEMENT, getString(R.string.menu_item_archievement)));
+        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_HELPER, getString(R.string.menu_item_helper)));
+        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_ABOUT, getString(R.string.menu_item_about)));
 
         drawerListAdapter.setDataList(drawerItemArrayList);
         mDrawerList.setAdapter(drawerListAdapter);
@@ -166,7 +166,7 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         if (savedInstanceState == null) {
-            selectItem((DrawerListAdapter.DrawerItem)drawerListAdapter.getItem(0));
+            selectItem((DrawerListAdapter.DrawerItem) drawerListAdapter.getItem(0));
         }
 
         bus = ServiceProvider.getBus();
@@ -214,9 +214,6 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 //        showDashboardFragment();
 
     }
-
-
-
 
 
     public void showPushupFragment() {
@@ -765,17 +762,6 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         }
         // Handle action buttons
         switch (item.getItemId()) {
-//            case R.id.action_websearch:
-//                // create intent to perform web search for this planet
-//                Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
-//                intent.putExtra(SearchManager.QUERY, getActionBarImpl().getTitle());
-//                // catch event that there's no activity to handle intent
-//                if (intent.resolveActivity(getPackageManager()) != null) {
-//                    startActivity(intent);
-//                } else {
-//                    Toast.makeText(this, R.string.app_not_available, Toast.LENGTH_LONG).show();
-//                }
-//                return true;
 
             case R.id.action_share:
 //                updateShareIntent();
@@ -841,18 +827,12 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
                 break;
         }
 
-
-        // update the main content by replacing fragments
-//        Fragment fragment = new PlanetFragment();
-//        Bundle args = new Bundle();
-//        args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
-//        fragment.setArguments(args);
-//
-//        FragmentManager fragmentManager = getFragmentManager();
-//        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-
         // update selected item and title, then close the drawer
-        updateItemSelected(drawerItem);
+        if (position == Constants.DRAWER_ITEM_ABOUT || position == Constants.DRAWER_ITEM_HELPER) {
+
+        } else {
+            updateItemSelected(drawerItem);
+        }
 
         mDrawerLayout.closeDrawer(mDrawerList);
     }
@@ -868,7 +848,7 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         setTitle(drawerItem.getTitle());
     }
 
-    private void showUserGuide(){
+    private void showUserGuide() {
         Utils.showUserGuard(this, UserGuideActivity.START_FROM_SETTINGS);
         Utils.overridePendingTransitionRight2Left(this);
     }

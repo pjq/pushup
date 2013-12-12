@@ -12,14 +12,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
 import me.pjq.pushup.*;
-import me.pjq.pushup.backup.ProximityActivity;
 import me.pjq.pushup.utils.*;
 
 /**
  * Created by pjq on 5/26/13.
  */
 public class PushupsFragment extends BaseFragment implements View.OnClickListener, SensorEventListener {
-    public static final String TAG = ProximityActivity.class.getSimpleName();
+    public static final String TAG = PushupsFragment.class.getSimpleName();
 
     private SensorManager mgr;
     private Sensor proximity;
@@ -29,7 +28,6 @@ public class PushupsFragment extends BaseFragment implements View.OnClickListene
     private TextView tipsTextView;
     private TextView infoTextView;
     private TextView shareTextView;
-    private ImageView refreshButton;
 
     private int count = 0;
     private long lastTime;
@@ -55,13 +53,11 @@ public class PushupsFragment extends BaseFragment implements View.OnClickListene
         onMyResume();
 
         countTextView = (TextView) view.findViewById(R.id.count_textview);
-        refreshButton = (ImageView) view.findViewById(R.id.refresh_button);
         tipsTextView = (TextView) view.findViewById(R.id.tips_textview);
         infoTextView = (TextView) view.findViewById(R.id.info_textview);
         shareTextView = (TextView) view.findViewById(R.id.share_textview);
 
 
-        refreshButton.setOnClickListener(this);
         shareTextView.setOnClickListener(this);
         countTextView.setOnClickListener(this);
 
@@ -223,11 +219,6 @@ public class PushupsFragment extends BaseFragment implements View.OnClickListene
         int id = v.getId();
 
         switch (id) {
-            case R.id.refresh_button:
-                count = 0;
-                updateCount();
-                break;
-
             case R.id.count_textview:
                 count = 0;
                 updateCount();

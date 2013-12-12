@@ -27,7 +27,8 @@ public class TitlebarHelper {
     public void setTitlebarText(String text) {
         if (null != titlebarText) {
             titlebarText.setText(text);
-            titlebarText.setBackground(null);
+//            titlebarText.setBackground(null);
+            titlebarText.setBackgroundDrawable(null);
         }
     }
 
