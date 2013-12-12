@@ -21,7 +21,7 @@ import me.pjq.pushup.widget.CustomerViewPager;
 public class UserGuideActivity extends Activity {
     private static final String TAG = UserGuideActivity.class.getSimpleName();
 
-    private static final int MAX_PAGE = 4;
+    private static final int MAX_PAGE = 5;
 
     public static final String EXTRAS_START_FROM = "from";
     public static final int START_FROM_SPLASH = 100;
@@ -134,6 +134,10 @@ public class UserGuideActivity extends Activity {
                     break;
                 case 3:
                     view = createItemView(inflater, R.drawable.helper4);
+                    break;
+
+                case 4:
+                    view = createItemView(inflater, R.drawable.helper5);
                     break;
 
                 case MAX_PAGE:

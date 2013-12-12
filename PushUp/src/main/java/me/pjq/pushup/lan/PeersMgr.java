@@ -207,6 +207,24 @@ public class PeersMgr {
                 channel.close();
             }
         });
+    }
+
+    public void restart() {
+        inLoop = false;
+
+        controlerExecutorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                channel.close();
+                start();
+//                inLoop = true;
+//                try {
+//                    channel.connect(CHAT_CLUSTER);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+            }
+        });
 
     }
 
@@ -251,14 +269,14 @@ public class PeersMgr {
                     String addr = ((Object) a).toString();
                     Log.i(TAG, "members:" + addr);
 
-                    if (!addr.equalsIgnoreCase(localIpAddress)) {
-                        peersIpAddress.add(a);
-                        LanPlayer lanPlayer = new LanPlayer();
-                        lanPlayer.setIp(addr);
-                        lanPlayer.setUsername(channel.getName(a));
-                        lanPlayer.setId(channel.getName(a));
-                        peers.put(addr, lanPlayer);
-                    }
+//                    if (!addr.equalsIgnoreCase(localIpAddress)) {
+                    peersIpAddress.add(a);
+                    LanPlayer lanPlayer = new LanPlayer();
+                    lanPlayer.setIp(addr);
+                    lanPlayer.setUsername(channel.getName(a));
+                    lanPlayer.setId(channel.getName(a));
+                    peers.put(addr, lanPlayer);
+//                    }
                 }
             }
             LanUtils.sendUpdatePlayerInfoMsg();
@@ -283,7 +301,9 @@ public class PeersMgr {
 
 
                 LanPlayer lanPlayer = peers.get(srcAddr);
-                lanPlayer.setScore(messages[1]);
+                if (null != lanPlayer) {
+                    lanPlayer.setScore(messages[1]);
+                }
 
                 LanUtils.sendUpdatePlayerInfoMsg();
             } else if (line.contains("NTP")) {

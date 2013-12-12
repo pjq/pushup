@@ -24,15 +24,12 @@ import me.pjq.pushup.ApplicationConfig;
 import me.pjq.pushup.EFLogger;
 import me.pjq.pushup.MyApplication;
 import me.pjq.pushup.R;
-import me.pjq.pushup.utils.ScreenshotUtils;
+import me.pjq.pushup.lan.PeersMgr;
+import me.pjq.pushup.utils.*;
 import me.pjq.pushup.ServiceProvider;
-import me.pjq.pushup.utils.SpeakerUtil;
 import me.pjq.pushup.lan.LanPlayer;
 import me.pjq.pushup.lan.LanPlayerHelper;
 import me.pjq.pushup.msg.MsgUpdatePlayer;
-import me.pjq.pushup.utils.AnimationsUtil;
-import me.pjq.pushup.utils.TitlebarHelper;
-import me.pjq.pushup.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -50,6 +47,7 @@ public class MultiPlayerFragment extends BaseFragment implements View.OnClickLis
     private TextView tipsTextView;
     private TextView infoTextView;
     private TextView shareTextView;
+    private TextView searchTextView;
 
     private int count = 0;
     private long lastTime;
@@ -86,6 +84,7 @@ public class MultiPlayerFragment extends BaseFragment implements View.OnClickLis
         tipsTextView = (TextView) view.findViewById(R.id.tips_textview);
         infoTextView = (TextView) view.findViewById(R.id.info_textview);
         shareTextView = (TextView) view.findViewById(R.id.share_textview);
+        searchTextView = (TextView) view.findViewById(R.id.search_friends);
 
         player1TextView = (TextView) view.findViewById(R.id.player1);
         player2TextView = (TextView) view.findViewById(R.id.player2);
@@ -95,6 +94,7 @@ public class MultiPlayerFragment extends BaseFragment implements View.OnClickLis
         shareTextView.setOnClickListener(this);
         countTextView.setOnClickListener(this);
         tipsTextView.setOnClickListener(this);
+        searchTextView.setOnClickListener(this);
 
         titlebarHelper = new TitlebarHelper(view, new TitlebarHelper.OnTitlebarClickListener() {
             @Override
@@ -118,7 +118,7 @@ public class MultiPlayerFragment extends BaseFragment implements View.OnClickLis
     boolean enableAccel = false;
 
     private void registerSensorListener() {
-        if (!enableAccel){
+        if (!enableAccel) {
             return;
         }
 
@@ -128,7 +128,7 @@ public class MultiPlayerFragment extends BaseFragment implements View.OnClickLis
     }
 
     private void unRegisterSensorListener() {
-        if (!enableAccel){
+        if (!enableAccel) {
             return;
         }
 
@@ -476,6 +476,11 @@ public class MultiPlayerFragment extends BaseFragment implements View.OnClickLis
             case R.id.count_textview:
                 count = 0;
                 updateCount();
+                break;
+            case R.id.search_friends:
+                MyApplication.getPeersMgr().restart();
+                ToastUtil.showToast(getApplicationContext(), getString(R.string.start_search_friends));
+
                 break;
 
             case R.id.share_textview:
