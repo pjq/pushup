@@ -167,6 +167,8 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
         if (savedInstanceState == null) {
             selectItem((DrawerListAdapter.DrawerItem) drawerListAdapter.getItem(0));
+        } else {
+            selectItem((DrawerListAdapter.DrawerItem) drawerListAdapter.getItem(0));
         }
 
         bus = ServiceProvider.getBus();
@@ -451,7 +453,7 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
 
         userInfo.setText(String.format(getString(R.string.you_are_signed_in_as), displayName));
-        userIcon.setImageURI(uri);
+        //userIcon.setImageURI(uri);
     }
 
     private void addChildFragment(android.support.v4.app.Fragment childFragment) {

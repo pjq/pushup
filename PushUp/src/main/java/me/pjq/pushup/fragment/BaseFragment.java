@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.squareup.otto.Bus;
+import me.pjq.pushup.AppPreference;
 import me.pjq.pushup.EFLogger;
 import me.pjq.pushup.MyApplication;
 import me.pjq.pushup.ServiceProvider;
@@ -29,6 +30,10 @@ public abstract class BaseFragment extends Fragment implements FragmentBridge{
         EFLogger.i(TAG, "onCreate");
 
         TAG = this.getClass().getSimpleName();
+    }
+
+    protected AppPreference getPreference(){
+        return AppPreference.getInstance(getApplicationContext());
     }
 
     @Override

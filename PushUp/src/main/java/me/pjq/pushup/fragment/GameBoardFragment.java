@@ -160,7 +160,7 @@ public class GameBoardFragment extends BaseFragment implements View.OnClickListe
 
 
         userInfo.setText(String.format(getString(R.string.you_are_signed_in_as), displayName));
-        userIcon.setImageURI(uri);
+        //userIcon.setImageURI(uri);
     }
 
     @Override

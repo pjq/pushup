@@ -38,7 +38,6 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
     Bus bus;
 
-    AppPreference appPreference;
     FragmentController fragmentController;
     private TitlebarHelper titlebarHelper;
 
@@ -99,14 +98,13 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         bus = ServiceProvider.getBus();
         bus.register(this);
 
-        appPreference = AppPreference.getInstance(getApplicationContext());
-
         fragmentController = (FragmentController) getActivity();
     }
 
     private GamesClient getGamesClient() {
         return fragmentController.getGamesClientPublic();
     }
+
 
     @Override
     public void onResume() {
@@ -118,6 +116,11 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     int totalCount = 0;
 
     private void showRecord() {
+        if (null == daysTextView){
+            EFLogger.e(TAG,"null == daysTextView");
+            return;
+        }
+
         AppPreference preference = AppPreference.getInstance(getApplicationContext());
         String record = preference.getRecordJson();
         ArrayList<RecordItem> recordItems = preference.getRecordItems();
@@ -134,11 +137,11 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         doTotalCountIncreaseAnimation(total);
         //showResultText();
 
-        daysTextView.setText(String.format(getString(R.string.how_many_days), appPreference.getHowManyDays()));
+        daysTextView.setText(String.format(getString(R.string.how_many_days), getPreference().getHowManyDays()));
 
 
         if (false) {
-            int totalTimes = appPreference.getNumberOfTimes();
+            int totalTimes = getPreference().getNumberOfTimes();
             totalTimesTextView.setText(String.format(getString(R.string.total_times), totalTimes) + ", " + String.format(getString(R.string.pushups_per_time), totalCount / (totalTimes == 0 ? 1 : totalTimes)));
         }else {
             totalTimesTextView.setVisibility(View.INVISIBLE);

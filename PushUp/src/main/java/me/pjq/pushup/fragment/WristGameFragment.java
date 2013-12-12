@@ -119,7 +119,7 @@ public class WristGameFragment extends BaseFragment implements View.OnClickListe
             float y = e.values[1];
             float z = e.values[2];
 
-            EFLogger.i(TAG, "onSensorChanged,x=" + x + ",y=" + y + ",z=" + z);
+            //EFLogger.i(TAG, "onSensorChanged,x=" + x + ",y=" + y + ",z=" + z);
 
             boolean isStop = false;
             int zMinValue = -8;
