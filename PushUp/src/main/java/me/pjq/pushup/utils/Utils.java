@@ -25,6 +25,7 @@ import android.widget.EditText;
 import com.squareup.otto.Bus;
 import me.pjq.pushup.*;
 import me.pjq.pushup.activity.CommonWebviewActivity;
+import me.pjq.pushup.activity.UserGuideActivity;
 import me.pjq.pushup.activity.WebViewActivity;
 import me.pjq.pushup.msg.UpdateMsg;
 
@@ -834,24 +835,25 @@ public class Utils {
 
     public static ArrayList<Integer> randomColor() {
         ArrayList<Integer> colors = new ArrayList<Integer>();
-        colors.add(android.R.color.holo_blue_light);
-        colors.add(android.R.color.holo_red_light);
-        colors.add(android.R.color.holo_green_light);
-        colors.add(android.R.color.holo_orange_light);
+        colors.add(R.color.holo_blue_light);
+        colors.add(R.color.holo_red_light);
+        colors.add(R.color.holo_green_light);
+        colors.add(R.color.holo_orange_light);
 
         return randomColor(colors);
     }
 
     public static ArrayList<Integer> randomColorDrawerList() {
         ArrayList<Integer> colors = new ArrayList<Integer>();
-        colors.add(android.R.color.holo_blue_light);
-        colors.add(android.R.color.holo_blue_dark);
-        colors.add(android.R.color.holo_red_light);
-        colors.add(android.R.color.holo_red_dark);
-        colors.add(android.R.color.holo_green_light);
-        colors.add(android.R.color.holo_green_dark);
-        colors.add(android.R.color.holo_orange_light);
-        colors.add(android.R.color.holo_orange_dark);
+        colors.add(R.color.holo_blue_light);
+        colors.add(R.color.holo_blue_dark);
+        colors.add(R.color.holo_red_light);
+        colors.add(R.color.holo_red_dark);
+        colors.add(R.color.holo_green_light);
+        colors.add(R.color.holo_green_dark);
+        colors.add(R.color.holo_orange_light);
+        colors.add(R.color.holo_orange_dark);
+        colors.add(R.color.holo_blue_bright);
 
         return randomColor(colors);
     }
@@ -887,5 +889,20 @@ public class Utils {
         }
 
         return arrayList2;
+    }
+
+    public static void showUserGuard(Activity activity, int startFrom) {
+        Intent intent = new Intent(activity, UserGuideActivity.class);
+        intent.putExtra(UserGuideActivity.EXTRAS_START_FROM, startFrom);
+        activity.startActivity(intent);
+    }
+
+    public static boolean showUserGuardIfNeed(Activity activity, int startFrom) {
+        if (AppPreference.getInstance(MyApplication.getContext()).shouldShowUserGuard()) {
+            showUserGuard(activity,startFrom);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

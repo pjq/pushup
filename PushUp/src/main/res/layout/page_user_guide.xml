@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_view"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <me.pjq.pushup.widget.CustomerViewPager
+        android:id="@+id/guide_view_pager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:alwaysDrawnWithCache="false"
+        android:animationCache="false"
+        android:fadingEdge="none"
+        android:spacing="0dip" >
+    </me.pjq.pushup.widget.CustomerViewPager>
+
+    <LinearLayout
+        android:id="@+id/pointlayout"
+        android:layout_width="wrap_content"
+        android:layout_height="20dip"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="30dip"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/page_user_guide_index_imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="0dip"
+        android:background="@drawable/ic_guide_index_level"
+        android:orientation="horizontal" />
+
+</RelativeLayout>

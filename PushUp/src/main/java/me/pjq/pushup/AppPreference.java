@@ -38,6 +38,7 @@ public class AppPreference {
     private static final String APP_PREFERENCE_SETTING_PLAY_AUDIO_AUTO = "setting_play_audiio_auto";
     private static final String APP_PREFERENCE_SETTING_SHOW_PICTURE = "setting_show_picture";
     private static final String APP_PREFERENCE_SETTING_VOLUME = "setting_volume";
+    private static final String APP_PREFERENCE_SHOULD_SHOW_USER_GUARD = "show_user_guide";
 
     private static final String KEY_PUSH_UP_RECORD = "push_up_record";
 
@@ -304,4 +305,17 @@ public class AppPreference {
 
         set(userPreference, KEY_PUSH_UP_RECORD, jsonArray.toString());
     }
+
+    public boolean shouldShowUserGuard() {
+        return appPreference.getBoolean(
+                APP_PREFERENCE_SHOULD_SHOW_USER_GUARD, true);
+    }
+
+    public void setShouldShowUserGuard(boolean shouldShow) {
+        Editor editor = appPreference.edit();
+        editor.putBoolean(APP_PREFERENCE_SHOULD_SHOW_USER_GUARD,
+                shouldShow);
+        editor.commit();
+    }
+
 }

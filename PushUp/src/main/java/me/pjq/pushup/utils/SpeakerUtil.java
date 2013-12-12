@@ -13,7 +13,7 @@ public class SpeakerUtil {
     private static SpeakerUtil instance;
     private TextToSpeech tts;
     private boolean isTtsInited = false;
-    private boolean ENABLE_SPEAKER = true;
+    private boolean ENABLE_SPEAKER = false;
 
     public SpeakerUtil(Context context) {
         tts = new TextToSpeech(context, new TextToSpeech.OnInitListener() {

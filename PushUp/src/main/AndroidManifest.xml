@@ -75,6 +75,13 @@
             >
         </activity>
         <activity
+            android:name="me.pjq.pushup.activity.UserGuideActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light"
+            >
+        </activity>
+        <activity
             android:name="me.pjq.pushup.navigation.MainActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"

@@ -17,6 +17,7 @@
 package me.pjq.pushup.navigation;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -35,6 +36,7 @@ import com.google.android.gms.games.Player;
 import com.google.example.games.basegameutils.BaseGameActivity;
 import com.squareup.otto.Bus;
 import me.pjq.pushup.*;
+import me.pjq.pushup.activity.UserGuideActivity;
 import me.pjq.pushup.adapter.DrawerListAdapter;
 import me.pjq.pushup.fragment.*;
 import me.pjq.pushup.msg.MsgSignIn;
@@ -106,6 +108,8 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         setContentView(R.layout.activity_main_drawer);
         CONTENT_VIEW_ID = R.id.content_frame;
 
+        Utils.showUserGuardIfNeed(this,UserGuideActivity.START_FROM_SPLASH);
+
         mTitle = mDrawerTitle = getTitle();
 //        mDrawerItems = getResources().getStringArray(R.array.drawer_items_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -123,6 +127,7 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_GOOGLE,getString(R.string.menu_item_google)));
         drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_LEADERBOARD,getString(R.string.menu_item_leaderboard)));
         drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_ARCHIEVEMENT,getString(R.string.menu_item_archievement)));
+        drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_HELPER,getString(R.string.menu_item_helper)));
         drawerItemArrayList.add(new DrawerListAdapter.DrawerItem(Constants.DRAWER_ITEM_ABOUT,getString(R.string.menu_item_about)));
 
         drawerListAdapter.setDataList(drawerItemArrayList);
@@ -207,7 +212,11 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 //        }
 
 //        showDashboardFragment();
+
     }
+
+
+
 
 
     public void showPushupFragment() {
@@ -823,6 +832,10 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
                 onShowAchievementsRequested();
                 break;
 
+            case Constants.DRAWER_ITEM_HELPER:
+                showUserGuide();
+                break;
+
             case Constants.DRAWER_ITEM_ABOUT:
                 showAbout();
                 break;
@@ -853,6 +866,11 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         mDrawerList.setItemChecked(drawerItem.getPosition(), true);
 
         setTitle(drawerItem.getTitle());
+    }
+
+    private void showUserGuide(){
+        Utils.showUserGuard(this, UserGuideActivity.START_FROM_SETTINGS);
+        Utils.overridePendingTransitionRight2Left(this);
     }
 
     private void showAbout() {
