@@ -1,26 +1,21 @@
 package me.pjq.pushup.fragment;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.drawable.AnimationDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.*;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import me.pjq.pushup.*;
 import me.pjq.pushup.audio.PlayerUtils;
-import me.pjq.pushup.lan.LanPlayer;
-import me.pjq.pushup.lan.LanPlayerHelper;
 import me.pjq.pushup.msg.MsgUpdatePlayer;
 import me.pjq.pushup.utils.*;
 
@@ -51,10 +46,6 @@ public class WristGameFragment extends BaseFragment implements View.OnClickListe
     private TitlebarHelper titlebarHelper;
 
     private View playerLayout;
-    private TextView player1TextView;
-    private TextView player2TextView;
-    private TextView player3TextView;
-    private TextView player4TextView;
 
     private Bus bus;
 
@@ -77,16 +68,6 @@ public class WristGameFragment extends BaseFragment implements View.OnClickListe
         infoTextView = (TextView) view.findViewById(R.id.info_textview);
         shareTextView = (TextView) view.findViewById(R.id.share_textview);
 
-        player1TextView = (TextView) view.findViewById(R.id.player1);
-        player2TextView = (TextView) view.findViewById(R.id.player2);
-        player3TextView = (TextView) view.findViewById(R.id.player3);
-        player4TextView = (TextView) view.findViewById(R.id.player4);
-
-        player1TextView.setVisibility(View.GONE);
-        player2TextView.setVisibility(View.GONE);
-        player3TextView.setVisibility(View.GONE);
-        player4TextView.setVisibility(View.GONE);
-
         shareTextView.setOnClickListener(this);
         countTextView.setOnClickListener(this);
         tipsTextView.setOnClickListener(this);
@@ -107,10 +88,7 @@ public class WristGameFragment extends BaseFragment implements View.OnClickListe
 
         shareTextView.setVisibility(View.GONE);
 
-        updatePlayerInfoUI();
-        updatePlayerInfo();
-
-        doFrameAnimation();
+//        doFrameAnimation();
     }
 
 
@@ -234,66 +212,6 @@ public class WristGameFragment extends BaseFragment implements View.OnClickListe
 
     }
 
-    private void updatePlayerInfoUI() {
-        ArrayList<Integer> colors = Utils.randomColor();
-
-        updatePlayerUI(player1TextView, colors.get(0));
-        updatePlayerUI(player2TextView, colors.get(1));
-        updatePlayerUI(player3TextView, colors.get(2));
-        updatePlayerUI(player4TextView, colors.get(3));
-    }
-
-    private void updatePlayerUI(TextView playerTextView, Integer color) {
-        Resources resource = (Resources) getApplicationContext().getResources();
-//        playerTextView.setTextColor(resource.getColorStateList(color));
-
-        playerTextView.setBackgroundResource(color);
-    }
-
-    private void updatePlayerInfo() {
-        ArrayList<LanPlayer> players = LanPlayerHelper.getLanPlayers();
-
-        if (players == null || players.size() == 0) {
-            player1TextView.setVisibility(View.GONE);
-            player2TextView.setVisibility(View.GONE);
-            player3TextView.setVisibility(View.GONE);
-            player4TextView.setVisibility(View.GONE);
-
-            return;
-        }
-
-        int size = players.size();
-
-        for (int i = 0; i < size; i++) {
-            LanPlayer player = players.get(i);
-
-            if (i == 0) {
-                updatePlayer(player1TextView, player);
-            } else if (1 == i) {
-                updatePlayer(player2TextView, player);
-            } else if (2 == i) {
-                updatePlayer(player3TextView, player);
-            } else if (3 == i) {
-                updatePlayer(player4TextView, player);
-            }
-        }
-    }
-
-    private void updatePlayer(TextView playerTextView, LanPlayer player) {
-        playerTextView.setVisibility(View.VISIBLE);
-        String text = player.getUsername();
-        if (!player.getScore().equalsIgnoreCase("0")) {
-            text += "\n" + player.getScore();
-        }
-
-        String prevtext = playerTextView.getText().toString();
-        if (!text.equalsIgnoreCase(prevtext)) {
-            doAnimation(playerTextView, null);
-        }
-
-        Log.i(TAG, "updatePlayer:" + text);
-        playerTextView.setText(text);
-    }
 
     private void doFrameAnimation() {
         tipsTextView.setBackgroundResource(R.anim.wrist_animation);
@@ -591,7 +509,6 @@ public class WristGameFragment extends BaseFragment implements View.OnClickListe
                     break;
 
                 case MSG_UPDATE_PLAYER_INFO:
-                    updatePlayerInfo();
 
                     break;
             }
@@ -665,7 +582,8 @@ public class WristGameFragment extends BaseFragment implements View.OnClickListe
             alreadyStartCountDown = false;
             countDown = 3;
             if (count > 0) {
-                AppPreference.getInstance(getApplicationContext()).increase(count);
+                //FIXME don't record the wrist to the pushups.
+                //AppPreference.getInstance(getApplicationContext()).increase(count);
             }
 
             handler.removeMessages(MSG_COUNT_DOWN);
@@ -678,6 +596,6 @@ public class WristGameFragment extends BaseFragment implements View.OnClickListe
 
     @Subscribe
     public void onUpdatePlayerInfo(MsgUpdatePlayer updatePlayer) {
-        handler.sendEmptyMessage(MSG_UPDATE_PLAYER_INFO);
+//        handler.sendEmptyMessage(MSG_UPDATE_PLAYER_INFO);
     }
 }

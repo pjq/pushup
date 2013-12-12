@@ -9,6 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         layout="@layout/title_bar"
+        android:visibility="gone"
         />
 
     <LinearLayout
@@ -48,23 +49,10 @@
         ></View>
 
     <TextView
-        android:id="@+id/tips_textview"
-        android:layout_height="96dip"
-        android:layout_width="228dip"
-        android:layout_marginLeft="25dip"
-        android:layout_marginRight="25dip"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/playerLayout"
-        android:background="@drawable/up"
-        style="@style/CountTextStyle"
-        android:visibility="visible"
-        ></TextView>
-
-    <TextView
         android:id="@+id/count_textview"
         android:layout_height="150dip"
         android:layout_width="150dip"
-        android:layout_below="@id/tips_textview"
+        android:layout_centerInParent="true"
         android:layout_marginBottom="0dip"
         android:layout_marginTop="30dip"
         android:layout_centerHorizontal="true"
@@ -74,11 +62,28 @@
         ></TextView>
 
     <TextView
+        android:id="@+id/tips_textview"
+        android:layout_above="@id/count_textview"
+        android:layout_height="96dip"
+        android:layout_width="228dip"
+        android:layout_marginLeft="25dip"
+        android:layout_marginRight="25dip"
+        android:layout_marginTop="40dip"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/titleIndicatorLayout"
+        android:background="@drawable/up"
+        style="@style/CountTextStyle"
+        android:visibility="visible"
+        ></TextView>
+
+    <TextView
         android:id="@+id/info_textview"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="5dip"
+        android:layout_margin="20dip"
+        android:text="@string/lan_tips"
+        android:layout_centerHorizontal="true"
         style="@style/InfoTextStyle"
         ></TextView>
 

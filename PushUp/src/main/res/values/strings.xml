@@ -61,6 +61,7 @@
     <string name="pushups_per_time"> %d pushups/time</string>
     <string name="press_again_to_exit">Press Back-Key again to exit.</string>
     <string name="invitation">Invitations</string>
+    <string name="lan_tips">Please make sure your friends are in the same lan network, then you can find each other.</string>
 
     <string-array name="drawer_items_array">
         <item>@string/menu_item_dashboard</item>
