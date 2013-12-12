@@ -7,29 +7,30 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import com.viewpagerindicator.PageIndicator;
 import me.pjq.pushup.AppPreference;
 import me.pjq.pushup.R;
 import me.pjq.pushup.navigation.MainActivity;
 import me.pjq.pushup.widget.CustomerViewPager;
 
 public class UserGuideActivity extends Activity {
+    private static final String TAG = UserGuideActivity.class.getSimpleName();
 
-    private static final int MAX_PAGE = 3;
+    private static final int MAX_PAGE = 4;
 
     public static final String EXTRAS_START_FROM = "from";
-    public static final int START_FROM_SPLASH= 100;
+    public static final int START_FROM_SPLASH = 100;
     public static final int START_FROM_SETTINGS = START_FROM_SPLASH + 1;
     private int mStartFrom;
     private CustomerViewPager mCustomerViewPager;
     private MyPagerAdapter mMyPagerAdapter;
-    private ImageView mIndexImageView;
     private boolean mIsFinished = false;
+    private PageIndicator indicator;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,38 +38,39 @@ public class UserGuideActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.page_user_guide);
         mCustomerViewPager = (CustomerViewPager) findViewById(R.id.guide_view_pager);
-        mIndexImageView = (ImageView) findViewById(R.id.page_user_guide_index_imageview);
-        mIndexImageView.setImageLevel(0);
         mMyPagerAdapter = new MyPagerAdapter();
         mCustomerViewPager.setAdapter(mMyPagerAdapter);
-        mCustomerViewPager.setOnPageChangeListener(new OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int arg0) {
-               mIndexImageView.getBackground().setLevel(arg0);
-            }
-
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-                if(arg0==(MAX_PAGE-1)){
-                    if(mIsFinished == false && arg1>0.1){
-                        mIsFinished = true;
-                        finishUserGuide();
-                    }
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-
-            }
-        });
 
         mStartFrom = getIntent().getIntExtra(EXTRAS_START_FROM, START_FROM_SPLASH);
+
+        indicator = (PageIndicator) findViewById(R.id.indicator);
+        indicator.setViewPager(mCustomerViewPager);
+        indicator.setOnPageChangeListener(onPageChangeListener);
 
         // Already show the user guide.
         AppPreference.getInstance(getApplicationContext()).setShouldShowUserGuard(false);
     }
+
+    private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+//            EFLogger.i(TAG, "onPageScrolled, arg0=" + arg0 + ", arg1=" + arg1 + ",arg2=" + arg2);
+            if (arg0 == (MAX_PAGE - 1)) {
+                if (mIsFinished == false && arg1 > 0.1) {
+                    mIsFinished = true;
+                    finishUserGuide();
+                }
+            }
+        }
+
+        @Override
+        public void onPageSelected(int i) {
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int i) {
+        }
+    };
 
     private void finishUserGuide() {
         if (START_FROM_SPLASH == mStartFrom) {
@@ -89,6 +91,15 @@ public class UserGuideActivity extends Activity {
             return MAX_PAGE + 1;
         }
 
+        private View createItemView(LayoutInflater inflater, int drawableResId) {
+            int resId = R.layout.user_guide_item;
+            View view = inflater.inflate(resId, null);
+            ImageView imageView = (ImageView) view.findViewById(R.id.helperImageView);
+            imageView.setImageResource(drawableResId);
+
+            return view;
+        }
+
         @Override
         public Object instantiateItem(View collection, int position) {
 
@@ -98,17 +109,14 @@ public class UserGuideActivity extends Activity {
             int resId = 0;
             View view = null;
             switch (position) {
-            case 0:
-                resId = R.layout.page_user_guide_item1;
-                view = inflater.inflate(resId, null);
-                break;
-            case 1:
-                resId = R.layout.page_user_guide_item2;
-                view = inflater.inflate(resId, null);
-                break;
-            case 2:
-                resId = R.layout.page_user_guide_item4;
-                view = inflater.inflate(resId, null);
+                case 0:
+                    view = createItemView(inflater, R.drawable.helper1);
+                    break;
+                case 1:
+                    view = createItemView(inflater, R.drawable.helper2);
+                    break;
+                case 2:
+                    view = createItemView(inflater, R.drawable.helper3);
 
 //                ImageView startImageView = (ImageView) view.findViewById(R.id.page_user_guide_start_imageview);
 //
@@ -123,12 +131,15 @@ public class UserGuideActivity extends Activity {
 //                        finish();
 //                    }
 //                });
-                break;
+                    break;
+                case 3:
+                    view = createItemView(inflater, R.drawable.helper4);
+                    break;
 
-            case MAX_PAGE:
-                resId = R.layout.page_user_guide_empty;
-                view = inflater.inflate(resId, null);
-                break;
+                case MAX_PAGE:
+                    resId = R.layout.user_guide_empty;
+                    view = inflater.inflate(resId, null);
+                    break;
             }
             ((ViewPager) collection).addView(view, 0);
 
@@ -152,8 +163,8 @@ public class UserGuideActivity extends Activity {
             return null;
         }
     }
-    
-    
+
+
     @Override
     protected void onPause() {
         super.onPause();
