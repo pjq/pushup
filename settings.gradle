@@ -1,1 +1,1 @@
-include ':PushUp', ':libraries:BaseGameUtils'
+include ':PushUp', ':libraries:BaseGameUtils', ':libraries:wechat_sdk_sample_android'
