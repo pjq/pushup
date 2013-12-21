@@ -35,6 +35,7 @@ public class ScreenshotUtils {
         int width = pActivity.getWindowManager().getDefaultDisplay().getWidth();
         int height = pActivity.getWindowManager().getDefaultDisplay().getHeight();
         bitmap = Bitmap.createBitmap(bitmap, 0, stautsHeight, width, height - stautsHeight);
+        view.setDrawingCacheEnabled(false);
         return bitmap;
     }
 
