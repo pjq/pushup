@@ -29,3 +29,4 @@ proguard/
 .idea/
 .gradle/
 .DS_Store
+libraries/wechat_sdk_sample_android/build

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:state_enabled="false" android:color="#676767"/>
-    <item android:color="#000000"/>
-
-</selector><!-- From: file:/Users/pjq/Documents/workspace/pushup/libraries/wechat_sdk_sample_android/res/color/mm_style_two_btn_text.xml -->

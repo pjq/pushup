@@ -64,7 +64,6 @@
             android:layout_marginTop="10dip"
             android:layout_below="@id/app_detail"
             style="@style/AboutDetailStyle"
-            android:autoLink="all"
             />
     </RelativeLayout>
 </ScrollView>
