@@ -945,7 +945,8 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         final String text = String.format(getString(R.string.share_text_full_total), appPreference.getTotalNumber());
         Bitmap bitmap = ScreenshotUtils.shotBitmap2(this, shareFileName);
 //        weChatUtils.send(bitmap, MainActivity.this.getString(R.string.app_name), text, shareFileName);
-        weChatUtils.createAppendReq(bitmap, MainActivity.this.getString(R.string.app_name), text, shareFileName);
+        weChatUtils.createAppendReq(bitmap, this.getString(R.string.app_name), text, shareFileName);
+//        weChatUtils.createAppendReq2(this.getString(R.string.app_name), text, shareFileName);
 
         Intent intent = new Intent();
         intent.setClass(this, me.pjq.pushup.activity.SendToWXActivity.class);
@@ -956,7 +957,8 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
     private void sendToWeChat() {
         final String text = String.format(getString(R.string.share_text_full_total), appPreference.getTotalNumber());
-        weChatUtils.createAppendReq2(MainActivity.this.getString(R.string.app_name), text, shareFileName);
+        ScreenshotUtils.shotBitmap2(this, shareFileName);
+        weChatUtils.createAppendReq2(this.getString(R.string.app_name), text, shareFileName);
 
         Intent intent = new Intent();
         intent.setClass(this, me.pjq.pushup.activity.SendToWXActivity.class);
