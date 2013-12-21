@@ -41,7 +41,6 @@
             android:text="2.0.0"
             android:textColor="@color/text_grey_color"
             style="@style/AboutDetailStyle"
-            android:autoLink="all"
             />
 
         <TextView
