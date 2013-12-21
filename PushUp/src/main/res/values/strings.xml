@@ -68,7 +68,7 @@
     <string name="share_to_friends">Send to friends</string>
     <string name="share_to_moments">Send to moments</string>
     <string name="share_to_weixin">Share to WeChat</string>
-    <string name="app_detail">Pooshup is a simple application used to do pushups.It won\n  * the AngelHack Shanghai 2013\n  * the StartupWeekend Shanghai 2013 \n  * the hottest booth of TechCrunch Shanghai 2013 \n\nThe Android version is developed by pengjianqing@gmail.com \n\nPlease visit the official web site to get more information.</string>
+    <string name="app_detail">Pooshup is a simple application used to do pushups.It won\n\n  * the AngelHack Shanghai 2013\n  * the StartupWeekend Shanghai 2013 \n  * the hottest booth of TechCrunch Shanghai 2013 \n\nThe Android version is developed by pengjianqing@gmail.com \n\nPlease visit the official web site to get more information.</string>
     <string name="app_url">http://www.pooshup.com</string>
 
     <string-array name="drawer_items_array">
