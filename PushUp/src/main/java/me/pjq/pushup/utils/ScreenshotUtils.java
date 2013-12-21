@@ -80,7 +80,7 @@ public class ScreenshotUtils {
             file.mkdirs();
         }
 
-        return imagePath + Utils.time2DateKey(""+System.currentTimeMillis()) + ".png";
+        return imagePath + Utils.time2DateKey("" + System.currentTimeMillis()) + ".png";
     }
 
     /**
@@ -90,5 +90,9 @@ public class ScreenshotUtils {
         return ScreenshotUtils.savePic(takeScreenShot(pActivity), filePath);
     }
 
-
+    public static Bitmap shotBitmap2(Activity pActivity, String filePath) {
+        Bitmap bitmap = takeScreenShot(pActivity);
+        ScreenshotUtils.savePic(bitmap, filePath);
+        return bitmap;
+    }
 }

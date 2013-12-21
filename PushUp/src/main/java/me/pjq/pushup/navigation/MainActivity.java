@@ -17,9 +17,9 @@
 package me.pjq.pushup.navigation;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.*;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -35,17 +35,17 @@ import com.google.android.gms.games.GamesClient;
 import com.google.android.gms.games.Player;
 import com.google.example.games.basegameutils.BaseGameActivity;
 import com.squareup.otto.Bus;
+import com.tencent.mm.sdk.openapi.*;
 import me.pjq.pushup.*;
-import me.pjq.pushup.activity.UserGuideActivity;
+import me.pjq.pushup.Constants;
+import me.pjq.pushup.activity.*;
 import me.pjq.pushup.adapter.DrawerListAdapter;
 import me.pjq.pushup.fragment.*;
 import me.pjq.pushup.msg.MsgSignIn;
 import me.pjq.pushup.msg.MsgSignOut;
-import me.pjq.pushup.utils.ScreenshotUtils;
-import me.pjq.pushup.utils.TitlebarHelper;
-import me.pjq.pushup.utils.ToastUtil;
-import me.pjq.pushup.utils.Utils;
+import me.pjq.pushup.utils.*;
 import me.pjq.pushup.R;
+import net.sourceforge.simcpux.*;
 
 import java.util.ArrayList;
 
@@ -76,7 +76,7 @@ import java.util.ArrayList;
  * An action should be an operation performed on the current contents of the window,
  * for example enabling or disabling a data overlay on top of the current content.</p>
  */
-public class MainActivity extends BaseGameActivity implements View.OnClickListener, FragmentController {
+public class MainActivity extends BaseGameActivity implements View.OnClickListener, FragmentController, IWXAPIEventHandler {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -101,6 +101,8 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
     private TitlebarHelper titlebarHelper;
     private DrawerListAdapter drawerListAdapter;
     private ArrayList<Object> drawerItemArrayList;
+
+    WeChatUtils weChatUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -214,9 +216,24 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 //        }
 
 //        showDashboardFragment();
-
+        initWeChat();
     }
 
+    private void initWeChat() {
+        weChatUtils = WeChatUtils.getInstance(this);
+        if (weChatUtils.getIWXAPI().isWXAppInstalled()) {
+            weChatUtils.register();
+            weChatUtils.getIWXAPI().handleIntent(getIntent(), this);
+        }
+    }
+
+    private void showWX() {
+//        Intent intent = new Intent();
+//        intent.setClass(this, WXEntryActivity.class);
+//        startActivity(intent);
+
+
+    }
 
     public void showPushupFragment() {
         updateItemSelected(Constants.DRAWER_ITEM_PUSHUPS);
@@ -676,7 +693,11 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
+        if (weChatUtils.getIWXAPI().isWXAppInstalled()) {
+            inflater.inflate(R.menu.main_wechat, menu);
+        } else {
+            inflater.inflate(R.menu.main, menu);
+        }
 
         MenuItem shareItem = menu.findItem(R.id.action_share);
         android.support.v4.view.ActionProvider actionProvider = MenuItemCompat.getActionProvider(shareItem);
@@ -770,6 +791,10 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
                 showShare();
                 return true;
 
+            case R.id.action_share_wechat:
+//                updateShareIntent();
+                showShareWeChat();
+                return true;
 //            case R.id.action_about:
 //                showAbout();
 //                return true;
@@ -889,7 +914,6 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
     private void showShare() {
         final String text = String.format(getString(R.string.share_text_full_total), appPreference.getTotalNumber());
-        takeScreenshot();
 //        ScreenshotUtils.shotBitmap(MainActivity.this, shareFileName);
 //        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
 //        animation.setAnimationListener(new Animation.AnimationListener() {
@@ -908,7 +932,37 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 //            }
 //        });
 //        share.startAnimation(animation);
+        takeScreenshot();
         Utils.share(MainActivity.this, MainActivity.this.getString(R.string.app_name), text, shareFileName);
+    }
+
+    private void showShareWeChat() {
+        if (true){
+//            weChatUtils.showDemo(this);
+//            return;
+        }
+
+        final String text = String.format(getString(R.string.share_text_full_total), appPreference.getTotalNumber());
+        Bitmap bitmap = ScreenshotUtils.shotBitmap2(this, shareFileName);
+//        weChatUtils.send(bitmap, MainActivity.this.getString(R.string.app_name), text, shareFileName);
+        weChatUtils.createAppendReq(bitmap, MainActivity.this.getString(R.string.app_name), text, shareFileName);
+
+        Intent intent = new Intent();
+        intent.setClass(this, me.pjq.pushup.activity.SendToWXActivity.class);
+        startActivity(intent);
+
+        Utils.overridePendingTransitionRight2Left(this);
+    }
+
+    private void sendToWeChat() {
+        final String text = String.format(getString(R.string.share_text_full_total), appPreference.getTotalNumber());
+        weChatUtils.createAppendReq2(MainActivity.this.getString(R.string.app_name), text, shareFileName);
+
+        Intent intent = new Intent();
+        intent.setClass(this, me.pjq.pushup.activity.SendToWXActivity.class);
+        startActivity(intent);
+
+        Utils.overridePendingTransitionRight2Left(this);
     }
 
     @Override
@@ -993,4 +1047,120 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
             }
         }
     }
+
+
+    // 微信发送请求到第三方应用时，会回调到该方法
+    @Override
+    public void onReq(BaseReq req) {
+        switch (req.getType()) {
+            case ConstantsAPI.COMMAND_GETMESSAGE_FROM_WX:
+                goToGetMsg();
+                break;
+            case ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX:
+                goToShowMsg((ShowMessageFromWX.Req) req);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void onResp(BaseResp resp) {
+        int result = 0;
+
+        switch (resp.errCode) {
+            case BaseResp.ErrCode.ERR_OK:
+                result = net.sourceforge.simcpux.R.string.errcode_success;
+                break;
+            case BaseResp.ErrCode.ERR_USER_CANCEL:
+                result = net.sourceforge.simcpux.R.string.errcode_cancel;
+                break;
+            case BaseResp.ErrCode.ERR_AUTH_DENIED:
+                result = net.sourceforge.simcpux.R.string.errcode_deny;
+                break;
+            default:
+                result = net.sourceforge.simcpux.R.string.errcode_unknown;
+                break;
+        }
+
+        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+    }
+
+    private void goToGetMsg() {
+        Intent intent = new Intent(this, GetFromWXActivity.class);
+        intent.putExtras(getIntent());
+        startActivity(intent);
+        //finish();
+    }
+
+    private void goToShowMsg(ShowMessageFromWX.Req showReq) {
+        WXMediaMessage wxMsg = showReq.message;
+        WXAppExtendObject obj = (WXAppExtendObject) wxMsg.mediaObject;
+
+        StringBuffer msg = new StringBuffer(); // 组织一个待显示的消息内容
+        msg.append("description: ");
+        msg.append(wxMsg.description);
+        msg.append("\n");
+        msg.append("extInfo: ");
+        msg.append(obj.extInfo);
+        msg.append("\n");
+        msg.append("filePath: ");
+        msg.append(obj.filePath);
+
+        Intent intent = new Intent(this, ShowFromWXActivity.class);
+        intent.putExtra(net.sourceforge.simcpux.Constants.ShowMsgActivity.STitle, wxMsg.title);
+        intent.putExtra(net.sourceforge.simcpux.Constants.ShowMsgActivity.SMessage, msg.toString());
+        intent.putExtra(net.sourceforge.simcpux.Constants.ShowMsgActivity.BAThumbData, wxMsg.thumbData);
+        startActivity(intent);
+        //finish();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        setIntent(intent);
+        weChatUtils.getIWXAPI().handleIntent(intent, this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+
+            case 0x101: {
+//                final WXAppExtendObject appdata = new WXAppExtendObject();
+//                final String path = CameraUtil.getResultPhotoPath(this, data, SDCARD_ROOT + "/tencent/");
+//                appdata.filePath = path;
+//                appdata.extInfo = "this is ext info";
+//
+//                final WXMediaMessage msg = new WXMediaMessage();
+//                msg.setThumbImage(Util.extractThumbNail(path, 150, 150, true));
+//                msg.title = "this is title";
+//                msg.description = "this is description";
+//                msg.mediaObject = appdata;
+//
+//                SendMessageToWX.Req req = new SendMessageToWX.Req();
+//                req.transaction = buildTransaction("appdata");
+//                req.message = msg;
+//                req.scene = isTimeline() ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
+//                weChatUtils.getIWXAPI().sendReq(req);
+
+                sendToWeChat();
+                //finish();
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
+    private boolean isTimeline() {
+        return true;
+    }
+
+    private String buildTransaction(final String type) {
+        return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
+    }
+
 }

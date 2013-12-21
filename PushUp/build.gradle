@@ -16,6 +16,7 @@ dependencies {
 	compile 'com.android.support:appcompat-v7:19.0.0'
     compile 'com.google.android.gms:play-services:4.0.30'
     compile project(':libraries:BaseGameUtils')
+    compile project(':libraries:wechat_sdk_sample_android')
 
 
     compile files(
@@ -24,6 +25,7 @@ dependencies {
             'libs/libGoogleAnalyticsServicesV3.jar',
             'libs/libaorte.jar',
             'libs/jgroups-3.4.1.Final.jar',
+           // 'libs/libammsdk.jar',
     )
 }
 

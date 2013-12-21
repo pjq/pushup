@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              style="@style/NavPage">
+
+    <Button
+        android:id="@+id/share_to_wechat_friends"
+        style="@style/MMLineActionButton"
+        android:layout_margin="10dp"
+        android:text="@string/share_to_friends"/>
+
+    <Button
+        android:id="@+id/share_to_wechat_moments"
+        style="@style/MMLineActionButton"
+        android:layout_margin="10dp"
+        android:text="@string/share_to_moments"/>
+</LinearLayout>

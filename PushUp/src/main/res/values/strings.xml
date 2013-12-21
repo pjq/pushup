@@ -64,6 +64,10 @@
     <string name="lan_tips">(Beta Version)Please make sure your friends are in the same lan network, then you can find each other to PK.</string>
     <string name="search_friends_text">Find Friends</string>
     <string name="start_search_friends">Start searching your friends, please wait...</string>
+    <string name="send_to_wechat">Send to WeChat</string>
+    <string name="share_to_friends">Send to friends</string>
+    <string name="share_to_moments">Send to moments</string>
+    <string name="share_to_weixin">Share to WeChat</string>
 
     <string-array name="drawer_items_array">
         <item>@string/menu_item_dashboard</item>

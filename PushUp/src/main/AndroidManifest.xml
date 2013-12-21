@@ -7,6 +7,18 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="16"/>
+<!--
+    <permission
+        android:name="me.pjq.pushup.permission.MMOAUTH_CALLBACK"
+        android:protectedLevel="normal" />
+    <permission
+        android:name="me.pjq.pushup.permission.MM_MESSAGE"
+        android:protectedLevel="normal" />
+-->
+
+    <uses-permission android:name="me.pjq.pushup.permission.MMOAUTH_CALLBACK" />
+    <uses-permission android:name="me.pjq.pushup.permission.MM_MESSAGE" />
+
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -49,6 +61,17 @@
             >
         </activity>
         <activity
+            android:name="me.pjq.pushup.activity.SendToWXActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light"
+            android:parentActivityName="me.pjq.pushup.navigation.MainActivity"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="me.pjq.pushup.navigation.MainActivity"/>
+        </activity>
+        <activity
             android:name="me.pjq.pushup.navigation.MainActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
@@ -60,6 +83,23 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name="com.tencent.mm.sdk.plugin.MMPluginOAuth$Receiver"
+            android:permission="com.tencent.mm.oauth.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.tencent.mm.sdk.plugin.Intent.ACTION_RESPONSE" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="com.tencent.mm.sdk.channel.MMessage$Receiver"
+            android:permission="com.tencent.mm.plugin.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.tencent.mm.sdk.channel.Intent.ACTION_MESSAGE" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
