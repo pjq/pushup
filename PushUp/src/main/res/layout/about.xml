@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/root_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:id="@+id/app_center"
+            android:layout_width="wrap_content"
+            android:layout_height="0dip"
+            android:layout_marginBottom="70dip"
+            />
+
+        <TextView
+            android:id="@+id/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/app_center"
+            android:text="@string/app_name"
+            android:textSize="24sp"
+            style="@style/TitleTextStyle"
+            />
+
+        <TextView
+            android:id="@+id/app_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_below="@id/app_center"
+            android:layout_toRightOf="@id/app_name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="15dip"
+            android:paddingTop="10dip"
+            android:text="2.0.0"
+            android:textColor="@color/text_grey_color"
+            style="@style/AboutDetailStyle"
+            />
+
+        <TextView
+            android:id="@+id/app_detail"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dip"
+            android:layout_marginRight="15dip"
+            android:text="@string/app_detail"
+            android:layout_below="@id/app_name"
+            android:layout_marginTop="15dip"
+            style="@style/AboutDetailStyle"
+            />
+
+        <TextView
+            android:id="@+id/app_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/app_url"
+            android:layout_marginTop="10dip"
+            android:layout_below="@id/app_detail"
+            style="@style/AboutDetailStyle"
+            />
+    </RelativeLayout>
+</ScrollView>

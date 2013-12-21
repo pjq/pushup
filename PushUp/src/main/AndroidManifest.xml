@@ -72,6 +72,17 @@
                 android:value="me.pjq.pushup.navigation.MainActivity"/>
         </activity>
         <activity
+            android:name="me.pjq.pushup.activity.AboutActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light"
+            android:parentActivityName="me.pjq.pushup.navigation.MainActivity"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="me.pjq.pushup.navigation.MainActivity"/>
+        </activity>
+        <activity
             android:name="me.pjq.pushup.navigation.MainActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"

@@ -10,6 +10,7 @@
     <color name="red">#ff0066</color>
     <color name="blue">#1589bd</color>
     <color name="text_black_color">#333333</color>
+    <color name="text_grey_color">#999999</color>
     <color name="bg_color_light_blue">#99ccff</color>
     <color name="bg_color_divider">#cccccc</color>
     <color name="text_red_color">#ff3300</color>
