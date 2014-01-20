@@ -4,14 +4,14 @@ Google Play game services IDs.
 Save this file as res/values/games-ids.xml in your project.
 -->
 <resources>
-    <string name="app_id">638820807142</string>
-    <string name="achievement_activate">CgkI5uO_5csSEAIQAg</string>
-    <string name="achievement_2days">CgkI5uO_5csSEAIQCA</string>
-    <string name="achievement_100_pushup">CgkI5uO_5csSEAIQBA</string>
-    <string name="achievement_10days">CgkI5uO_5csSEAIQBQ</string>
-    <string name="achievement_50_pushup_one_time">CgkI5uO_5csSEAIQBg</string>
-    <string name="achievement_master_level500">CgkI5uO_5csSEAIQBw</string>
-    <string name="leaderboard_total_pushups">CgkI5uO_5csSEAIQAw</string>
-    <string name="leaderboard_total_days">CgkI5uO_5csSEAIQCQ</string>
-    <string name="leaderboard_number_of_times">CgkI5uO_5csSEAIQCg</string>
+    <string name="app_id">798191211213</string>
+    <string name="achievement_activate">CgkIzaWdv50XEAIQCg</string>
+    <string name="achievement_2days">CgkIzaWdv50XEAIQCw</string>
+    <string name="achievement_100_pushup">CgkIzaWdv50XEAIQDA</string>
+    <string name="achievement_10days">CgkIzaWdv50XEAIQDQ</string>
+    <string name="achievement_50_pushup_one_time">CgkIzaWdv50XEAIQDg</string>
+    <string name="achievement_master_level500">CgkIzaWdv50XEAIQDw</string>
+    <string name="leaderboard_total_pushups">CgkIzaWdv50XEAIQEA</string>
+    <string name="leaderboard_total_days">CgkIzaWdv50XEAIQEQ</string>
+    <string name="leaderboard_number_of_times">CgkIzaWdv50XEAIQEg</string>
 </resources>
