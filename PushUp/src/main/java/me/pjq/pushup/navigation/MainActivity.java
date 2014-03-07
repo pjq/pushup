@@ -27,6 +27,7 @@ import me.pjq.pushup.adapter.DrawerListAdapter;
 import me.pjq.pushup.fragment.*;
 import me.pjq.pushup.msg.MsgSignIn;
 import me.pjq.pushup.msg.MsgSignOut;
+import me.pjq.pushup.slidingmenu.BaseActivity;
 import me.pjq.pushup.utils.*;
 import me.pjq.pushup.R;
 import net.sourceforge.simcpux.*;
@@ -842,7 +843,8 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 //        Utils.overridePendingTransitionRight2Left(this);
 
         Intent intent = new Intent();
-        intent.setClass(this, AboutActivity.class);
+//        intent.setClass(this, AboutActivity.class);
+        intent.setClass(this, BaseActivity.class);
         startActivity(intent);
         Utils.overridePendingTransitionRight2Left(this);
     }

@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.6.+'
+        classpath 'com.android.tools.build:gradle:0.8.+'
     }
 }
 apply plugin: 'android'
@@ -17,6 +17,7 @@ dependencies {
     compile 'com.google.android.gms:play-services:4.0.30'
     compile project(':libraries:BaseGameUtils')
     compile project(':libraries:wechat_sdk_sample_android')
+    compile project(':libraries:slidingmenu')
 
 
     compile files(
@@ -37,7 +38,7 @@ android {
         versionName "2.0.0"
         versionCode 8
         minSdkVersion 8
-        targetSdkVersion 16
+        targetSdkVersion 18
         packageName "me.pjq.pushups"
     }
 
