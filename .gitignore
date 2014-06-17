@@ -30,3 +30,4 @@ proguard/
 .gradle/
 .DS_Store
 libraries/wechat_sdk_sample_android/build
+libraries/slidingmenu/build
