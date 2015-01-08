@@ -111,7 +111,7 @@
         <TextView
             android:id="@+id/level"
             android:layout_toLeftOf="@id/center_detail"
-            android:layout_below="@id/days"
+            android:layout_below="@id/duration_time"
             android:layout_marginTop="10dip"
             android:gravity="center"
             android:layout_height="wrap_content"
