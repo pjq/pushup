@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="me.pjq.pushup"
-          android:versionCode="5"
-          android:versionName="2.0.0">
+    package="me.pjq.pushup"
+    android:versionCode="5"
+    android:versionName="2.0.0">
 
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="16"/>
 <!--
+    xmlns:tools="http://schemas.android.com/tools"
+    package="me.pjq.pushup"
     <permission
         android:name="me.pjq.pushup.permission.MMOAUTH_CALLBACK"
         android:protectedLevel="normal" />
     <permission
         android:name="me.pjq.pushup.permission.MM_MESSAGE"
         android:protectedLevel="normal" />
+        tools:replace="android:label"
+        tools:replace="android:icon"
 -->
 
     <uses-permission android:name="me.pjq.pushup.permission.MMOAUTH_CALLBACK" />

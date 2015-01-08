@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Volumes/Android/Documents/workspace/pushup/PushUp/libs/jgroups-3.4.1.Final.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="d30d2dc78b2786b96b0a95ecb3aa94715cf99b2f">
+        <dex dex="/Volumes/Android/Documents/workspace/pushup/PushUp/build/intermediates/pre-dexed/pushup/debug/jgroups-3.4.1.Final-22951200b7438f87b7c84465607fbebaee2649f5.jar" />
+    </item>
+    <item
+        jar="/Volumes/Android/Documents/workspace/pushup/PushUp/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.0.0/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="eb69b5c2e53e59d82f7439f3217f46f9d98f0c89">
+        <dex dex="/Volumes/Android/Documents/workspace/pushup/PushUp/build/intermediates/pre-dexed/pushup/debug/classes-d14edf54e1310bb90214bb0ff5b509290d6dc6f8.jar" />
+    </item>
+    <item
+        jar="/Volumes/Android/Documents/workspace/pushup/PushUp/build/intermediates/exploded-aar/pushup.libraries/wechat_sdk_sample_android/unspecified/libs/libammsdk.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="c1f63f70671d69ee38379728e1192db82e289246">
+        <dex dex="/Volumes/Android/Documents/workspace/pushup/PushUp/build/intermediates/pre-dexed/pushup/debug/libammsdk-9d785717c9117b3d0e70b4db78683bb3037d14cd.jar" />
+    </item>
+    <item
+        jar="/Volumes/Android/Documents/workspace/pushup/PushUp/build/intermediates/exploded-aar/pushup.libraries/BaseGameUtils/unspecified/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="facaa9ba65d5617d033e38cdf0951da331fa5b13">
+        <dex dex="/Volumes/Android/Documents/workspace/pushup/PushUp/build/intermediates/pre-dexed/pushup/debug/classes-b5da88f9f09ba4b1bb8e9f01f78fbfe6188f1e8c.jar" />
+    </item>
+    <item
+        jar="/Volumes/Android/Documents/workspace/pushup/PushUp/libs/libaorte.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="9b979f95dbec7a5e2ccb4700a81de6c0b6055cf1">
+        <dex dex="/Volumes/Android/Documents/workspace/pushup/PushUp/build/intermediates/pre-dexed/pushup/debug/libaorte-3f2baccba88eeb220dad51d88b9fb976ae8aa31c.jar" />
+    </item>
+    <item
+        jar="/Users/pjq/Documents/Dev/Android/android-sdk-macosx/extras/android/m2repository/com/android/support/support-v4/19.0.0/support-v4-19.0.0.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="afee690af14bd2c32d400cdf78e746fd45c386fa">
+        <dex dex="/Volumes/Android/Documents/workspace/pushup/PushUp/build/intermediates/pre-dexed/pushup/debug/support-v4-19.0.0-50a945c2f7e07c209fbef5e88fce799502809a1d.jar" />
+    </item>
+    <item
+        jar="/Volumes/Android/Documents/workspace/pushup/PushUp/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.0.30/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="cebe8e4a3a469c4623addcca1dc571407ff3a08e">
+        <dex dex="/Volumes/Android/Documents/workspace/pushup/PushUp/build/intermediates/pre-dexed/pushup/debug/classes-07207b2f12be13c1b36200653b0421fb00d5ebb7.jar" />
+    </item>
+    <item
+        jar="/Volumes/Android/Documents/workspace/pushup/PushUp/libs/libGoogleAnalyticsServicesV3.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="e887c6c9b31b39a39b0eaba981448b78902ea813">
+        <dex dex="/Volumes/Android/Documents/workspace/pushup/PushUp/build/intermediates/pre-dexed/pushup/debug/libGoogleAnalyticsServicesV3-305fa10e2d132962128671f234f15141c107a475.jar" />
+    </item>
+    <item
+        jar="/Volumes/Android/Documents/workspace/pushup/PushUp/build/intermediates/exploded-aar/pushup.libraries/wechat_sdk_sample_android/unspecified/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="70b23380041ffc04cd9fdbefd488e9e6fe3f14d2">
+        <dex dex="/Volumes/Android/Documents/workspace/pushup/PushUp/build/intermediates/pre-dexed/pushup/debug/classes-7eb8e1250e40e40d856d3fa36b3ec6ba91cef82b.jar" />
+    </item>
+    <item
+        jar="/Volumes/Android/Documents/workspace/pushup/PushUp/libs/square-otto-1.3.2.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="e30477de45b9cdaac312c7593158e6dcb9a41e5d">
+        <dex dex="/Volumes/Android/Documents/workspace/pushup/PushUp/build/intermediates/pre-dexed/pushup/debug/square-otto-1.3.2-52c084413e1d3956b124dee3828ae0529361ff65.jar" />
+    </item>
+    <item
+        jar="/Volumes/Android/Documents/workspace/pushup/PushUp/build/intermediates/exploded-aar/pushup.libraries/slidingmenu/unspecified/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="b789f4185e343b713b125f8686475fb96dec240c">
+        <dex dex="/Volumes/Android/Documents/workspace/pushup/PushUp/build/intermediates/pre-dexed/pushup/debug/classes-e235ba749869de4408433b8637da7a1b08e14db1.jar" />
+    </item>
+
+</items>

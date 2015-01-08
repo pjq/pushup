@@ -3,10 +3,10 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.9.+'
+        classpath 'com.android.tools.build:gradle:1.0.0'
     }
 }
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 repositories {
     mavenCentral()
@@ -32,14 +32,14 @@ dependencies {
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.0"
+    buildToolsVersion "19.1.0"
 
     defaultConfig {
         versionName "2.0.0"
         versionCode 8
         minSdkVersion 8
         targetSdkVersion 18
-        packageName "me.pjq.pushups"
+        applicationId "me.pjq.pushups"
     }
 
     signingConfigs {
@@ -53,13 +53,13 @@ android {
 
     buildTypes {
         release {
-            runProguard true
+//            runProguard true
             proguardFile 'proguard-android-optimize.txt'
             signingConfig signingConfigs.releaseConfig
         }
 
         debug {
-            runProguard false
+//            runProguard false
             proguardFile 'proguard-android-optimize.txt'
             signingConfig signingConfigs.releaseConfig
         }
@@ -67,7 +67,7 @@ android {
 
     productFlavors {
         pushup{
-            packageName "me.pjq.pushups"
+            applicationId "me.pjq.pushups"
         }
     }
 }
